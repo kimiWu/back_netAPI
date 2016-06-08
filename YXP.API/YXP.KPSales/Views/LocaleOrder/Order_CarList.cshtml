@@ -1,0 +1,84 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>@(ViewBag.stType == 1 ? "自行送车信息" : "优信提车信息")</title>
+    <link rel="stylesheet" href="http://img.youxinpai.com/sales_cowry/css/aui.css" type="text/css" />
+    <link type="text/css" href="http://img.youxinpai.com/sales_cowry/css/style.css?v=20160527" rel="stylesheet">
+    <link rel="stylesheet" href="http://img.youxinpai.com/sales_cowry/css/carinfolist.css?v=20160527" type="text/css" />
+
+</head>
+<body>
+    <header class="aui-bar aui-bar-nav sales-header">
+        <a class="aui-pull-left" onclick="window.location.href = '/LocaleOrder/CreateClient'">
+            <span class="iconfont icon-fanhui"></span>
+        </a>
+        <div class="aui-title">@(ViewBag.stType == 1 ? "自行送车信息" : "优信提车信息")</div>
+    </header>
+    <div class="car-list-wrap">
+        <input type="hidden" id="stType" value="@(ViewBag.stType)" />
+        @if (Model != null && Model.Count > 0)
+        {
+            foreach (var obj in Model)
+            {
+                <section class="car-info-item @(obj.ID!=0?"":"slide-delete")">
+                    @if (obj.ID == 0)
+                    {
+                        <div style="" class="delete-wrap">
+                            <button class="deletecar" code="@(obj.xcp_uucode)" ontouchend="deleteCar(this)"></button>
+                        </div>
+                    }
+                    <a href="/LocaleOrder/Order_AddCar?cityId=@(ViewBag.cityId)&stType=@(ViewBag.stType)&uucode=@(obj.xcp_uucode)&carId=@(obj.ID)">
+                        <p><span class="car-name">@(obj.xcar_name) [@(obj.carbodycolor)]</span></p>
+                        <p><span class="car-num">@(obj.xcar_no)</span></p>
+                        <p><em class="aui-pull-left money-icon"><img src="http://img.youxinpai.com/sales_cowry/images/money_icon_round.png"></em><span class="car-money ml10">保留价:@(obj.dealer_price)万元</span></p>
+                        <span class="edit-btn"><img src="http://img.youxinpai.com/sales_cowry/images/edit_icon.png"></span>
+                    </a>
+                </section>
+            }
+        }
+    </div>
+    @if (ViewBag.ID == 0)
+    {
+        <div class="footer-btn-box ">
+            <button class="aui-btn aui-btn-block btn" ontouchend="btnOntouchend()">录入车辆信息</button>
+        </div>
+    }
+    <script type="text/javascript" src="http://img.youxinpai.com/sales_cowry/js/zepto.js"></script>
+    <script type="text/javascript" src="http://img.youxinpai.com/sales_cowry/js/main.js?v=20160527"></script>
+    <script type="text/javascript" src="http://img.youxinpai.com/sales_cowry/js/slidedelete.js?v=20160527"></script>
+    <script src="http://img.youxinpai.com/sales_cowry/js/fastclick.js"></script>
+
+</body>
+
+</html>
+<script type="text/javascript">
+
+    function deleteCar(obj) {
+        var tfid = getUrlParam('cityId');
+        var stType = $("#stType").val();
+        $.post("DeleteCar", { code: $(obj).attr("code"), stType: stType }, function (data) {
+            if (data.Status == 1) {
+                window.location.href = '/LocaleOrder/Order_CarList?cityId=' + tfid + "&stType=" + stType;
+            } else {
+            }
+        });
+    }
+
+    function btnOntouchend() {
+        var tfid = getUrlParam('cityId');
+        var stType = $("#stType").val();
+        window.location.href = '/LocaleOrder/Order_AddCar?cityId=' + tfid + "&stType=" + stType;
+    }
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+
+    }
+</script>

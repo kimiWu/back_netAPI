@@ -1,0 +1,192 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+
+    <style type="text/css">
+        table td {
+            border: solid 1px black;
+            text-align: center;
+        }
+
+        .colHeaderColor {
+            font-weight: bold;
+            background-color: #f0ffff;
+        }
+    </style>
+
+    <script src="~/Scripts/page.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/json2.js"></script>
+    <script language="javascript" type="text/javascript">
+        // <!CDATA[
+        var id = 0;
+        $(function () {
+            $.ajaxSetup({ cache: false });
+            btnSearch_onclick();
+
+            window.setInterval(Test, 1000);
+        });
+
+        function Test() {
+            var str = $.get("/Home/GetTest", { id: id }, function (data) {
+                $("#divTest").html(data);
+            });
+            id++;
+        }
+
+        function initTable() {
+            var where = getWhere();
+            var str = $.get("/Home/GetList", where, function (data) {
+                if (data != null && data.length > 0) {
+                    var arr = [];
+                    var tab = document.getElementById("tabLog");
+                    var tabTR = tab.getElementsByTagName("TR")[0];
+                    arr.push("<thead><tr>" + tabTR.innerHTML + "</tr></thead>");
+                    arr.push("<tbody>");
+                    for (var i = 0, len = data.length; i < len; i++) {
+                        arr.push("<tr>")
+                        arr.push("<td><input type=\"checkbox\" name=\"chxSelected\" /></td>");
+                        arr.push("<td>" + data[i].Id + "</td>");
+                        arr.push("<td>" + data[i].PlatformId + "</td>");
+                        arr.push("<td>" + data[i].Browser + "</td>");
+                        arr.push("<td>" + data[i].Url + "</td>");
+                        arr.push("<td>" + data[i].Flag + "</td>");
+                        arr.push("<td>" + data[i].CreateTime + "</td>");
+                        arr.push("<td>" + data[i].ActionTime + "</td>");
+                        arr.push("<td>" + data[i].RenderTime + "</td>");
+                        arr.push("<td><a href=\"javascript:void(0)\"  onclick=\"btnDeleteUser('');\" >删除</a> </td>");
+                        arr.push("</tr>")
+                    }
+                    arr.push("</tbody>");
+                    tab.innerHTML = arr.join("");
+                }
+            });
+        }
+        function initRecord() {
+            var where = getWhere();
+            $.get("/Home/getCount", where, function (data) {
+                page.recordCount = data;
+                page.initPage();
+            });
+        }
+        function btnSearch_onclick() {
+            pageIndex = 0;
+            initTable();
+            initPage();
+        }
+
+        function getWhere() {
+            //var str = $('form').serialize();
+            var t1 = document.getElementById("Select1").value;
+            var t2 = document.getElementById("txtValue").value;
+            var str = "";
+            //return eval('(' + "{ " + t1 + ": '" + t2 + "' }" + ')');
+            str += "&pageIndex=" + pageIndex;
+            str += "&pageSize=" + pageSize;
+            str += "&" + t1 + "=" + t2;
+            return str;
+        }
+        var obj = {
+            "bankstr": "农业",
+            "platformid": 1,
+            "publishid": 1888,
+            "token": "05067d19f913b3b6342a385e40137cd7"
+        };
+        function btnTest() {
+            $.ajax({
+                url: "http://localhost:45099/bank/bank/Getname",
+                type: "POST",
+                data: obj,
+                contentType: "application/json",
+                success: function (data) {
+                    debugger;
+                },
+                error: function (data) {
+                    debugger;
+                }
+            });
+        }
+ 
+ 
+ 
+
+        // ]]>
+    </script>
+</head>
+<body>
+    <form id="form1" enctype="application/x-www-form-urlencoded">
+       
+        <div>
+            <select id="Select1">
+                <option value="PlatformId">平台id</option>
+                <option value="Url">url</option>
+                <option value="Browser">浏览器</option>
+                <option value="Flag">是否成功</option>
+                <option value="CreateTime">创建时间</option>
+                <option value="ActionTime">执行时间</option>
+                <option value="RenderTime">呈现时间</option>
+            </select>
+            <input id="txtValue" type="text" />
+            <input id="btnSearch" type="button" value="搜索" onclick="return btnSearch_onclick()" />
+        </div>
+        <br />
+        <div>
+
+            <table border="1" id="tabLog" style="width: 100%; border-collapse:collapse;">
+                   <thead>
+                    <tr>
+                        <th> <input type="checkbox" name="chxAllSelected" /></th>
+                        <th>序号</th>
+                        <th>平台</th>
+                        <th>浏览器</th>
+                        <th>地址</th>
+                        <th>是否成功</th>
+                        <th>创建时间</th>
+                        <th>执行时间</th>
+                        <th>呈现时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+              </table>
+
+            </div>
+            <br />
+            <div style="font-size:10pt" id="divPage">
+                <div style="float:left;"> 共有 <span id="RecordCount">100</span> 条记录，当前第 <span id="CurrentPageIndex">1</span> 页，共 <span id="PageCount">1</span> 页</div>
+                <div style="float:right;">
+                    <a id="btnFirst" href="#" onclick="goFirst();">首页</a>
+                    <a id="btnBack" href="#" onclick="goBack();">上一页</a>
+                    <a id="btnNext" href="#" onclick="goNext();">下一页</a>
+                    <a id="btnEnd" href="#" onclick="goEnd();">尾页</a>
+                    转到
+                    <select id="SelectPage" name="select" onchange="GotoPage(this.selectedIndex);">
+                        <option value="1">1</option>
+                    </select>
+                    页
+                </div>
+            </div>
+            <div>
+
+
+
+            </div>
+        <div id="divTest" style="text-align:right; border:1px solid red; height:50px;">
+
+
+        </div>
+        <div>
+            <input id="Button1" type="button" value="button" onclick="btnTest()" />
+        </div>
+        </form>
+    </body>
+    </html>

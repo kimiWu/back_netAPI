@@ -1,0 +1,24 @@
+﻿<script>
+    $(function () {
+        $(".sales-header a.aui-pull-left").click(function () {
+            //history.back();
+            window.location.href = "/KPSales/index/@(ViewBag.state)";
+        })
+    })
+
+
+</script>
+<section class="car-info mg-b-8">
+    @if (Model != null)
+    {
+
+        <h3 class="title">[@(Model.cityName)]@(Model.brandname + " " + Model.seriesName + " " + Model.modelName)</h3>
+        <p class="basic-info">@(Model.vendorFullName)</p>
+        <p class="basic-info">@(Model.publishSerial) / @(Model.licenseNumber)</p>
+        <a class="basic-info-a" style="font-size:15px" href="/KPSales/ReportDetail?id=@(Model.publishId)&state=@(ViewBag.state)">查看报告</a>
+        <p class="basic-info">发拍时间：@(Model.createTime)</p>
+        <input type="hidden" value="@(DateTime.Parse(Model.priceStopTime))" id="stopTime" />
+        <input type="hidden" value="@((DateTime.Parse(Model.stopTime)-DateTime.Now).TotalMilliseconds)" id="salesendTime" />
+        <input type="hidden" value="@((DateTime.Parse(Model.priceStopTime) - DateTime.Now).TotalMilliseconds)" id="pricestopTime" />
+    }
+</section>

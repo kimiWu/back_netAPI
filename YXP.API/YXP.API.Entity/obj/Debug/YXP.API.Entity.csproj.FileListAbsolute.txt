@@ -1,0 +1,5 @@
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Entity\bin\Debug\YXP.API.Entity.dll
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Entity\bin\Debug\YXP.API.Entity.pdb
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Entity\obj\Debug\YXP.API.Entity.csprojResolveAssemblyReference.cache
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Entity\obj\Debug\YXP.API.Entity.dll
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Entity\obj\Debug\YXP.API.Entity.pdb

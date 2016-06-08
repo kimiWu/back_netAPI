@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>个人中心</title>
+    <link rel="stylesheet" href="http://img.youxinpai.com/sales_cowry/css/aui.css">
+    <link rel="stylesheet" href="http://img.youxinpai.com/sales_cowry/css/style.css?v=20160530">
+    <link rel="stylesheet" href="http://img.youxinpai.com/sales_cowry/css/accountcenter.css?v=20160530" type="text/css" />
+</head>
+<body>
+    <div class="account-head">
+        <header class="aui-bar aui-bar-nav sales-header">
+            <a class="aui-pull-left" onclick="window.location.href = '/Home/Index'">
+                <span class="iconfont icon-fanhui"></span>
+            </a>
+            <div class="aui-title">个人中心</div>
+        </header>
+        <img class="header-icon" src="http://img.youxinpai.com/sales_cowry/images/header.png" alt="" />
+        <p class="name">@(YXP.KPSales.Controllers.WebBaseController.loginUser.RealName)</p>
+        <p class="num">@(YXP.KPSales.Controllers.WebBaseController.loginUser.LoginName)</p>
+    </div>
+    <ul class="account-items">
+        <li><span class="icon money-icon"></span><span class="item-name ml20">TX资金池</span><span class="value orange-color">@(YXP.KPSales.Controllers.WebBaseController.salesTXFund == null ? 0 : Convert.ToInt32((YXP.KPSales.Controllers.WebBaseController.salesTXFund.CurrActiveTXFund * 10000)))<em class="gray-color ml20">元</em></span></li>
+        <!--<li><span class="icon delete-icon"></span><span class="item-name ml20">清除缓存</span><span class="value">26.8<em>M</em></span></li>-->
+    </ul>
+    <div class="btn-wrap">
+        <a class="btn-quit orange-color" href="javascript:void(0);">退出登录</a>
+    </div>
+
+    <script type="text/javascript" src="http://img.youxinpai.com/sales_cowry/js/zepto.js"></script>
+    <script type="text/javascript" src="http://img.youxinpai.com/sales_cowry/js/main.js?v=20160530"></script>
+    <script type="text/javascript" src="http://img.youxinpai.com/sales_cowry/js/dialog.js?t=20160530"></script>
+    <script src="http://img.youxinpai.com/sales_cowry/js/fastclick.js"></script>
+
+    <script>
+        $(".btn-quit").on("touchend", function () {
+            yx.confirm("确定退出登录吗？", function () { location.href = "/Login/LogOff"; }, function () { });
+        })
+
+    </script>
+</body>
+</html>

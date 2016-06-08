@@ -1,0 +1,75 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>我的拍品 - 销售宝</title>
+    @Html.Partial("/Views/PartView/ListStylePartView.cshtml")
+</head>
+<body>
+
+    <div class="my-box">
+        @Html.Partial("/Views/PartView/ListTopPartView.cshtml")
+        <div class="aui-tab">
+            <ul class="aui-tab-nav">
+                <li class="@(ViewBag.state == 1 ? "active" : "")" onclick="window.location.href = '/KPSales/Index/1'" >
+                    <a href="javascript:void(0);">等待成交</a>
+                </li>
+                <li class="line">|</li>
+                <li class="@(ViewBag.state == 2 ? "active" : "")"  onclick="window.location.href = '/KPSales/Index/2'">
+                    <a href="javascript:void(0);">正在投标</a>
+                </li>
+                <li class="line">|</li>
+                <li class="@(ViewBag.state == 3 ? "active" : "")"  onclick="window.location.href = '/KPSales/Index/3'">
+                    <a href="javascript:void(0);">成交</a>
+                </li>
+                <li class="line">|</li>
+                <li class="@(ViewBag.state == 4 ? "active" : "")"  onclick="window.location.href = '/KPSales/Index/4'">
+                    <a href="javascript:void(0);">未成交</a>
+                </li>
+            </ul>
+        </div>
+        <div id="content">
+            <div class="my-list" id="scroller">
+                <div id="pullDown">
+                    <div class="pull-center">
+                        <span class="pullDownIcon"></span>
+                        <span class="pullDownLabel">下拉刷新</span>
+                    </div>
+                </div>
+                <ul class="aui-list-view">
+                    @if (Model != null && Model.Count > 0)
+                    {
+
+                        @Html.Partial("/Views/PartView/ListDataPartView.cshtml")
+
+                    }
+                    else
+                    {
+                        <li>
+                            <div class="img-tag">
+                                <span class="iconfont icon-gouwuche"></span>
+                                <span class="img-title">
+                                    当前暂无拍品
+                                </span>
+                            </div>
+                        </li>
+                    }
+                </ul>
+                <div id="pullUp" class="" style='display:@(Model==null||Model.Count < 5 ? "none" : "")'>
+                    <div class="pull-center pull-center-2">
+                        @*<span class="pullUpIcon">style='display:@(Model!=null&&Model.Count >= 5 ? "" : "none")'</span>*@
+                        <span class="pullUpLabel">加载更多</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("/Views/PartView/ListBottomPartView.cshtml")
+</body>
+</html>

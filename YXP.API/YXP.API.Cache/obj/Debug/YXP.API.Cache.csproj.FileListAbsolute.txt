@@ -1,0 +1,17 @@
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Cache\bin\Debug\YXP.API.Cache.dll
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Cache\bin\Debug\YXP.API.Cache.pdb
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Cache\bin\Debug\StackExchange.Redis.dll
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Cache\bin\Debug\StackExchange.Redis.pdb
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Cache\bin\Debug\StackExchange.Redis.xml
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Cache\obj\Debug\YXP.API.Cache.dll
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Cache\obj\Debug\YXP.API.Cache.pdb
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Cache\bin\Debug\WebApi.OutputCache.Core.dll
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Cache\bin\Debug\WebApi.OutputCache.V2.dll
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Cache\bin\Debug\System.Net.Http.Formatting.dll
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Cache\bin\Debug\Enyim.Caching.dll
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Cache\bin\Debug\ServiceStack.Interfaces.dll
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Cache\bin\Debug\ServiceStack.Redis.dll
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Cache\bin\Debug\ServiceStack.Text.dll
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Cache\bin\Debug\ServiceStack.Common.dll
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Cache\bin\Debug\Enyim.Caching.pdb
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Cache\bin\Debug\Enyim.Caching.xml

@@ -1,0 +1,363 @@
+﻿@using YXP.PaiMobile.Models;
+@{var model = ViewBag.DetailModel;}
+
+<section class="box biding">
+    <div class="bid-status">
+        <input type="hidden" id="h_timer" value="@(model.WithStopTime)" />
+        @if (model.WithStopTime != "0")
+        {
+            <a href="" class="s-1 bg-org">@(model.MyTenderPrice != "0" ? "正在报价" : "正在报价")</a>
+
+            <span class="tb-left" style="display:@(model.MyTenderPrice != "0" ? "none" : "")">报价剩余 <font class="c-org"><span id="timer_h"></span>时<span id="timer_m"></span>分<span id="timer_s"></span>秒</font> </span>
+        }
+        else
+        {
+            <a href="" class="s-1 bg-org">等待加价</a>
+        }
+
+    </div>
+    <!--等待报价-->
+    @if (model.WithStopTime == "0" && model.MyTenderPrice == "0")
+    {
+        <span>报价已结束，您未参与报价</span>
+    }
+    else
+    {
+        <div class="bid-pri-lef">
+            <div class="pri-p1">
+                <span class="p1-n1">报　价</span>
+
+                @if (model.MyTenderPrice == "0")
+                {
+                    <span class="p1-n2 c-org" id="currentPrice">@(StrUntils.ConvertToDecimal(StrUntils.ConvertToDecimal(model.StartPrice) + 0.01M))</span>
+                }
+                else
+                {
+                    <span class="p1-n2 c-org" id="currentPrice">@(StrUntils.ConvertToDecimal(model.MyTenderPrice))</span>
+                }
+
+                <span class="p1-n3">万</span>
+            </div>
+            <div class="pri-p2">
+                <span class="p1-n1">交易费</span>
+                <span class="p1-n2" id="jyPrice">+@((StrUntils.ConvertToDecimal(model.BuyerTradeFee) / 10000).ToString("f2"))</span>
+                <span class="p1-n3">万</span>
+            </div>
+            <div class="pri-p2">
+                <span class="p1-n1">交付费</span>
+                <span class="p1-n2" id="jfPrice">+@((StrUntils.ConvertToDecimal(model.BuyerAgentFee) / 10000).ToString("f2"))</span>
+                <span class="p1-n3">万</span>
+            </div>
+            <div class="pri-p3 pa">
+                <span class="p1-n1">合手价</span>
+                <span class="p1-n2 c-org" id="hsPrice">@((model.BuyerTotalFee))</span>
+                <span class="p1-n3">万</span>
+            </div>
+        </div>
+        <div class="bid-pri-rit2" style="display:@(model.MyTenderPrice != "0" ? "none" : "")">
+            <p class="tr">单位：万</p>
+            <div class="input-area">
+                <i class="minus fl">-</i>
+                <i class="plus fr">+</i>
+                <input type="number" class="txt" value="@(StrUntils.ConvertToDecimal(model.StartPrice) + 0.01M)" id="myPrice" pattern="[0-9|.]*">
+
+            </div>
+            <div class="input-sub">
+                <a class="btn-confirm" id="btnConfirm" style="display:block;" href="javascript:void(0);">确认</a>
+            </div>
+        </div>
+    <!--您已经报价-->
+        <div class="bid-pri-rit3 mg-t-2" style="display:@(StrUntils.ConvertToDecimal(model.MyTenderPrice)>0 ? "" : "none")">
+            <h5 class="tips-txt" id="s1">您的报价金额：@(StrUntils.ConvertToDecimal(model.MyTenderPrice))万</h5>
+            <p class="tips-txt" id="s2">（@(model.Ishigh == 1 ? "您是报价最高价" : "您不是报价最高价")）</p>
+        </div>
+    }
+
+</section>
+<!--投标弹出层-->
+<div class="aui-dialog  logout-alert " id="dialog" style="display:none">
+    <div class="aui-dialog-body">
+        <h5 class="info1">您的报价金额：<span class="c-org">@(StrUntils.ConvertToDecimal(model.MyTenderPrice))</span>万元</h5>
+        <p class="info2">当前合手价：   <span id="sp">@(StrUntils.ConvertToDecimal(model.BuyerTotalFee))</span>万元</p>
+        <p class="info2">包含交易服务费  <span id="sp1">@(StrUntils.ConvertToDecimal(model.BuyerTradeFee))</span>元，交付服务费<span id="sp2">@(StrUntils.ConvertToDecimal(model.BuyerAgentFee))</span>元。</p>
+        <p class="info3 c-org">一经确认，出价将无法撤销或更改。</p>
+    </div>
+    <div class="aui-dialog-footer">
+        <div class="aui-dialog-btn btncancel">确认</div>
+        <div class="aui-dialog-btn aui-text-danger btnexit">取消</div>
+    </div>
+</div>
+<div class="masker" id="masker" style="display:none;"></div>
+
+<input id="jyf" value="0" type="hidden" />
+<input id="jff" value="0" type="hidden" />
+<input id="totalf" value="0" type="hidden" />
+
+<script type="text/javascript">
+
+    $(function () {
+
+        //var myp = $(".aui-dialog-body .c-org").html();
+        //if (parseFloat(myp).toFixed() > 0) {
+        //    $("#spb_price").hide();
+        //}
+        $("#spb_price").hide();
+
+        //确定投标
+        $('#btnConfirm').on("click", function () {
+            var auctionId = $("#auctionId").val();
+            var tenderPrice = $("#myPrice").val();
+            var price = $("#myPrice").val();
+            var startPrice = $("#startPrice").val();
+            if (parseFloat(price) <= parseFloat(startPrice)) {
+                yx.tips("报价失败，您的报价不能低于起步价", true, dialogTime); return;
+            }
+            if (price == isNaN) str = 0;
+            if (parseFloat(price) > 0 && parseFloat(price) > parseFloat(startPrice)) {
+                if (checkMoneyFormat(price)) {
+                    $.ajax({
+                        url: "/Detail/CheckTender",
+                        type: "post",
+                        dataType: "json",
+                        data: { auctionId: auctionId, tenderPrice: tenderPrice },
+                        success: function (data) {
+                            var obj = JSON.parse(data);
+                            if (obj.result == 0) {
+                                var o = JSON.parse(obj.data);
+                                if (o.result == 0) {
+                                    var hsPrice = $("#hsPrice").html();
+                                    var jyPrice = $("#jyPrice").html();
+                                    var jfPrice = $("#jfPrice").html();
+                                    $(".aui-dialog-body .info1 .c-org").html(price);
+                                    $(".aui-dialog-body .info2 #sp").html(parseFloat(hsPrice).toFixed(2));
+                                    $(".aui-dialog-body .info2 #sp1").html(parseInt(parseFloat(jyPrice) * 10000));
+                                    $(".aui-dialog-body .info2 #sp2").html(parseInt(parseFloat(jfPrice) * 10000));
+                                    $("#dialog").show();
+                                    $("#masker").show();
+                                }
+                                else {
+                                    if (o.result == -3)
+                                        yx.tips("报价已结束", true, dialogTime);
+                                    else if (o.result == -4)
+                                        yx.tips("报价失败，您的保证金余额不足", true, dialogTime);
+                                    else if (o.result == -12)
+                                        yx.tips("您的报价金额已被其他人报得，请重新报价", true, dialogTime);
+                                    else if (o.result == -14)
+                                        yx.tips("您的报价未高于保留价，请重新报价", true, dialogTime);
+                                    else if (o.result == -15)
+                                        yx.tips("报价失败，您的报价不能低于起步价", true, dialogTime);
+                                    else if (o.result == -16)
+                                        yx.tips("报价失败，您的报价不能高于市场行情", true, dialogTime);
+                                }
+                            }
+                        }, error: function () {
+                            yx.tips("网络异常", true, dialogTime);
+                            $("#masker").hide();
+                        }
+                    });
+                }
+                else {
+                    yx.tips("请输入正确数值，价格最多3位整数2位小数", true, dialogTime); return;
+                }
+            }
+
+
+        });
+        var timer = $("#h_timer").val();
+        var time = 1;
+
+        formatSeconds(+timer);
+
+        var t = setInterval(function () {
+            if (time == 1) {
+                time = +timer;
+            }
+            else if (time <= 0) {
+                clearInterval(t);
+            }
+            else {
+                time -= 1;
+            }
+            formatSeconds(time);
+        }, 1000);
+
+        function formatSeconds(value) {
+            var theTime = parseInt(value);// 秒
+            var theTime1 = 0;// 分
+            var theTime2 = 0;// 小时
+            var result = {};
+            if (theTime > 60) {
+                theTime1 = parseInt(theTime / 60);
+                theTime = parseInt(theTime % 60);
+                if (theTime1 > 60) {
+                    theTime2 = parseInt(theTime1 / 60);
+                    theTime1 = parseInt(theTime1 % 60);
+                }
+            }
+            result.s = parseInt(theTime);
+            if (theTime1 > 0) {
+                result.m = parseInt(theTime1);
+            }
+            if (theTime2 > 0) {
+                result.h = parseInt(theTime2);
+            }
+            $("#timer_h").text(result.h || "0");
+            $("#timer_m").text(result.m || "0");
+            $("#timer_s").text(result.s || "0");
+        }
+
+
+        $(".btnexit").click(function () {
+            $("#dialog").hide();
+            $("#masker").hide();
+        })
+        $(".btncancel").click(function () {
+            var auctionId = $("#auctionId").val();
+            var tenderPrice = $("#myPrice").val();
+
+            var jyf = $("#jyf").val();
+            var jff = $("#jff").val();
+            var totalf = $("#totalf").val();
+
+
+
+            $.ajax({
+                url: "/Detail/Tender",
+                type: "post",
+                dataType: "json",
+                data: { auctionId: auctionId, tenderPrice: tenderPrice },
+                success: function (data) {
+                    $("#masker").hide();
+                    var obj = JSON.parse(data);
+                    if (obj.result == 0) {
+                        var o = JSON.parse(obj.data);
+                        if (o.result == 0) {
+
+
+                            $("#_myPrice").html(tenderPrice);
+                            $("#currentPrice").html(parseFloat(o.tenderPrice).toFixed(2));  //当前价
+
+                            if (jyf == "0" && jff == "0" && totalf == "0") {
+                                calcPrice(auctionId, tenderPrice);
+                            }
+                            $("#jyPrice").html("+" + parseFloat(jyf).toFixed(2));  //交易费
+                            $("#jfPrice").html("+" + parseFloat(jff).toFixed(2));  //交付费
+                            $("#hsPrice").html(parseFloat(totalf).toFixed(2));  //合手价
+
+
+
+                            //报价成功切换状态
+                            $(".biding .bid-pri-rit2").hide();
+                            $(".bid-pri-rit3 #s1").html("您的报价金额：" + parseFloat(o.tenderPrice).toFixed(2) + "万");
+                            if (o.isHighestPrice == 1) {
+                                $(".bid-pri-rit3 #s2").html("(您是报价最高价)");
+                            }
+                            else {
+                                $(".bid-pri-rit3 #s2").html("(您不是报价最高价)");
+                            }
+                            $(".biding .bid-pri-rit3").show();
+
+                            //刷新隐藏值
+                            $("#_myTenderPrice").val(o.tenderPrice);
+                            $("#isHighTenPrice").val(o.isHighestPrice);
+                            $("#ishight").val(o.isHighestPrice);
+                            $("#spb_price").hide();
+                        }
+                        else {
+                            if (o.result == -3)
+                                yx.tips("报价已结束", true, dialogTime);
+                            else if (o.result == -10)
+                                yx.tips("超过报价次数", true, dialogTime);
+                            else if (o.result == -12)
+                                yx.tips("您的报价金额已被其他人报得，请重新报价", true, dialogTime);
+                        }
+                    }
+                    else {
+                        yx.tips("请求失败", true, dialogTime);
+                    }
+
+
+                    $("#dialog").hide();
+                    $("#masker").hide();
+                },
+                error: function () {
+                    yx.tips("网络异常", true, dialogTime);
+                    $("#masker").hide();
+                }
+            })
+        })
+
+
+
+        //加价
+        $(".plus").click(function () {
+            var price = $("#myPrice").val();
+            if (price == isNaN) price = 0;
+            var auctionId = $("#auctionId").val();
+            $("#myPrice").val((parseFloat(price) + 0.01).toFixed(2));
+
+            calcPrice(auctionId, parseFloat($("#myPrice").val()).toFixed(2));
+        })
+        //减价
+        $(".minus").click(function () {
+            var price = $("#myPrice").val();
+            var startPrice = $("#startPrice").val();
+            if (price == isNaN) price = 0;
+            if (parseFloat(price) > 0 && parseFloat(price) > parseFloat(startPrice)) {
+                var auctionId = $("#auctionId").val();
+                if ((parseFloat(price)) > (parseFloat(startPrice))) {
+                    $("#myPrice").val((parseFloat(price) - 0.01).toFixed(2));
+                    calcPrice(auctionId, parseFloat($("#myPrice").val()).toFixed(2));
+                }
+            }
+        })
+        //直接修改值
+        $("#myPrice").on("blur", function () {
+            var str = $(this).val();
+            if (checkMoneyFormat(str)) {
+                if (parseFloat($(this).val()) > 0) {
+                    var auctionId = $("#auctionId").val();
+                    calcPrice(auctionId, parseFloat(str).toFixed(2));
+                }
+            }
+            else {
+                yx.tips("输入数字格式不对", true, dialogTime); return;
+            }
+        })
+    })
+    //计算合手价
+    function calcPrice(auctionId, myPrice) {
+
+        $.ajax({
+            url: "/Detail/CalcPrice",
+            type: "post",
+            dataType: "json",
+            data: { auctionId: auctionId, myPrice: myPrice },
+            success: function (data) {
+                var obj = JSON.parse(data);
+                if (obj.result == 0) {
+                    var o = JSON.parse(obj.data);
+                    if (obj != null) {
+                        $("#jyPrice").html("+" + o.buyerTradeFee);
+                        $("#jfPrice").html("+" + o.buyerAgentFee);
+                        $("#hsPrice").html(o.buyerTotalFee);
+                        $("#_myPrice").html(myPrice);
+                        $("#currentPrice").html(myPrice);
+
+                        $("#jyf").val(o.buyerTradeFee);
+                        $("#jff").val(o.buyerAgentFee);
+                        $("#totalf").val(o.buyerTotalFee);
+                    }
+                }
+                else {
+
+                    yx.tips("请求失败", true, dialogTime); return;
+                }
+            },
+            error: function () {
+
+                yx.tips("网络异常", true, dialogTime); return;
+            }
+        })
+    }
+</script>

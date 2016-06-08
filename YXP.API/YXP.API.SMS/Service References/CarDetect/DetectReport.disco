@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<discovery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/disco/">
+  <contractRef ref="http://test.checkauto.com.cn/API/DetectReport.asmx?wsdl" docRef="http://test.checkauto.com.cn/API/DetectReport.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
+  <soap address="http://test.checkauto.com.cn/API/DetectReport.asmx" xmlns:q1="http://huoyan.ucar.cn/" binding="q1:DetectReportSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <soap address="http://test.checkauto.com.cn/API/DetectReport.asmx" xmlns:q2="http://huoyan.ucar.cn/" binding="q2:DetectReportSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+</discovery>

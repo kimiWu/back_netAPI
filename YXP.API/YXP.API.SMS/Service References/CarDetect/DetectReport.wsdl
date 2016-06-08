@@ -1,0 +1,2235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://huoyan.ucar.cn/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://huoyan.ucar.cn/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://huoyan.ucar.cn/">
+      <s:element name="GetCarSourceList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="tvaId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="cids" type="tns:ArrayOfInt" />
+            <s:element minOccurs="1" maxOccurs="1" name="pageIndex" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="pageSize" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="licenseCar" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="vin" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="changci" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfInt">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="int" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetCarSourceListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCarSourceListResult" type="tns:ArrayOfCXPCarInfo" />
+            <s:element minOccurs="1" maxOccurs="1" name="totalCount" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfCXPCarInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="CXPCarInfo" nillable="true" type="tns:CXPCarInfo" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CXPCarInfo">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:VTaskCarInfo">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="ReportUrl" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="FrontImg" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="LeftImg" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="RightImg" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BackImg" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="CentreControlImg" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Engine_left_photo" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Backseat_photo" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="IsAbortive" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="CarSourceID" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="ReportType" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="AuctionCarSourceDetectCollection" type="tns:ArrayOfAuctionCarSourceDetect" />
+              <s:element minOccurs="0" maxOccurs="1" name="CarFileInfoCollection" type="tns:ArrayOfCarFileInfo" />
+              <s:element minOccurs="0" maxOccurs="1" name="CarAttachmentInfo" type="tns:CarAttachment" />
+              <s:element minOccurs="0" maxOccurs="1" name="CarConditionInfo" type="tns:CarCondition" />
+              <s:element minOccurs="0" maxOccurs="1" name="DiagDataInfo" type="tns:DiagDataInfo" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="VTaskCarInfo">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:VTaskCarInfoBase" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="VTaskCarInfoBase" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="TaskId" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Status" nillable="true" type="s:short" />
+          <s:element minOccurs="1" maxOccurs="1" name="TvaId" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="TvuId" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="DeviceId" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ClientTaskId" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="TaskDate" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="TaskSn" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CarId" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Bodywork" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="EngineNo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Vin" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="RegisterDate" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="CarBasicId" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="SerieId" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="BranId" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ProducerId" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="CarFullName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CarModel" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsChangeEngineNumber" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="LicenseCar" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsCompleteEngineNumber" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="ComAssuranceMoney" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsHaveComAssuranceYear" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsHaveComAssurance" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="FoAssuranceDateYear" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsHaveFoAssurance" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="DetectionYear" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="CarShipTaxExpireYear" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsHavePurchaseTax" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsHaveMainTenance" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="TransferDate" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="LicensCity" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="LicensProvince" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="CarOtherConfigInfo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CarBodyColor" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AnnualDetection" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="IsEffluentYellow" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Mileage" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="CarConfigInfo" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsHaveAssuranceRecord" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="FoAssuranceDate" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="OrginalPrice" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Exhaust" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="CarUseType" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Transmission" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="LicenseYear" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsNewCar" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsInDetail" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Explain" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DetectOuterInfo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DetectInnerInfo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DetectSkeletonInfo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="OuterSheetMetal" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SkeletonSheetMetal" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="UserIsDeleteStatus" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="UpdateLog" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="UpdateTime" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="Owner" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="DrivingCertification" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Registration" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="BuyingReceipt" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="TransferInvoice" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="TransferCount" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ExplainBook" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="CarKeys" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="MaintenanceKm" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="LicenseCarStatue" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="CarOriginalColor" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="FuelType" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="NoticeNumber" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsRefit" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="RefitContent" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ChairContent" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CityAreaId" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="GasbagContent" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsHaveCarShiptax" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ExchangeWithLicense" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsHaveCard" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="CarBody" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="PracticalMileage" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="NewCarWarranty" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="PeriodOfValidity" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="ModifyPrice" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="PublishStatus" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsButlerService" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="OperationStatus" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="OwnTvaId" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="ConditionGrade" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DynamicDetection" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ParkingNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="OuterPic" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="InnerPic" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SkeletonPic" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="OuterImplicitPic" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SkeletonImplicitPic" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="TransferType" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Fee" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="DealerPrice" nillable="true" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="LawLessBlame" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ModifiedVestingParty" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FormalitiesGet" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FormalitiesLost" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FormalitiesTransaction" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FormalitiesRetroactive" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SendType" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="XcpCarId" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="PriceUser" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PriceUserMoblie" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="TransferMarketId" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ChangCi" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="StatueList" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CiXu" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="SourseType" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CaoZuoJiLu" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="PublishTvuid" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="PurchasePrice" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="CarType" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="CarLocation" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="ArrangeItemStr" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsChangeFee" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="VendorFullName" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="VendorClass" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="CarConditionExplain" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Lawless" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ConditionGradeSmall" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="UniqueId" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="UniqueSerial" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ChannelNum" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="SelfInsurance" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="AnnualValidity" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="ProxyTvaId" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="SourceFrom" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsBubbleCar" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ClientId" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="MobileDeviceOs" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ProxyFee" nillable="true" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="CarConfigKey" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Papers" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="PeccancyDays" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="PeccancyScore" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="PeccancyYuan" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="JqSelfInsurance" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsSmallReport" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsAnnualValidity" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="AppearancePaint" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SkeletonPaint" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Eid" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsLedger" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="DealerPriceTotal" nillable="true" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="RedbookName" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CertificateCard" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="FactoryCode" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="NewCarPhoto" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="TheNewCar" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="MaintainManual" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="SuperiorName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MaintenanceId" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ToVinCarModel" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="ToCarModel" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Result" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Tag" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfAuctionCarSourceDetect">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="AuctionCarSourceDetect" nillable="true" type="tns:AuctionCarSourceDetect" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AuctionCarSourceDetect">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:AuctionCarSourceDetectBase" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="AuctionCarSourceDetectBase" abstract="true">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:EntityBase">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="CarSourceDetectId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="DetectItemId" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="DetectDefectId" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="DefectDegreeValue" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="DefectDefreeDesc" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="RepairTypeId" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="DetectMark" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="DefectPic" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="SessionId" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="CarSourceId" type="s:decimal" />
+              <s:element minOccurs="0" maxOccurs="1" name="DetectItemMapId" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="DetectAreaType" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="Status" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="DetectLevel" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="OriginalDefectPic" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Original" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Point" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="EntityBase" abstract="true">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:EntityBaseCore" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="EntityBaseCore" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Tag" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="DiagDataInfoBase" abstract="true">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:EntityBase">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="TaskId" type="s:decimal" />
+              <s:element minOccurs="1" maxOccurs="1" name="OriginalTaskId" type="s:decimal" />
+              <s:element minOccurs="0" maxOccurs="1" name="DiagData" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Lawless" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="DiagDataInfo">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:DiagDataInfoBase" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="CarConditionBase" abstract="true">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:EntityBase">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="CarConditionId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="CarId" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="UpdateTime" nillable="true" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="StartContent" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="StartStatus" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="LaunchStatus" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="GearboxStatus" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="DampingStatus" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="EndCarStatus" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BrakeStatus" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ExhaustStatus" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ElectricalStatus" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Explain" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="LaunchContent" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="GearboxContent" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="DampingContent" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="EndCarContent" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BrakeContent" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ExhaustContent" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ElectricalContent" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="SteeringAssistStatus" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="SteeringAssistRemark" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="EngineOilStatus" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="EngineOilRemark" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AntifreezeStatus" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AntifreezeRemark" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PresentStatus" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="RepairStatus" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="PowerOil" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="BrakeOil" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="RoadTest" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="PaintRepair" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PowerOilStatus" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PowerOilRemark" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BrakeOilStatus" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BrakeOilRemark" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="LeakCheckStatus" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="LeakCheckRemark" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="SmokeCheckStatus" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="SmokeCheckRemark" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="WorkCheckStatus" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="WorkCheckRemark" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="AbnormalSoundStatus" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="AbnormalSoundRemark" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="ZuoGongCheckStatus" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="ZuoGongCheckRemark" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="CoolingCheckStatus" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="CoolingCheckRemark" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="BatteryCheckStatus" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="BatteryCheckRemark" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="BeltCheckStatus" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="BeltCheckRemark" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ExplainNew" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="CarCondition">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:CarConditionBase" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="CarAttachmentBase" abstract="true">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:EntityBase">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="AttachmentId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="CarId" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="UpdateTime" nillable="true" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="Explain" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="LightingStatus" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="LightingContent" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="ToolsStatus" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="SpareTireStatus" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="SpareTireContent" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ToolsContent" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="HandDoorStatus" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="HandDoorContent" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="KeyStatus" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="KeyContent" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="CarAttachment">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:CarAttachmentBase" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="CarFileInfoBase" abstract="true">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:EntityBase">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="FileId" type="s:decimal" />
+              <s:element minOccurs="1" maxOccurs="1" name="TaskId" nillable="true" type="s:decimal" />
+              <s:element minOccurs="1" maxOccurs="1" name="FileType" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="FileName" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="CreateDate" nillable="true" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="Content" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="OriginalFileName" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="CarFileInfo">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:CarFileInfoBase" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ArrayOfCarFileInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="CarFileInfo" nillable="true" type="tns:CarFileInfo" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="DetectReportAuth" type="tns:DetectReportAuth" />
+      <s:complexType name="DetectReportAuth">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="AuthKey" type="s:string" />
+        </s:sequence>
+        <s:anyAttribute />
+      </s:complexType>
+      <s:element name="GetCarSourceListForPDZX">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="tvaId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tvuId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="cids" type="tns:ArrayOfInt" />
+            <s:element minOccurs="1" maxOccurs="1" name="pageIndex" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="pageSize" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="licenseCar" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="vin" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sdt" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="edt" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCarSourceListForPDZXResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCarSourceListForPDZXResult" type="tns:ArrayOfCXPCarInfo" />
+            <s:element minOccurs="1" maxOccurs="1" name="totalCount" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCarSourceListOneKey">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="tvaId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="changCi" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCarSourceListOneKeyResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCarSourceListOneKeyResult" type="tns:ArrayOfCXPCarInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetHouYanCarSourceList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="tvaId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="tvuid" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="pageIndex" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="pageSize" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="licenseCar" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="vin" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetHouYanCarSourceListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetHouYanCarSourceListResult" type="tns:ArrayOfCXPCarInfo" />
+            <s:element minOccurs="1" maxOccurs="1" name="totalCount" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCarSourceById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="tvaId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="carId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCarSourceByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCarSourceByIdResult" type="tns:CXPCarInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCarSourceByIdNew">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="carId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCarSourceByIdNewResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCarSourceByIdNewResult" type="tns:CXPCarInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCarOtherInfoSourceById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="tvaId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="carId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCarOtherInfoSourceByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCarOtherInfoSourceByIdResult" type="tns:CXPCarInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCarOtherSourceById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="tvaId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="carId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="CXPCarOtherInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="CarOtherFileInfoCollection" type="tns:ArrayOfCarOtherFileInfo" />
+          <s:element minOccurs="0" maxOccurs="1" name="CarOtherInfoObj" type="tns:CarOtherInfo" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfCarOtherFileInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="CarOtherFileInfo" nillable="true" type="tns:CarOtherFileInfo" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CarOtherFileInfo">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:CarOtherFileInfoBase" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="CarOtherFileInfoBase" abstract="true">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:EntityBase">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="FileId" type="s:decimal" />
+              <s:element minOccurs="1" maxOccurs="1" name="TaskId" type="s:decimal" />
+              <s:element minOccurs="1" maxOccurs="1" name="FileType" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="FileName" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="CreateDate" nillable="true" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="OriginalFileName" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="CarOtherInfo">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:CarOtherInfoBase" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="CarOtherInfoBase" abstract="true">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:EntityBase">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="CarOtherId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="Taskid" nillable="true" type="s:decimal" />
+              <s:element minOccurs="0" maxOccurs="1" name="OinfoType" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BigArea" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="SmallArea" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Province" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="City" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="DistributorName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="DistributorNum" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="CertificateType" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="CertificateNum" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="UserPhone" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="OldCarType" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="OldCarNum" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="OldVin" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="IndexNum" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="NewCarType" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="NewCarNum" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="NewVin" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="SubsidyMoney" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="NewCarTicketDate" nillable="true" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="Explain" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="V1" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="V2" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="V3" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="V4" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="V5" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="CarSourseId" nillable="true" type="s:decimal" />
+              <s:element minOccurs="1" maxOccurs="1" name="Flag" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="CompletionDate" nillable="true" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="TvaId" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="V6" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="V7" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="V8" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="GetCarOtherSourceByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCarOtherSourceByIdResult" type="tns:CXPCarOtherInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllReportList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="tvaId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="vin" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="carBasicId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllReportListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllReportListResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UcarUpdateStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="carId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="statue" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UcarUpdateStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UcarUpdateStatusResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UcarUpdateCarOtherFlag">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="carId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="statue" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UcarUpdateCarOtherFlagResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UcarUpdateCarOtherFlagResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTvaidForCarId">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="TvaId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="statue" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfVTaskCarInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="VTaskCarInfo" nillable="true" type="tns:VTaskCarInfo" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetTvaidForCarIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTvaidForCarIdResult" type="tns:ArrayOfVTaskCarInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CopyDetect">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="oldcarsourceid" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="oldtvaid" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="newtvaid" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CopyDetectResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CopyDetectResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CopyDetectForTest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="oldcarsourceid" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="oldtvaid" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="newtvaid" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CopyDetectForTestResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CopyDetectForTestResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CopyDetectForAuto">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="count" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CopyDetectForAutoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CopyDetectForAutoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ButlerServiceCopyDetect">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="oldcarsourceid" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="oldtvaid" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="newtvaid" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ButlerServiceCopyDetectResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ButlerServiceCopyDetectResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CopyDetectForStopOperation">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="oldcarsourceid" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="oldtvaid" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="newtvaid" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="newtvuid" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="owntvaid" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="isxcp" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="parkingnumber" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="no_floor_price" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="UniqueSerial" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CopyDetectForStopOperationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CopyDetectForStopOperationResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CopyDetectForStopOperationForYXP">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="oldcarsourceid" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="oldtvaid" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="newtvaid" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="UniqueId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="UniqueSerial" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="changci" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="ChannelNum" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="ownTvaId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="dealerPrice" type="s:decimal" />
+            <s:element minOccurs="1" maxOccurs="1" name="fee" type="s:decimal" />
+            <s:element minOccurs="1" maxOccurs="1" name="transferType" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="TransferMarketId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="LawLessBlame" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PriceUser" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PriceUserMoblie" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="tvuid" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CopyDetectForStopOperationForYXPResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CopyDetectForStopOperationForYXPResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CopyDetectForXianShang">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="oldcarsourceid" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="oldtvaid" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="newtvaid" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="newtvuid" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CopyDetectForXianShangResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CopyDetectForXianShangResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CopyDetectForStopOperationNew">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="oldcarsourceid" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="oldtvaid" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="newtvaid" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="newtvuid" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ResultInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Json" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Status" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Model" type="tns:VTaskCarInfo" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CopyDetectForStopOperationNewResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CopyDetectForStopOperationNewResult" type="tns:ResultInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdatePulishStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="taskId" type="s:decimal" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdatePulishStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdatePulishStatusResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCarIdByTaskId">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="taskId" type="s:decimal" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCarIdByTaskIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetCarIdByTaskIdResult" type="s:decimal" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetNewCarIdByOldCarId">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="oldCarId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetNewCarIdByOldCarIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetNewCarIdByOldCarIdResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UcarUpdateCar">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="carInfo" type="tns:CarInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="CarInfo">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:CarInfoBase" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="CarInfoBase" abstract="true">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:EntityBase">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="CarId" type="s:decimal" />
+              <s:element minOccurs="1" maxOccurs="1" name="TaskId" nillable="true" type="s:decimal" />
+              <s:element minOccurs="1" maxOccurs="1" name="Bodywork" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="EngineNo" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Vin" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="RegisterDate" nillable="true" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="LicenseYear" nillable="true" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="CarFullName" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="CarBasicId" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="SerieId" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="ProducerId" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="BranId" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="Transmission" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="Exhaust" nillable="true" type="s:decimal" />
+              <s:element minOccurs="1" maxOccurs="1" name="CarUseType" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="OrginalPrice" nillable="true" type="s:decimal" />
+              <s:element minOccurs="1" maxOccurs="1" name="FoAssuranceDate" nillable="true" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="IsHaveAssuranceRecord" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="CarConfigInfo" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Mileage" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="IsEffluentYellow" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AnnualDetection" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="CarBodyColor" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="CarOtherConfigInfo" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="LicensProvince" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="LicensCity" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="IsNew" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="TransferDate" nillable="true" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="IsHaveMainTenance" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="IsHavePurchaseTax" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="CarShipTaxExpireYear" nillable="true" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="DetectionYear" nillable="true" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="IsHaveFoAssurance" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="FoAssuranceDateYear" nillable="true" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="IsHaveComAssurance" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="IsHaveComAssuranceYear" nillable="true" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="ComAssuranceMoney" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="LicenseCar" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="IsCompleteEngineNumber" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="IsChangeEngineNumber" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="CarModel" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="IsInDetail" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="Explain" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="DetectOuterInfo" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="DetectInnerInfo" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="DetectSkeletonInfo" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="OuterSheetMetal" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="SkeletonSheetMetal" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Owner" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="DrivingCertification" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="Registration" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="BuyingReceipt" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="TransferInvoice" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="TransferCount" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="ExplainBook" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="CarKeys" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="MaintenanceKm" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="LicenseCarStatue" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="CarOriginalColor" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="FuelType" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="NoticeNumber" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="IsRefit" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="RefitContent" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ChairContent" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="CityAreaId" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="GasbagContent" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="IsHaveCarShiptax" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="ExchangeWithLicense" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="IsHaveCard" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="CarBody" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="PracticalMileage" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="NewCarWarranty" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="IsButlerService" type="s:boolean" />
+              <s:element minOccurs="0" maxOccurs="1" name="ConditionGrade" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="DynamicDetection" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ParkingNumber" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="OuterPic" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="InnerPic" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="SkeletonPic" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="OuterImplicitPic" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="SkeletonImplicitPic" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="TransferType" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="Fee" nillable="true" type="s:decimal" />
+              <s:element minOccurs="1" maxOccurs="1" name="DealerPrice" nillable="true" type="s:decimal" />
+              <s:element minOccurs="0" maxOccurs="1" name="LawLessBlame" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedVestingParty" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="FormalitiesGet" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="FormalitiesLost" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="FormalitiesTransaction" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="FormalitiesRetroactive" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="XcpCarId" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="PriceUser" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PriceUserMoblie" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="TransferMarketId" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="PublishTvuid" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="PurchasePrice" type="s:decimal" />
+              <s:element minOccurs="1" maxOccurs="1" name="CarType" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="CarLocation" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="ArrangeItemStr" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="IsChangeFee" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="ConditionGradeSmall" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="UniqueId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="UniqueSerial" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="ScrapDate" nillable="true" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="SelfInsurance" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="AnnualValidity" nillable="true" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="DeviceModel" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="ProxyTvaId" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="ChakeVersion" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="SourceFrom" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="IsBubbleCar" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="ClientId" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="MobileDeviceOs" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="ProxyFee" nillable="true" type="s:decimal" />
+              <s:element minOccurs="0" maxOccurs="1" name="CarConfigKey" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Papers" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="PeccancyDays" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="PeccancyScore" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="PeccancyYuan" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="WtVin" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="WtLicenseCar" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="WtEngineNo" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="JqSelfInsurance" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="IsSmallReport" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="IsAnnualValidity" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="AppearancePaint" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="SkeletonPaint" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Eid" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="DealerPriceTotal" nillable="true" type="s:decimal" />
+              <s:element minOccurs="1" maxOccurs="1" name="IsLedger" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="RedbookName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="SuperiorName" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="CertificateCard" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="FactoryCode" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="NewCarPhoto" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="TheNewCar" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="MaintainManual" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="EnvironmentalId" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="ToVinCarModel" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="ToCarModel" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="MaintenanceId" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="CarAnalyseInfo2Collection" type="tns:ArrayOfCarAnalyseInfo2" />
+              <s:element minOccurs="0" maxOccurs="1" name="CarAnalyseInfoCollection" type="tns:ArrayOfCarAnalyseInfo" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ArrayOfCarAnalyseInfo2">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="CarAnalyseInfo2" nillable="true" type="tns:CarAnalyseInfo2" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CarAnalyseInfo2">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:CarAnalyseInfo2Base" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="CarAnalyseInfo2Base" abstract="true">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:EntityBase">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="AnaId" type="s:decimal" />
+              <s:element minOccurs="1" maxOccurs="1" name="CarId" nillable="true" type="s:decimal" />
+              <s:element minOccurs="1" maxOccurs="1" name="AreaId" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="DaId" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="GroupId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="Status" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ArrayOfCarAnalyseInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="CarAnalyseInfo" nillable="true" type="tns:CarAnalyseInfo" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CarAnalyseInfo">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:CarAnalyseInfoBase" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="CarAnalyseInfoBase" abstract="true">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:EntityBase">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="AnaId" type="s:decimal" />
+              <s:element minOccurs="1" maxOccurs="1" name="CarId" nillable="true" type="s:decimal" />
+              <s:element minOccurs="1" maxOccurs="1" name="AreaId" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="DaId" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="GroupId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="Status" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="UcarUpdateCarResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UcarUpdateCarResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UcarGetCar">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="carid" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UcarGetCarResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UcarGetCarResult" type="tns:CarInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UcarGetTask">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="taskid" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfCarOtherInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="CarOtherInfo" nillable="true" type="tns:CarOtherInfo" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="UcarGetTaskResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UcarGetTaskResult" type="tns:TaskInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TaskInfo">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TaskInfoBase" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TaskInfoBase" abstract="true">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:EntityBase">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="TaskId" type="s:decimal" />
+              <s:element minOccurs="1" maxOccurs="1" name="Status" nillable="true" type="s:short" />
+              <s:element minOccurs="1" maxOccurs="1" name="TvaId" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="TvuId" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="DeviceId" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ClientTaskId" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="TaskDate" nillable="true" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="TaskSn" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="UserIsDeleteStatus" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="UpdateLog" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="UpdateTime" nillable="true" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="PeriodOfValidity" nillable="true" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="ModifyPrice" nillable="true" type="s:decimal" />
+              <s:element minOccurs="1" maxOccurs="1" name="PublishStatus" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="OperationStatus" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="OwnTvaId" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="SendType" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="ChangCi" nillable="true" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="StatueList" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="CiXu" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="SourseType" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="CaoZuoJiLu" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="ChannelNum" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="CarOtherInfoCollection" type="tns:ArrayOfCarOtherInfo" />
+              <s:element minOccurs="0" maxOccurs="1" name="CarFileInfoCollection" type="tns:ArrayOfCarFileInfo" />
+              <s:element minOccurs="0" maxOccurs="1" name="DiagDataInfo" type="tns:DiagDataInfo" />
+              <s:element minOccurs="0" maxOccurs="1" name="CarOtherFileInfoCollection" type="tns:ArrayOfCarOtherFileInfo" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="UcarUpdateTask">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="taskInfo" type="tns:TaskInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UcarUpdateTaskResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UcarUpdateTaskResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetVTaskCarInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="taskid" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetVTaskCarInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetVTaskCarInfoResult" type="tns:VTaskCarInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateSerail">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="carid" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="Serail" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateSerailResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateSerailResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BindingOperation">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="status" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="dailitvaid" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="userid" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="Operationid" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BindingOperationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BindingOperationResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetCarSourceListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCarSourceList" />
+  </wsdl:message>
+  <wsdl:message name="GetCarSourceListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCarSourceListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCarSourceListDetectReportAuth">
+    <wsdl:part name="DetectReportAuth" element="tns:DetectReportAuth" />
+  </wsdl:message>
+  <wsdl:message name="GetCarSourceListForPDZXSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCarSourceListForPDZX" />
+  </wsdl:message>
+  <wsdl:message name="GetCarSourceListForPDZXSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCarSourceListForPDZXResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCarSourceListForPDZXDetectReportAuth">
+    <wsdl:part name="DetectReportAuth" element="tns:DetectReportAuth" />
+  </wsdl:message>
+  <wsdl:message name="GetCarSourceListOneKeySoapIn">
+    <wsdl:part name="parameters" element="tns:GetCarSourceListOneKey" />
+  </wsdl:message>
+  <wsdl:message name="GetCarSourceListOneKeySoapOut">
+    <wsdl:part name="parameters" element="tns:GetCarSourceListOneKeyResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCarSourceListOneKeyDetectReportAuth">
+    <wsdl:part name="DetectReportAuth" element="tns:DetectReportAuth" />
+  </wsdl:message>
+  <wsdl:message name="GetHouYanCarSourceListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetHouYanCarSourceList" />
+  </wsdl:message>
+  <wsdl:message name="GetHouYanCarSourceListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetHouYanCarSourceListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetHouYanCarSourceListDetectReportAuth">
+    <wsdl:part name="DetectReportAuth" element="tns:DetectReportAuth" />
+  </wsdl:message>
+  <wsdl:message name="GetCarSourceByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCarSourceById" />
+  </wsdl:message>
+  <wsdl:message name="GetCarSourceByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCarSourceByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCarSourceByIdDetectReportAuth">
+    <wsdl:part name="DetectReportAuth" element="tns:DetectReportAuth" />
+  </wsdl:message>
+  <wsdl:message name="GetCarSourceByIdNewSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCarSourceByIdNew" />
+  </wsdl:message>
+  <wsdl:message name="GetCarSourceByIdNewSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCarSourceByIdNewResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCarSourceByIdNewDetectReportAuth">
+    <wsdl:part name="DetectReportAuth" element="tns:DetectReportAuth" />
+  </wsdl:message>
+  <wsdl:message name="GetCarOtherInfoSourceByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCarOtherInfoSourceById" />
+  </wsdl:message>
+  <wsdl:message name="GetCarOtherInfoSourceByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCarOtherInfoSourceByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCarOtherInfoSourceByIdDetectReportAuth">
+    <wsdl:part name="DetectReportAuth" element="tns:DetectReportAuth" />
+  </wsdl:message>
+  <wsdl:message name="GetCarOtherSourceByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCarOtherSourceById" />
+  </wsdl:message>
+  <wsdl:message name="GetCarOtherSourceByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCarOtherSourceByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCarOtherSourceByIdDetectReportAuth">
+    <wsdl:part name="DetectReportAuth" element="tns:DetectReportAuth" />
+  </wsdl:message>
+  <wsdl:message name="GetAllReportListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllReportList" />
+  </wsdl:message>
+  <wsdl:message name="GetAllReportListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllReportListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAllReportListDetectReportAuth">
+    <wsdl:part name="DetectReportAuth" element="tns:DetectReportAuth" />
+  </wsdl:message>
+  <wsdl:message name="UcarUpdateStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:UcarUpdateStatus" />
+  </wsdl:message>
+  <wsdl:message name="UcarUpdateStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:UcarUpdateStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="UcarUpdateStatusDetectReportAuth">
+    <wsdl:part name="DetectReportAuth" element="tns:DetectReportAuth" />
+  </wsdl:message>
+  <wsdl:message name="UcarUpdateCarOtherFlagSoapIn">
+    <wsdl:part name="parameters" element="tns:UcarUpdateCarOtherFlag" />
+  </wsdl:message>
+  <wsdl:message name="UcarUpdateCarOtherFlagSoapOut">
+    <wsdl:part name="parameters" element="tns:UcarUpdateCarOtherFlagResponse" />
+  </wsdl:message>
+  <wsdl:message name="UcarUpdateCarOtherFlagDetectReportAuth">
+    <wsdl:part name="DetectReportAuth" element="tns:DetectReportAuth" />
+  </wsdl:message>
+  <wsdl:message name="GetTvaidForCarIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTvaidForCarId" />
+  </wsdl:message>
+  <wsdl:message name="GetTvaidForCarIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTvaidForCarIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTvaidForCarIdDetectReportAuth">
+    <wsdl:part name="DetectReportAuth" element="tns:DetectReportAuth" />
+  </wsdl:message>
+  <wsdl:message name="CopyDetectSoapIn">
+    <wsdl:part name="parameters" element="tns:CopyDetect" />
+  </wsdl:message>
+  <wsdl:message name="CopyDetectSoapOut">
+    <wsdl:part name="parameters" element="tns:CopyDetectResponse" />
+  </wsdl:message>
+  <wsdl:message name="CopyDetectDetectReportAuth">
+    <wsdl:part name="DetectReportAuth" element="tns:DetectReportAuth" />
+  </wsdl:message>
+  <wsdl:message name="CopyDetectForTestSoapIn">
+    <wsdl:part name="parameters" element="tns:CopyDetectForTest" />
+  </wsdl:message>
+  <wsdl:message name="CopyDetectForTestSoapOut">
+    <wsdl:part name="parameters" element="tns:CopyDetectForTestResponse" />
+  </wsdl:message>
+  <wsdl:message name="CopyDetectForTestDetectReportAuth">
+    <wsdl:part name="DetectReportAuth" element="tns:DetectReportAuth" />
+  </wsdl:message>
+  <wsdl:message name="CopyDetectForAutoSoapIn">
+    <wsdl:part name="parameters" element="tns:CopyDetectForAuto" />
+  </wsdl:message>
+  <wsdl:message name="CopyDetectForAutoSoapOut">
+    <wsdl:part name="parameters" element="tns:CopyDetectForAutoResponse" />
+  </wsdl:message>
+  <wsdl:message name="CopyDetectForAutoDetectReportAuth">
+    <wsdl:part name="DetectReportAuth" element="tns:DetectReportAuth" />
+  </wsdl:message>
+  <wsdl:message name="ButlerServiceCopyDetectSoapIn">
+    <wsdl:part name="parameters" element="tns:ButlerServiceCopyDetect" />
+  </wsdl:message>
+  <wsdl:message name="ButlerServiceCopyDetectSoapOut">
+    <wsdl:part name="parameters" element="tns:ButlerServiceCopyDetectResponse" />
+  </wsdl:message>
+  <wsdl:message name="ButlerServiceCopyDetectDetectReportAuth">
+    <wsdl:part name="DetectReportAuth" element="tns:DetectReportAuth" />
+  </wsdl:message>
+  <wsdl:message name="CopyDetectForStopOperationSoapIn">
+    <wsdl:part name="parameters" element="tns:CopyDetectForStopOperation" />
+  </wsdl:message>
+  <wsdl:message name="CopyDetectForStopOperationSoapOut">
+    <wsdl:part name="parameters" element="tns:CopyDetectForStopOperationResponse" />
+  </wsdl:message>
+  <wsdl:message name="CopyDetectForStopOperationDetectReportAuth">
+    <wsdl:part name="DetectReportAuth" element="tns:DetectReportAuth" />
+  </wsdl:message>
+  <wsdl:message name="CopyDetectForStopOperationForYXPSoapIn">
+    <wsdl:part name="parameters" element="tns:CopyDetectForStopOperationForYXP" />
+  </wsdl:message>
+  <wsdl:message name="CopyDetectForStopOperationForYXPSoapOut">
+    <wsdl:part name="parameters" element="tns:CopyDetectForStopOperationForYXPResponse" />
+  </wsdl:message>
+  <wsdl:message name="CopyDetectForStopOperationForYXPDetectReportAuth">
+    <wsdl:part name="DetectReportAuth" element="tns:DetectReportAuth" />
+  </wsdl:message>
+  <wsdl:message name="CopyDetectForXianShangSoapIn">
+    <wsdl:part name="parameters" element="tns:CopyDetectForXianShang" />
+  </wsdl:message>
+  <wsdl:message name="CopyDetectForXianShangSoapOut">
+    <wsdl:part name="parameters" element="tns:CopyDetectForXianShangResponse" />
+  </wsdl:message>
+  <wsdl:message name="CopyDetectForXianShangDetectReportAuth">
+    <wsdl:part name="DetectReportAuth" element="tns:DetectReportAuth" />
+  </wsdl:message>
+  <wsdl:message name="CopyDetectForStopOperationNewSoapIn">
+    <wsdl:part name="parameters" element="tns:CopyDetectForStopOperationNew" />
+  </wsdl:message>
+  <wsdl:message name="CopyDetectForStopOperationNewSoapOut">
+    <wsdl:part name="parameters" element="tns:CopyDetectForStopOperationNewResponse" />
+  </wsdl:message>
+  <wsdl:message name="CopyDetectForStopOperationNewDetectReportAuth">
+    <wsdl:part name="DetectReportAuth" element="tns:DetectReportAuth" />
+  </wsdl:message>
+  <wsdl:message name="UpdatePulishStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdatePulishStatus" />
+  </wsdl:message>
+  <wsdl:message name="UpdatePulishStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdatePulishStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdatePulishStatusDetectReportAuth">
+    <wsdl:part name="DetectReportAuth" element="tns:DetectReportAuth" />
+  </wsdl:message>
+  <wsdl:message name="GetCarIdByTaskIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCarIdByTaskId" />
+  </wsdl:message>
+  <wsdl:message name="GetCarIdByTaskIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCarIdByTaskIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCarIdByTaskIdDetectReportAuth">
+    <wsdl:part name="DetectReportAuth" element="tns:DetectReportAuth" />
+  </wsdl:message>
+  <wsdl:message name="GetNewCarIdByOldCarIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetNewCarIdByOldCarId" />
+  </wsdl:message>
+  <wsdl:message name="GetNewCarIdByOldCarIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetNewCarIdByOldCarIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetNewCarIdByOldCarIdDetectReportAuth">
+    <wsdl:part name="DetectReportAuth" element="tns:DetectReportAuth" />
+  </wsdl:message>
+  <wsdl:message name="UcarUpdateCarSoapIn">
+    <wsdl:part name="parameters" element="tns:UcarUpdateCar" />
+  </wsdl:message>
+  <wsdl:message name="UcarUpdateCarSoapOut">
+    <wsdl:part name="parameters" element="tns:UcarUpdateCarResponse" />
+  </wsdl:message>
+  <wsdl:message name="UcarUpdateCarDetectReportAuth">
+    <wsdl:part name="DetectReportAuth" element="tns:DetectReportAuth" />
+  </wsdl:message>
+  <wsdl:message name="UcarGetCarSoapIn">
+    <wsdl:part name="parameters" element="tns:UcarGetCar" />
+  </wsdl:message>
+  <wsdl:message name="UcarGetCarSoapOut">
+    <wsdl:part name="parameters" element="tns:UcarGetCarResponse" />
+  </wsdl:message>
+  <wsdl:message name="UcarGetCarDetectReportAuth">
+    <wsdl:part name="DetectReportAuth" element="tns:DetectReportAuth" />
+  </wsdl:message>
+  <wsdl:message name="UcarGetTaskSoapIn">
+    <wsdl:part name="parameters" element="tns:UcarGetTask" />
+  </wsdl:message>
+  <wsdl:message name="UcarGetTaskSoapOut">
+    <wsdl:part name="parameters" element="tns:UcarGetTaskResponse" />
+  </wsdl:message>
+  <wsdl:message name="UcarGetTaskDetectReportAuth">
+    <wsdl:part name="DetectReportAuth" element="tns:DetectReportAuth" />
+  </wsdl:message>
+  <wsdl:message name="UcarUpdateTaskSoapIn">
+    <wsdl:part name="parameters" element="tns:UcarUpdateTask" />
+  </wsdl:message>
+  <wsdl:message name="UcarUpdateTaskSoapOut">
+    <wsdl:part name="parameters" element="tns:UcarUpdateTaskResponse" />
+  </wsdl:message>
+  <wsdl:message name="UcarUpdateTaskDetectReportAuth">
+    <wsdl:part name="DetectReportAuth" element="tns:DetectReportAuth" />
+  </wsdl:message>
+  <wsdl:message name="GetVTaskCarInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetVTaskCarInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetVTaskCarInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetVTaskCarInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetVTaskCarInfoDetectReportAuth">
+    <wsdl:part name="DetectReportAuth" element="tns:DetectReportAuth" />
+  </wsdl:message>
+  <wsdl:message name="UpdateSerailSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateSerail" />
+  </wsdl:message>
+  <wsdl:message name="UpdateSerailSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateSerailResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateSerailDetectReportAuth">
+    <wsdl:part name="DetectReportAuth" element="tns:DetectReportAuth" />
+  </wsdl:message>
+  <wsdl:message name="BindingOperationSoapIn">
+    <wsdl:part name="parameters" element="tns:BindingOperation" />
+  </wsdl:message>
+  <wsdl:message name="BindingOperationSoapOut">
+    <wsdl:part name="parameters" element="tns:BindingOperationResponse" />
+  </wsdl:message>
+  <wsdl:message name="BindingOperationDetectReportAuth">
+    <wsdl:part name="DetectReportAuth" element="tns:DetectReportAuth" />
+  </wsdl:message>
+  <wsdl:portType name="DetectReportSoap">
+    <wsdl:operation name="GetCarSourceList">
+      <wsdl:input message="tns:GetCarSourceListSoapIn" />
+      <wsdl:output message="tns:GetCarSourceListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCarSourceListForPDZX">
+      <wsdl:input message="tns:GetCarSourceListForPDZXSoapIn" />
+      <wsdl:output message="tns:GetCarSourceListForPDZXSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCarSourceListOneKey">
+      <wsdl:input message="tns:GetCarSourceListOneKeySoapIn" />
+      <wsdl:output message="tns:GetCarSourceListOneKeySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetHouYanCarSourceList">
+      <wsdl:input message="tns:GetHouYanCarSourceListSoapIn" />
+      <wsdl:output message="tns:GetHouYanCarSourceListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCarSourceById">
+      <wsdl:input message="tns:GetCarSourceByIdSoapIn" />
+      <wsdl:output message="tns:GetCarSourceByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCarSourceByIdNew">
+      <wsdl:input message="tns:GetCarSourceByIdNewSoapIn" />
+      <wsdl:output message="tns:GetCarSourceByIdNewSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCarOtherInfoSourceById">
+      <wsdl:input message="tns:GetCarOtherInfoSourceByIdSoapIn" />
+      <wsdl:output message="tns:GetCarOtherInfoSourceByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCarOtherSourceById">
+      <wsdl:input message="tns:GetCarOtherSourceByIdSoapIn" />
+      <wsdl:output message="tns:GetCarOtherSourceByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllReportList">
+      <wsdl:input message="tns:GetAllReportListSoapIn" />
+      <wsdl:output message="tns:GetAllReportListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UcarUpdateStatus">
+      <wsdl:input message="tns:UcarUpdateStatusSoapIn" />
+      <wsdl:output message="tns:UcarUpdateStatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UcarUpdateCarOtherFlag">
+      <wsdl:input message="tns:UcarUpdateCarOtherFlagSoapIn" />
+      <wsdl:output message="tns:UcarUpdateCarOtherFlagSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTvaidForCarId">
+      <wsdl:input message="tns:GetTvaidForCarIdSoapIn" />
+      <wsdl:output message="tns:GetTvaidForCarIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CopyDetect">
+      <wsdl:input message="tns:CopyDetectSoapIn" />
+      <wsdl:output message="tns:CopyDetectSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CopyDetectForTest">
+      <wsdl:input message="tns:CopyDetectForTestSoapIn" />
+      <wsdl:output message="tns:CopyDetectForTestSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CopyDetectForAuto">
+      <wsdl:input message="tns:CopyDetectForAutoSoapIn" />
+      <wsdl:output message="tns:CopyDetectForAutoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ButlerServiceCopyDetect">
+      <wsdl:input message="tns:ButlerServiceCopyDetectSoapIn" />
+      <wsdl:output message="tns:ButlerServiceCopyDetectSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CopyDetectForStopOperation">
+      <wsdl:input message="tns:CopyDetectForStopOperationSoapIn" />
+      <wsdl:output message="tns:CopyDetectForStopOperationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CopyDetectForStopOperationForYXP">
+      <wsdl:input message="tns:CopyDetectForStopOperationForYXPSoapIn" />
+      <wsdl:output message="tns:CopyDetectForStopOperationForYXPSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CopyDetectForXianShang">
+      <wsdl:input message="tns:CopyDetectForXianShangSoapIn" />
+      <wsdl:output message="tns:CopyDetectForXianShangSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CopyDetectForStopOperationNew">
+      <wsdl:input message="tns:CopyDetectForStopOperationNewSoapIn" />
+      <wsdl:output message="tns:CopyDetectForStopOperationNewSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePulishStatus">
+      <wsdl:input message="tns:UpdatePulishStatusSoapIn" />
+      <wsdl:output message="tns:UpdatePulishStatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCarIdByTaskId">
+      <wsdl:input message="tns:GetCarIdByTaskIdSoapIn" />
+      <wsdl:output message="tns:GetCarIdByTaskIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNewCarIdByOldCarId">
+      <wsdl:input message="tns:GetNewCarIdByOldCarIdSoapIn" />
+      <wsdl:output message="tns:GetNewCarIdByOldCarIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UcarUpdateCar">
+      <wsdl:input message="tns:UcarUpdateCarSoapIn" />
+      <wsdl:output message="tns:UcarUpdateCarSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UcarGetCar">
+      <wsdl:input message="tns:UcarGetCarSoapIn" />
+      <wsdl:output message="tns:UcarGetCarSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UcarGetTask">
+      <wsdl:input message="tns:UcarGetTaskSoapIn" />
+      <wsdl:output message="tns:UcarGetTaskSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UcarUpdateTask">
+      <wsdl:input message="tns:UcarUpdateTaskSoapIn" />
+      <wsdl:output message="tns:UcarUpdateTaskSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetVTaskCarInfo">
+      <wsdl:input message="tns:GetVTaskCarInfoSoapIn" />
+      <wsdl:output message="tns:GetVTaskCarInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSerail">
+      <wsdl:input message="tns:UpdateSerailSoapIn" />
+      <wsdl:output message="tns:UpdateSerailSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BindingOperation">
+      <wsdl:input message="tns:BindingOperationSoapIn" />
+      <wsdl:output message="tns:BindingOperationSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="DetectReportSoap" type="tns:DetectReportSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetCarSourceList">
+      <soap:operation soapAction="http://huoyan.ucar.cn/GetCarSourceList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetCarSourceListDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCarSourceListForPDZX">
+      <soap:operation soapAction="http://huoyan.ucar.cn/GetCarSourceListForPDZX" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetCarSourceListForPDZXDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCarSourceListOneKey">
+      <soap:operation soapAction="http://huoyan.ucar.cn/GetCarSourceListOneKey" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetCarSourceListOneKeyDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetHouYanCarSourceList">
+      <soap:operation soapAction="http://huoyan.ucar.cn/GetHouYanCarSourceList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetHouYanCarSourceListDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCarSourceById">
+      <soap:operation soapAction="http://huoyan.ucar.cn/GetCarSourceById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetCarSourceByIdDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCarSourceByIdNew">
+      <soap:operation soapAction="http://huoyan.ucar.cn/GetCarSourceByIdNew" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetCarSourceByIdNewDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCarOtherInfoSourceById">
+      <soap:operation soapAction="http://huoyan.ucar.cn/GetCarOtherInfoSourceById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetCarOtherInfoSourceByIdDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCarOtherSourceById">
+      <soap:operation soapAction="http://huoyan.ucar.cn/GetCarOtherSourceById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetCarOtherSourceByIdDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllReportList">
+      <soap:operation soapAction="http://huoyan.ucar.cn/GetAllReportList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetAllReportListDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UcarUpdateStatus">
+      <soap:operation soapAction="http://huoyan.ucar.cn/UcarUpdateStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:UcarUpdateStatusDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UcarUpdateCarOtherFlag">
+      <soap:operation soapAction="http://huoyan.ucar.cn/UcarUpdateCarOtherFlag" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:UcarUpdateCarOtherFlagDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTvaidForCarId">
+      <soap:operation soapAction="http://huoyan.ucar.cn/GetTvaidForCarId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetTvaidForCarIdDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CopyDetect">
+      <soap:operation soapAction="http://huoyan.ucar.cn/CopyDetect" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:CopyDetectDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CopyDetectForTest">
+      <soap:operation soapAction="http://huoyan.ucar.cn/CopyDetectForTest" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:CopyDetectForTestDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CopyDetectForAuto">
+      <soap:operation soapAction="http://huoyan.ucar.cn/CopyDetectForAuto" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:CopyDetectForAutoDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ButlerServiceCopyDetect">
+      <soap:operation soapAction="http://huoyan.ucar.cn/ButlerServiceCopyDetect" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ButlerServiceCopyDetectDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CopyDetectForStopOperation">
+      <soap:operation soapAction="http://huoyan.ucar.cn/CopyDetectForStopOperation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:CopyDetectForStopOperationDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CopyDetectForStopOperationForYXP">
+      <soap:operation soapAction="http://huoyan.ucar.cn/CopyDetectForStopOperationForYXP" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:CopyDetectForStopOperationForYXPDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CopyDetectForXianShang">
+      <soap:operation soapAction="http://huoyan.ucar.cn/CopyDetectForXianShang" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:CopyDetectForXianShangDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CopyDetectForStopOperationNew">
+      <soap:operation soapAction="http://huoyan.ucar.cn/CopyDetectForStopOperationNew" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:CopyDetectForStopOperationNewDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePulishStatus">
+      <soap:operation soapAction="http://huoyan.ucar.cn/UpdatePulishStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:UpdatePulishStatusDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCarIdByTaskId">
+      <soap:operation soapAction="http://huoyan.ucar.cn/GetCarIdByTaskId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetCarIdByTaskIdDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNewCarIdByOldCarId">
+      <soap:operation soapAction="http://huoyan.ucar.cn/GetNewCarIdByOldCarId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetNewCarIdByOldCarIdDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UcarUpdateCar">
+      <soap:operation soapAction="http://huoyan.ucar.cn/UcarUpdateCar" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:UcarUpdateCarDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UcarGetCar">
+      <soap:operation soapAction="http://huoyan.ucar.cn/UcarGetCar" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:UcarGetCarDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UcarGetTask">
+      <soap:operation soapAction="http://huoyan.ucar.cn/UcarGetTask" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:UcarGetTaskDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UcarUpdateTask">
+      <soap:operation soapAction="http://huoyan.ucar.cn/UcarUpdateTask" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:UcarUpdateTaskDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetVTaskCarInfo">
+      <soap:operation soapAction="http://huoyan.ucar.cn/GetVTaskCarInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetVTaskCarInfoDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSerail">
+      <soap:operation soapAction="http://huoyan.ucar.cn/UpdateSerail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:UpdateSerailDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BindingOperation">
+      <soap:operation soapAction="http://huoyan.ucar.cn/BindingOperation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:BindingOperationDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="DetectReportSoap12" type="tns:DetectReportSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetCarSourceList">
+      <soap12:operation soapAction="http://huoyan.ucar.cn/GetCarSourceList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetCarSourceListDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCarSourceListForPDZX">
+      <soap12:operation soapAction="http://huoyan.ucar.cn/GetCarSourceListForPDZX" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetCarSourceListForPDZXDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCarSourceListOneKey">
+      <soap12:operation soapAction="http://huoyan.ucar.cn/GetCarSourceListOneKey" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetCarSourceListOneKeyDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetHouYanCarSourceList">
+      <soap12:operation soapAction="http://huoyan.ucar.cn/GetHouYanCarSourceList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetHouYanCarSourceListDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCarSourceById">
+      <soap12:operation soapAction="http://huoyan.ucar.cn/GetCarSourceById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetCarSourceByIdDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCarSourceByIdNew">
+      <soap12:operation soapAction="http://huoyan.ucar.cn/GetCarSourceByIdNew" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetCarSourceByIdNewDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCarOtherInfoSourceById">
+      <soap12:operation soapAction="http://huoyan.ucar.cn/GetCarOtherInfoSourceById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetCarOtherInfoSourceByIdDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCarOtherSourceById">
+      <soap12:operation soapAction="http://huoyan.ucar.cn/GetCarOtherSourceById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetCarOtherSourceByIdDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllReportList">
+      <soap12:operation soapAction="http://huoyan.ucar.cn/GetAllReportList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetAllReportListDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UcarUpdateStatus">
+      <soap12:operation soapAction="http://huoyan.ucar.cn/UcarUpdateStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:UcarUpdateStatusDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UcarUpdateCarOtherFlag">
+      <soap12:operation soapAction="http://huoyan.ucar.cn/UcarUpdateCarOtherFlag" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:UcarUpdateCarOtherFlagDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTvaidForCarId">
+      <soap12:operation soapAction="http://huoyan.ucar.cn/GetTvaidForCarId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetTvaidForCarIdDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CopyDetect">
+      <soap12:operation soapAction="http://huoyan.ucar.cn/CopyDetect" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:CopyDetectDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CopyDetectForTest">
+      <soap12:operation soapAction="http://huoyan.ucar.cn/CopyDetectForTest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:CopyDetectForTestDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CopyDetectForAuto">
+      <soap12:operation soapAction="http://huoyan.ucar.cn/CopyDetectForAuto" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:CopyDetectForAutoDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ButlerServiceCopyDetect">
+      <soap12:operation soapAction="http://huoyan.ucar.cn/ButlerServiceCopyDetect" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ButlerServiceCopyDetectDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CopyDetectForStopOperation">
+      <soap12:operation soapAction="http://huoyan.ucar.cn/CopyDetectForStopOperation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:CopyDetectForStopOperationDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CopyDetectForStopOperationForYXP">
+      <soap12:operation soapAction="http://huoyan.ucar.cn/CopyDetectForStopOperationForYXP" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:CopyDetectForStopOperationForYXPDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CopyDetectForXianShang">
+      <soap12:operation soapAction="http://huoyan.ucar.cn/CopyDetectForXianShang" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:CopyDetectForXianShangDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CopyDetectForStopOperationNew">
+      <soap12:operation soapAction="http://huoyan.ucar.cn/CopyDetectForStopOperationNew" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:CopyDetectForStopOperationNewDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePulishStatus">
+      <soap12:operation soapAction="http://huoyan.ucar.cn/UpdatePulishStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:UpdatePulishStatusDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCarIdByTaskId">
+      <soap12:operation soapAction="http://huoyan.ucar.cn/GetCarIdByTaskId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetCarIdByTaskIdDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNewCarIdByOldCarId">
+      <soap12:operation soapAction="http://huoyan.ucar.cn/GetNewCarIdByOldCarId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetNewCarIdByOldCarIdDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UcarUpdateCar">
+      <soap12:operation soapAction="http://huoyan.ucar.cn/UcarUpdateCar" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:UcarUpdateCarDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UcarGetCar">
+      <soap12:operation soapAction="http://huoyan.ucar.cn/UcarGetCar" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:UcarGetCarDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UcarGetTask">
+      <soap12:operation soapAction="http://huoyan.ucar.cn/UcarGetTask" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:UcarGetTaskDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UcarUpdateTask">
+      <soap12:operation soapAction="http://huoyan.ucar.cn/UcarUpdateTask" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:UcarUpdateTaskDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetVTaskCarInfo">
+      <soap12:operation soapAction="http://huoyan.ucar.cn/GetVTaskCarInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetVTaskCarInfoDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSerail">
+      <soap12:operation soapAction="http://huoyan.ucar.cn/UpdateSerail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:UpdateSerailDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BindingOperation">
+      <soap12:operation soapAction="http://huoyan.ucar.cn/BindingOperation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:BindingOperationDetectReportAuth" part="DetectReportAuth" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="DetectReport">
+    <wsdl:port name="DetectReportSoap" binding="tns:DetectReportSoap">
+      <soap:address location="http://test.checkauto.com.cn/API/DetectReport.asmx" />
+    </wsdl:port>
+    <wsdl:port name="DetectReportSoap12" binding="tns:DetectReportSoap12">
+      <soap12:address location="http://test.checkauto.com.cn/API/DetectReport.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

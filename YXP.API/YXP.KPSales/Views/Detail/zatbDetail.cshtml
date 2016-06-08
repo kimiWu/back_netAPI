@@ -1,0 +1,131 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>车辆详情 - 销售宝</title>
+    @Html.Partial("/Views/PartView/DetailStylePartView.cshtml")
+</head>
+
+<body>
+    <header class="aui-bar aui-bar-nav sales-header">
+        <a class="aui-pull-left">
+            <span class="iconfont icon-fanhui"></span>
+        </a>
+        <div class="aui-title">车辆详情</div>
+    </header>
+    <div class="wrapper">
+        @Html.Partial("/Views/PartView/DetailTopPartView.cshtml")
+        <section class="bid-content">
+            <div class="header">
+                <span class="aui-pull-left aui-text-center btn-bid liupai">正在投标</span><i class="aui-pull-left ico-sjx"></i>
+
+                <div class="bid-time">
+                    剩余 :
+                    <span id="t-m"></span>分
+                    <span id="t-s"></span>秒
+                </div>
+            </div>
+            <div class="bid-detail">
+
+
+
+
+                <ul class="price-list">
+                    <li>
+                        <input type="hidden" id="EngineNum" value="@(Model.EngineNum)" />
+                        <span class="p-label">对手最新报价</span>
+                        <span id="CYPNewPrice" class="p-money">--</span>
+                        <span class="p-unit">万元</span>
+                    </li>
+                    <li>
+                        <span class="p-label">对手最高报价</span>
+                        <span id="CYPMaxPrice" class="p-money">--</span>
+                        <span class="p-unit">万元</span>
+                    </li>
+                    <li>
+                        @if (Model != null && Model.modifyPrice > 0)
+                        {
+                            <span class="p-label">定价中心报价</span>
+                            <span class="p-money">@(Model.modifyPrice)</span>
+                            <span class="p-unit">万元</span>
+                        }
+                    </li>
+                </ul>
+                @if (Model == null || Model.modifyPrice <= 0)
+                {
+                    <p class="tips1 aui-text-center">正在等待定价中心报价</p>
+                }
+            </div>
+        </section>
+    </div>
+
+    <script type="text/javascript">
+
+        function getRTime() {
+            var t = parseFloat($("#pricestopTime").val());
+            //alert(t);
+            var d = Math.floor(t / 1000 / 60 / 60 / 24);
+            var h = Math.floor(t / 1000 / 60 / 60 % 24);
+            //var m = Math.floor(t / 1000 / 60 % 60 + h * 60);
+            var m = Math.floor(t / 1000 / 60 % 60);
+            var s = Math.floor(t / 1000 % 60);
+
+            if (h <= 0 && m <= 0 && s <= 0) {
+                h = 0; m = 0; s = 0;
+                clearInterval(timer);
+            }
+            $('#t-m').html(m == 0 ? "00" : m); $('#t-s').html(s == 0 ? "00" : s);
+            t = t - 1000;
+            $("#pricestopTime").val(t);
+        }
+        getRTime();
+        var timer = setInterval(getRTime, 1000);
+
+        //获取车易拍数据
+        function GetCYPData() {
+            var EngineNum = $("#EngineNum").val();
+            $.ajax({
+                url: "/KPSales/GetCYPData",
+                type: "POST",
+                dataType: "text",
+                async: true,
+                data: {
+                    EngineNum: EngineNum
+                },
+                success: function (data) {
+
+                    if (data != null) {
+                        var obj = eval("(" + data + ")");
+                        if (obj.length > 0) {
+                            var newprice = (parseFloat(obj[0].max_price) / 10000).toFixed(2);
+                            var maxprice = newprice;
+                            if (obj.length > 1) {
+                                obj.sort(function (a, b) { return parseFloat(b.max_price) - parseFloat(a.max_price) });
+                                maxprice = (parseFloat(obj[0].max_price) / 10000).toFixed(2);
+                            }
+                            $("#CYPNewPrice").html(newprice);
+                            $("#CYPMaxPrice").html(maxprice);
+                        } else {
+                            $("#CYPNewPrice").html("--");
+                            $("#CYPMaxPrice").html("--");
+                        }
+                    }
+                }
+
+            });
+        }
+
+
+        GetCYPData();
+
+
+    </script>
+</body>
+
+</html>

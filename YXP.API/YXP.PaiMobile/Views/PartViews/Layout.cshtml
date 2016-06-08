@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "Layout";
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>列表</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <link rel="stylesheet" href="http://img.youxinpai.com/yx_auction/css/base.css" /> 
+    <style>
+        body {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
+
+    @RenderSection("head", required: false)
+</head>
+
+<body>
+
+    @RenderSection("header", required: false)
+
+    @RenderBody()
+
+    @RenderSection("footer", required: false)
+
+</body>
+

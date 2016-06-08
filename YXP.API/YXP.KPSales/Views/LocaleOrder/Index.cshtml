@@ -1,0 +1,215 @@
+﻿@using YXP.API.Entity.TranstarAuction
+
+
+@{
+    Layout = null;
+
+}
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>现场下单</title>
+    <link rel="stylesheet" href="http://img.youxinpai.com/sales_cowry/css/aui.css">
+    <link rel="stylesheet" href="http://img.youxinpai.com/sales_cowry/css/style.css">
+    <link type="text/css" rel="stylesheet" href="http://img.youxinpai.com/sales_cowry/css/orderlist.css?v=20160516">
+    <link rel="stylesheet" href="http://img.youxinpai.com/sales_cowry/css/iscroll.css">
+
+</head>
+<body>
+    <header class="aui-bar aui-bar-nav sales-header">
+        <a class="aui-pull-left" onclick="window.location.href = '/Home/Index'">
+            <span class="iconfont icon-fanhui"></span>
+        </a>
+        <div class="aui-title">现场下单</div>
+    </header>
+    <div id="content">
+        @if (Model != null && Model.Count > 0)
+        {
+            <div class="order-item-wrap" id="scroller">
+                <div id="pullDown">
+                    <div class="pull-center">
+                        <span class="pullDownIcon"></span>
+                        <span class="pullDownLabel">下拉刷新</span>
+                    </div>
+                </div>
+
+
+                <div class="order-items-box">
+                    @foreach (var obj in Model)
+                    {
+                        if (obj.order != null)
+                        {
+                            var item = obj.order;
+                            <section class="order-item" title="@item.ID">
+
+                                <div class="order-edit-box">
+                                    <span class="title">创建时间</span>
+                                    <span class="times">@item.createtime</span>
+                                    <span class="edit-btn" ontouchend="window.location.href = '/LocaleOrder/CreateClient?ID=@(item.ID)'"><img src="http://img.youxinpai.com/sales_cowry/images/edit_icon.png"></span>
+                                </div>
+                                <div class="order-info mt20">
+                                    <p><span class="title">委托方</span><span class="content">@item.VendorShortName</span></p>
+                                    <p><span class="title">意向交易时间</span><span class="content">@item.publish_time.ToString("yyyy-MM-dd")</span></p>
+                                    <p class="num-info">
+                                        <span class=""><em class="mr20"><img src="http://img.youxinpai.com/sales_cowry/images/y_icon_gray.png"></em>优信提车 @(obj.carsendcount)台</span>
+                                        <span class="car-icon ml50"><em class="mr20"><img src="http://img.youxinpai.com/sales_cowry/images/y_truck.png" alt="" /></em>自行送车 @(obj.carselfcount)台</span>
+                                    </p>
+                                </div>
+
+                            </section>
+                        }
+                    }
+
+                </div>
+                <div id="pullUp" class="" style='display:@(Model==null||Model.Count < 5 ? "none" : "")'>
+                    <div class="pull-center pull-center-2">
+                        <span class="pullUpIcon"></span>
+                        <span class="pullUpLabel">上拉加载</span>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="order-item-wrap order-item-empty">
+                <div class="item-empty-wrap">
+                    <img src="http://img.youxinpai.com/sales_cowry/images/order_list_empty.png">
+                    <p class="mt20"> 暂无订单</p>
+                    <p> 您可通过“<em class="red">新建委托单</em>”创建您的订单！</p>
+                </div>
+            </div>
+        }
+
+
+    </div>
+
+    <div class="footer-btn-box ">
+        <button class="aui-btn aui-btn-block btn" onclick="window.location.href='/LocaleOrder/CreateClient'">新建委托单</button>
+    </div>
+    <script src="http://img.youxinpai.com/sales_cowry/js/zepto.js"></script>
+    <script src="http://img.youxinpai.com/sales_cowry/js/main.js"></script>
+    <script src="http://img.youxinpai.com/sales_cowry/js/iscroll.js"></script>
+    <script src="http://img.youxinpai.com/sales_cowry/js/yxRefresh.js"></script>
+    <!--<script src="http://img.youxinpai.com/sales_cowry/js/my.js"></script>-->
+    <script src="http://img.youxinpai.com/sales_cowry/js/dialog.js"></script>
+    <script src="http://img.youxinpai.com/sales_cowry/js/fastclick.js"></script>
+    <script>
+
+
+
+
+                $(function () {
+
+                    $(".quit").on("touchend", function () {
+                        yx.confirm("确定退出登录吗？", function () {
+                            location.href = "/Login/LogOff";
+                        }, function () {
+                            yx.tips("您取消了操作", false);
+                        });
+                    });
+
+                    var max = $(".order-items-box").find(".order-item").first().attr("title");
+                    var min = $(".order-items-box").find(".order-item").last().attr("title");
+
+                    var r = new yxr({
+                        wrapper: "#content",
+                        server: "/LocaleOrder/ListData",
+                        down: {
+                            elem: "#pullDown",
+                            data: { type: "down", pageSize: 10, max: max, min: 0 },
+                            textBox: ".pullDownLabel",
+                            success: function (data) {
+                                var html = "";
+                                var items = eval('(' + data + ')');
+                                if (items.length > 0) {
+                                    for (var i = 0; i < items.length; i++) {
+                                        if (items[i].order != null) {
+                                            html += '  <section class="order-item" title="' + items[i].order.ID + '">';
+                                            html += '  <div class="order-edit-box">';
+                                            html += '    <span class="title">创建时间</span>';
+                                            html += '    <span class="times">' + items[i].order.createtime + '</span>';
+                                            html += '    <span class="edit-btn"><a href="/LocaleOrder/CreateClient?ID=' + items[i].order.ID + '"><img src="http://img.youxinpai.com/sales_cowry/images/edit_icon.png"></a></span>';
+                                            html += '  </div>';
+                                            html += '  <div class="order-info mt20">';
+                                            html += '    <p><span class="title">委托方</span><span class="content">' + items[i].order.VendorShortName + '</span></p>';
+                                            html += '    <p><span class="title">意向交易时间</span><span class="content">' + items[i].order.publish_time + '</span></p>';
+                                            html += '    <p class="num-info">';
+                                            html += '    <span class=""><em class="mr20"><img src="http://img.youxinpai.com/sales_cowry/images/y_icon_gray.png"></em>优信提车' + items[i].carsendcount + '台</span>';
+                                            html += '    <span class="car-icon ml50"><em class="mr20"><img src="http://img.youxinpai.com/sales_cowry/images/y_truck.png" alt="" /></em>自行送车' + items[i].carselfcount + '台</span>';
+                                            html += '    </p>';
+                                            html += '  </div>';
+                                            html += '  </section>';
+                                        }
+                                    }
+                                    $(".order-items-box").html(html);
+                                    $("#pullUp").hide();
+                                    r.settings.down.data.max = $(".order-items-box").find(".order-item").first().attr("title");
+                                    r.settings.down.data.min = $(".order-items-box").find(".order-item").last().attr("title");
+
+                                }
+                                else {
+                                    html += '<div class="order-item-wrap order-item-empty">';
+                                    html += ' <div class="item-empty-wrap">';
+                                    html += ' <img src="http://img.youxinpai.com/sales_cowry/images/order_list_empty.png">';
+                                    html += ' <p class="mt20"> 暂无订单</p>';
+                                    html += ' <p> 您可通过“<em class="red">新建委托单</em>”创建您的订单！</p>';
+                                    html += ' </div>';
+                                    html += ' </div>';
+                                    $(".order-item-wrap").html(html);
+
+                                }
+
+                            }
+                        },
+                        up: {
+                            elem: "#pullUp",
+                            data: { type: "up", pageSize: 10, max: 0, min: min },
+                            textBox: ".pullUpLabel",
+                            text1: "加载更多",
+                            action: function (elem) {
+
+                            },
+                            success: function (data) {
+
+                                var html = "";
+                                var items = eval('(' + data + ')');
+
+                                if (items.length > 0) {
+                                    for (var i = 0; i < items.length; i++) {
+                                        if (items[i].order != null) {
+                                            html += '  <section class="order-item" title="' + items[i].order.ID + '">';
+                                            html += '    <div class="order-edit-box">';
+                                            html += '    <span class="title">创建时间</span>';
+                                            html += '    <span class="times">' + items[i].order.createtime + '</span>';
+                                            html += '    <span class="edit-btn" ><a href="/LocaleOrder/CreateClient?ID=' + items[i].order.ID + '"><img src="http://img.youxinpai.com/sales_cowry/images/edit_icon.png"></a></span>';
+                                            html += '  </div>';
+                                            html += '  <div class="order-info mt20">';
+                                            html += '    <p><span class="title">委托方</span><span class="content">' + items[i].order.VendorShortName + '</span></p>';
+                                            html += '    <p><span class="title">意向交易时间</span><span class="content">' + items[i].order.publish_time + '</span></p>';
+                                            html += '    <p class="num-info">';
+                                            html += '    <span class=""><em class="mr20"><img src="http://img.youxinpai.com/sales_cowry/images/y_icon_gray.png"></em>优信提车' + items[i].carsendcount + '台</span>';
+                                            html += '    <span class="car-icon ml50"><em class="mr20"><img src="http://img.youxinpai.com/sales_cowry/images/y_truck.png" alt="" /></em>自行送车' + items[i].carselfcount + '台</span>';
+                                            html += '    </p>';
+                                            html += '  </div>';
+                                            html += '  </section>';
+                                        }
+                                    }
+                                    $(".order-items-box").append(html);
+                                    r.settings.up.data.max = $(".order-items-box").find(".order-item").first().attr("title");
+                                    r.settings.up.data.min = $(".order-items-box").find(".order-item").last().attr("title");
+                                } else {
+                                    r.settings.up.text1 = "暂无更多数据";
+                                }
+
+                            }
+                        }
+                    });
+                });
+    </script>
+</body>
+</html>

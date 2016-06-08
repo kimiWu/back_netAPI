@@ -1,0 +1,255 @@
+﻿@{
+    ViewBag.Title = "列表";
+    Layout = "~/Views/PartViews/Layout.cshtml";
+}
+@section head{
+    <link rel="stylesheet" href="http://img.youxinpai.com/sales_cowry/css/iscroll.css">
+    <link rel="stylesheet" href="http://img.youxinpai.com/yx_auction/list/list.css?v=123131" />
+    @*<link href="~/css/list.css" rel="stylesheet" />*@
+    <script src="~/js/zepto.min.js"></script>
+    <script src="http://img.youxinpai.com/sales_cowry/js/iscroll.js" defer></script>
+    <script src="~/js/dialog.js" defer></script>
+    <script src="~/js/yxRefresh-2.js" defer></script>
+    <script src="~/js/common.js" defer></script>
+    <script src="~/js/fastclick.js" defer></script>
+    <script type="text/javascript" z>
+        $(function () {
+            FastClick.attach(document.body);
+        });
+    </script>
+    <style>
+        #loadingDiv {
+            text-align: center;
+            width: 50%;
+            margin: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translate(-50%,-50%);
+            -ms-transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
+        }
+    </style>
+
+}
+<header id="listHeader">
+    <img src="http://img.youxinpai.com/yx_auction/images/logo.png">
+    <a id="LogOut">退出</a>
+    <a id="aCity" class="more" href="/list/citys">全国</a>
+</header>
+
+<div id="loadingDiv">
+    数据加载中
+</div>
+
+<section id="content" style="left:999px;">
+    <div id="scroller">
+        <div id="pullDown">
+            <div class="pull-center">
+                <span class="pullDownIcon"></span>
+                <span class="pullDownLabel">下拉刷新</span>
+            </div>
+        </div>
+        <ul id="listWrap" class="list-wrap"></ul>
+        <div id="pullUp" class="">
+            <div class="pull-center pull-center-2">
+                @*<span class="pullUpIcon"></span>*@
+                <span class="pullUpLabel">加载更多</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+    var lastPublishID = 0;
+    var cityName, cityId;
+    var empty = '<li  id="sectionContent">' +
+                            '<div class="none">' +
+                                '<img src="http://img.youxinpai.com/yx_auction/images/no_img_car.png" />' +
+                                '<p>当前城市暂无车辆，去其他城市看看吧！</p>' +
+                            '</div>' +
+                       '</li>';
+    $(function () {
+
+        cityName = QueryString("cityName");
+        cityId = QueryString("cityId");
+
+        if (cityName) {
+            $("#aCity").html(decodeURI(cityName));
+        }
+        $("#aCity").click(function (e) {
+            window.location.href = "/list/Citys";
+        });
+
+        $("#LogOut").click(function () {
+            window.location.href = "/home/LogOut";
+        });
+
+        listInit(cityId);
+        $("#listWrap").on("click", ".list-li-go", function () {
+            localStorage["listId"] = $(this).data("id");
+            localStorage["lastId"] = $(".list-li-go").last().data("id");
+        });
+    });
+    function listInit(cityId) {
+        var r = new yxr({
+            server: "/list/getlist",
+            content: "content",
+            down: {
+                elem: "#pullDown",
+                data: { cityId: cityId || 0, lastPublishID: lastPublishID, currentPage: 1 },
+                status: true,
+                success: function (data) {
+                    bindData(data, true);
+                    r.settings.down.data.lastPublishID = 0;
+                    if ($("#listWrap > li").length >= 5) {
+                        r.settings.up.status = true;
+                        $(r.settings.up.elem).show();
+                    }
+                }
+            },
+            up: {
+                elem: "#pullUp",
+                status: true,
+                data: { cityId: cityId || 0, lastPublishID: lastPublishID, currentPage: 1 },
+                success: function (data) {
+                    bindData(data);
+                    r.settings.up.data.lastPublishID = lastPublishID;
+                    if (lastPublishID == -1) {
+                        $("#pullUp").hide();
+                    } else {
+                        $("#pullUp").show();
+                    }
+                }
+            }
+        });
+
+        setTimeout(function () {
+
+            var listId = localStorage["listId"] || 0;
+            var curPage = listId > 0 ? 1 : 0;
+            var lId = listId > 0 ? localStorage["lastId"] : 0;
+
+            $.get("/list/getlist", { cityId: cityId || 0, lastPublishID: lId, currentPage: 0, currentPublishID: listId }, function (result) {
+                var rs = getJson(result);
+                if (rs && rs.result === 0) {
+                    var rd = JSON.parse(rs.data);
+                    if (rd.auctionListEntity && rd.auctionListEntity.length < 5) {
+                        r.settings.up.status = false;
+                        $(r.settings.up.elem).hide();
+                    }
+                    bindData(result, true);
+                    r.settings.up.data.lastPublishID = lastPublishID;
+                } else {
+                    $("#listWrap").html(empty);
+                    r.settings.up.status = false;
+                    $(r.settings.up.elem).hide();
+                }
+                r.init();
+                setTimeout(function () {
+                    $("#content").css("left", "0px");
+                    var index = rd ? rd.pageIndex || 0 : 0;
+                    if (index > 0) {
+                        var $lis = $("#listWrap").find(".list-li-go").eq(index);
+                        if ($lis && $lis.length > 0) {
+                            var top = $lis.offset().height * index - $("#listHeader").height();
+                            r.scroll.scrollTo(0, -top);
+                        }
+                    }
+                }, 350);
+            });
+        }, 10);
+    }
+
+    function getJson(result) {
+        var rs;
+        if (result && typeof (result) == "string") {
+            rs = JSON.parse(result);
+        }
+        else {
+            rs = result;
+        }
+        return rs;
+    };
+
+
+    function bindData(result, flag) {
+        var rs = getJson(result);
+        var arr = [];
+        if (rs && rs.result == 0) {
+            var rd = JSON.parse(rs.data);
+            var data = rd.auctionListEntity || [];
+            var len = data.length;
+            if (len > 0) {
+                for (var i = 0; i < len; i++) {
+                    var item = data[i];
+                    var as = item.auctionStatus;
+                    arr.push("<li class='list-li-go' data-id='" + item.id + "'  id='list_" + item.id + "'>");
+                    arr.push("<a href=\"/detail/index?cityId=" + (cityId || '') + "&cityName=" + (cityName || '') + "&auctionId=" + item.id + "&carSourceID=" + item.carSourceID + "\">");
+                    arr.push("<div class=\"list-l\">");
+                    arr.push("  <img src=\"" + (item.imgUrl || '') + "\" />");
+                    arr.push("  <span " + (item.standardCode ? "class=\"status-1\"" : "") + ">" + (item.standardCode || '') + "</span>");
+                    arr.push("  <span class=\"status-2\">" + (item.carPlaceCity || '') + "</span>");
+                    arr.push("  <span class=\"status-3\">" + (item.parkingNum ? ("车位：" + item.parkingNum) : (item.channelType == 0 ? "" : "未到场")) + "</span>");
+                    arr.push("  </div>");
+                    arr.push("  <div class=\"list-r\">");
+                    arr.push("  <h3 class=\"aui-ellipsis-1\">" + (item.isPartner ? "[小圈子]" : "") + (item.auctionTitle || '') + "</h3>");
+                    arr.push("  <p class=\"p-1\"><span>" + (item.year || '') + "</span>年上牌<span>" + (item.kilometers || '') + "</span>万公里</p>");
+                    arr.push("  <p class=\"p-2\"><span class=\"color-red\">" + (item.pricesStart || '') + "万</span>起 &nbsp;<span class=\"color-red\">" + (item.vehicleCondition == "需看车" ? item.conditionGradeSmall : item.vehicleCondition) + "</span></p>");
+                    arr.push(" <p class=\"p-3\">");
+                    var asv = "加价结束";
+                    var acss = "1";
+                    if (as == 0) {
+                        asv = "正在报价";
+                        acss = "3";
+                    }
+                    else if (as == 1) {
+                        asv = "等待加价";
+                        acss = "2";
+                    }
+                    else {
+                        asv = "正在加价";
+                        acss = "1";
+                    }
+
+                    arr.push("<span class=\"icon-auction icon-auction-" + acss + "\">" + asv + "</span>");
+
+                    var tongdao = (item.channelName.indexOf("通道一") >= 0 ? "通道一 " : (item.channelName.indexOf("通道二") >= 0 ? "通道二 " : ""));
+
+                    if (item.channelName.indexOf("通道") != -1) {
+                        arr.push("<span class=\"color-red color-num\">" + tongdao + "</span>");
+                    }
+                    if (item.currentIndex == -1) {
+                        arr.push("<span class=\"color-sort\">待排序</span>");
+                    }
+                    else {
+                        arr.push("<span class=\"color-sort color-sort-1\">" + (item.currentIndex || '') + "/" + (item.channelCount || '') + "</span>");
+                    }
+
+                    if (item.pricesStart == 0) {
+                        arr.push("<span class=\"icon-endPrice\">" + "无底价" + "</span>");
+                    }
+                    arr.push("</p>");
+                    arr.push("</div>");
+                    arr.push("</a>");
+                    arr.push("</li>");
+                }
+                lastPublishID = rd.lastPublishID;
+            }
+        }
+        if (flag) {
+            if (arr.length === 0) {
+                return;
+            }
+            $("#listWrap").html(arr.join(""));
+        }
+        else {
+            if (arr.length === 0) {
+                return;
+            }
+            $("#listWrap").html($("#listWrap").html() + arr.join(""));
+        }
+    }
+
+
+</script>

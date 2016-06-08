@@ -1,0 +1,450 @@
+﻿@{var model = ViewBag.ReportModel;
+var m2 = ViewBag.DetailModel;
+}
+<section id="sectionCarInfo" class="box other-info">
+    <h3 class="title">车辆概要</h3>
+    <table id="tab1" class="justify">
+        <tr>
+            <td class="key"><p>基本信息</p></td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="key"><p>VIN码</p></td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="key"><p>发动机号</p></td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="key"><p>证件手续</p></td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="key"><p>违章说明</p></td>
+            <td class="value"> </td>
+        </tr>
+        <tr id="tr11">
+            <td class="key"><p>漆面说明</p></td>
+            <td class="value"> </td>
+        </tr>
+        <tr id="tr12">
+            <td class="key"><p>其它配置</p></td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="key"><p>补充说明</p></td>
+            <td class="value"> </td>
+        </tr>
+    </table>
+</section>
+
+<section id="sectionAttachInfo" class="box other-info">
+    <h3 class="title">工况及附件说明</h3>
+    <table id="tab2" class="justify tbl-line">
+        <tr>
+            <td class="key" style="width: 120px !important;">机油检查</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="key">防冻液检查</td>
+            <td class="value"></td>
+        </tr>
+
+        <tr>
+            <td class="key">刹车油检查</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="key">助力油检查</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="key">电池检查</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="key">皮带检查</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="key">启动机检查</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="key">发动机检查</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="key"><p>转向助力检查</p></td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="key"><p>排烟检查</p></td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="key"><p>运转检查</p></td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="key"><p>变速箱检查</p></td>
+            <td class="value"></td>
+        </tr>
+
+        <tr>
+            <td class="key"><p>内控电器</p></td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="key"><p>改装说明</p></td>
+            <td class="value"></td>
+        </tr>
+        <tr id="trCheYaoShi">
+            <td class="key"><p>车钥匙</p></td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="key"><p>备胎</p></td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="key"><p>工具</p></td>
+            <td class="value"></td>
+        </tr>
+
+    </table>
+</section>
+
+<section id="sectionExtraInfo" class="box other-info injury">
+    <h3 id="section1H3" class="title">其它损伤(0)</h3>
+    <p class="viewimg"><i>查看图片</i></p>
+</section>
+
+<section id="section2" class="box other-info">
+    <h3 class="title">售后服务</h3>
+    <ul id="ulCustomService" class="list-text">
+        <li>
+            <span class="key">付款说明：</span>
+            <span class="val"></span>
+        </li>
+        <li>
+            <span class="key">交付地址：</span>
+            <span class="val"></span>
+        </li>
+        <li>
+            <span class="key">过户要求：</span>
+            <span class="val"></span>
+        </li>
+        <li>
+            <span class="key">过户地点：</span>
+            <span class="val"></span>
+        </li>
+        <li>
+            <span class="key">过户办理：</span>
+            <span class="val"></span>
+        </li>
+        <li>
+            <span class="key">特别事项：</span>
+            <span class="val"></span>
+        </li>
+        <li>
+            <span class="key">车辆编号：</span>
+            <span class="val"></span>
+        </li>
+    </ul>
+</section>
+
+<section id="section3" class="tip-info">
+    <p>温馨提示：</p>
+    <p>如果您需要充值保证金，支付车款，查看您出价的车，买到的车，请点击 <span class="c-org" onclick="Javascript: window.location.href = 'http://i.youxinpai.com'">i.youxinpai.com</span>操作。</p>
+</section>
+
+
+
+<script src="~/js/json2.js"></script>
+<script src="~/js/common.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+
+        bindData();
+        
+        $("#detailHeader").click(function (e) {
+            var cityName = QueryString("cityName");
+            var cityId = QueryString("cityId");
+            window.location.href = "/list/Index?cityId=" + (cityId || '') + "&cityName=" + (cityName || '');
+        });
+
+        $("#sectionExtraInfo").click(function () {
+            if ($("#section1H3").text() != "其它损伤(0)") {
+                window.location.href = '/Detail/GetSwiper';
+            }
+        });
+
+        $.each($('mark'), function (i, mark) {
+            var _left = parseFloat($(mark).attr('left')) * 100 + '%';
+            var _top = parseFloat($(mark).attr('top')) * 100 + '%';
+            var _direction = $(mark).attr('direction');
+            $(mark).addClass(_direction).css({ left: _left, top: _top });
+        });
+        
+        $('mark').touch({
+            tap: function () {
+                $(this).parents('li').find('mark').css('z-index', 999);
+                $(this).css('z-index', 1000);
+            }
+        });
+
+    });
+    function bindData() {
+        var auctionId = QueryString("auctionId");
+        var carSourceID = QueryString("carSourceID");
+
+        $.get("/detail/GetCarDetail", { auctionId: auctionId }, function (result) {
+            var rs;
+            if (result && typeof (result) == "string") {
+                rs = JSON.parse(result);
+            }
+            else {
+                rs = result;
+            }
+            var data = JSON.parse(rs.data) || {};
+            
+            if (data.currentIndex == -1 || data.channelName == "快报") {
+                $("#lblDetailHeader").html(data.channelName);
+            }
+            else {
+                $("#lblDetailHeader").html(data.channelName + (data.currentIndex + "/" + data.channelCount));
+            }
+            //2.0报告
+            if (data.sourceFrom != 3) {
+                $("#slide2").css("display", "");
+                $("#slide").css("display", "none");
+                $("#sectionExtraInfo").css("display", "none");
+                $("#section2").css("display", "none");
+                $("#sectionAttachInfo").css("display", "none");
+                $("#sectionCarInfo").css("display", "none");
+                $.get("/detail/GetReportImage", { auctionId: auctionId, carSourceID: carSourceID }, function (result) {
+                    var rs;
+                    if (result && typeof (result) == "string") {
+                        rs = JSON.parse(result);
+                    }
+                    else {
+                        rs = result;
+                    }
+                    var data = JSON.parse(rs.data) || {};
+                    var carFiles = data.carFile;
+                    var carImageArr = [];
+                    for (var i = 0; i < carFiles.length; i++) {
+                        carImageArr.push("<li><img src=\"" + carFiles[i].fileName + "\" /></li>")
+                    }
+                    $("#ulSlide2").html(carImageArr.join(""));
+                });
+            }
+            else { // 3.0报告
+                $("#slide2").css("display", "none");
+                $("#slide").css("display", "");
+                BindReport(auctionId, carSourceID);
+                $("#sectionExtraInfo").css("display", "");
+                $("#section2").css("display", "");
+                $("#sectionAttachInfo").css("display", "");
+                $("#sectionCarInfo").css("display", "");
+
+                var txt = $("#aConditionGrade").text();
+                var tab2 = document.getElementById("tab2");
+
+                if (txt == "需看车") {
+                    $("#tr11").css("display", "none");
+                    $("#tr12").css("display", "none");
+                    for (var i = 0; i < tab2.rows.length; i++) {
+                        if (i != 14) {
+                            tab2.rows[i].style.display = "none";
+                        }
+                    }
+                }
+                else {
+                    $("#tr11").css("display", "");
+                    $("#tr12").css("display", "");
+                    for (var i = 0; i < tab2.rows.length; i++) {
+                        tab2.rows[i].style.display = "";
+                    }
+                }
+            }
+
+            var lis = $("#ulCustomService li");
+
+            lis[0].getElementsByTagName('SPAN')[1].innerHTML = data.payTypeSelect == -1 ? "成交后请按照交易规则及时支付车款和提交手续" : "请您在接到付款通知后" + data.payTypeSelect + "小时内付款";
+            lis[1].getElementsByTagName('SPAN')[1].innerHTML = data.placeAddress;
+            lis[2].getElementsByTagName('SPAN')[1].innerHTML = data.isRelocation == 1 ? "外迁过户" : (data.isRelocation == 2 ? "外迁或本市均可" : "本市过户");
+            lis[3].getElementsByTagName('SPAN')[1].innerHTML = data.transferAdr;
+            lis[4].getElementsByTagName('SPAN')[1].innerHTML = data.isAgentTransfer == 2 ? "此车需要您自行办理过户" : "此车由优信拍为您办理过户";
+            var tbsx = data.specialItems == null ? "无" : data.specialItems.join("\r\n");
+            if (tbsx.length == 0) {
+                tbsx = "无";
+            }
+            lis[5].getElementsByTagName('SPAN')[1].innerHTML = tbsx;
+            lis[6].getElementsByTagName('SPAN')[1].innerHTML = "<span>B0</span>" + data.publishID;
+        });
+    }
+
+    function BindReport(auctionId, carSourceID) {
+        $.get("/detail/GetCarReportor", { auctionId: auctionId, carSourceID: carSourceID }, function (result) {
+            var rs;
+            var data;
+            try {
+                if (result && typeof (result) == "string") {
+                    rs = JSON.parse(result);
+                }
+                else {
+                    rs = result;
+                }
+                data = JSON.parse(rs.data) || {};
+            } catch (error) {
+                console.log(error);
+                return false;
+            }
+
+            var tab1 = document.getElementById("tab1");
+            var tab2 = document.getElementById("tab2");
+            var dd = data.Detail;
+            $("#imgSlide").attr("src", data.defaultPic.FileName);
+
+            var pl1 = data.carProcedurePicsInfo.length || 0;
+            var pl2 = data.carConfigPicsInfo.length || 0;
+            var pl3 = 0;
+          
+            if (data.carConditionPicInfo) {
+                for (var i = 0; i < data.carConditionPicInfo.length; i++) {
+                    if (data.carConditionPicInfo[i].FileType == 1 || data.carConditionPicInfo[i].FileType == 2) {
+                        pl3++;
+                    }
+                }
+            }
+            $("#detailLeftSpan").html("手续(" + pl1 + ")");
+            $("#detailTopSpan").html("配置(" + pl2 + ")");
+            $("#detailRightSpan").html("车况(" + pl3 + ")");
+
+            $("#detailLeftSpan").attr("data-num", pl1);
+            $("#detailTopSpan").attr("data-num", pl2);
+            $("#detailRightSpan").attr("data-num", pl3);
+            
+            //var arrCfgPic = [];
+            //if (data.carConfigPicsInfo) {
+            //    for (var i = 0, len = data.carConfigPicsInfo.length; i < len; i++) {
+            //        arrCfgPic.push("<li>");
+            //        arrCfgPic.push("<img class=\"img\" src=\"" + data.carConfigPicsInfo[i].FileName + "\">");
+            //        arrCfgPic.push("<div class=\"info\">");
+            //        arrCfgPic.push("<p class=\"left\">" + data.carConfigPicsInfo[i].PicDes + "</p>");
+            //        arrCfgPic.push("<p class=\"right\">" + ((i + 1) + "/" + len) + "</p>");
+            //        arrCfgPic.push("</div>");
+            //        arrCfgPic.push("</li>");
+            //    }
+            //}
+           // $("#ulSlideTop").html(arrCfgPic.join(""));
+
+
+
+            //var arrProcPic = [];
+            //if (data.carProcedurePicsInfo) {
+            //    for (var i = 0, len = data.carProcedurePicsInfo.length ; i < len; i++) {
+            //        arrProcPic.push("<li>");
+            //        arrProcPic.push("<img class=\"img\" src=\"" + data.carProcedurePicsInfo[i].FileName + "\">");
+            //        arrProcPic.push("<div class=\"info\">");
+            //        arrProcPic.push("<p class=\"left\">" + data.carProcedurePicsInfo[i].PicDes + "</p>");
+            //        arrProcPic.push("<p class=\"right\">" + ((i + 1) + "/" + len) + "</p>");
+            //        arrProcPic.push("</div>");
+            //        arrProcPic.push("</li>");
+            //    }
+            //}
+           // $("#ulSlideLeft").html(arrProcPic.join(""));
+
+            //var arrConditionPic = [];
+            //if (data.carConditionPicInfo) {
+            //    for (var i = 0, len = data.carConditionPicInfo.length; i < len ; i++) {
+            //        arrProcPic.push("<li>");
+            //        arrProcPic.push("<img class=\"img\" src=\"" + (data.carConditionPicInfo[i].FileName) + "\">");
+            //        arrProcPic.push("<div class=\"info\">");
+            //        arrProcPic.push("<p class=\"left\">" + data.carConditionPicInfo[i].PicDes + "</p>");
+            //        arrProcPic.push("<p class=\"right\">" + ((i + 1) + "/" + len) + "</p>");
+            //        arrProcPic.push("</div>");
+            //        arrProcPic.push("</li>");
+            //    }
+            //}
+            // $("#ulSlideRight").html(arrConditionPic.join(""));
+           
+            //===========================================================
+          
+            var summary = data["Summary"] ? data["Summary"].join("") : "";
+           
+            if (summary.length > 0) {
+                if (summary.indexOf('租赁公司非营运') > -1) {
+                    summary = summary.replace("租赁公司非营运", "<span style='color:#F23947;'>租赁公司非营运</span>");
+                } else if (summary.indexOf('租赁') > -1) {
+                    summary = summary.replace("租赁", "<span style='color:#F23947;'>租赁</span>");
+                }
+                else if (summary.indexOf('营运') > -1) {
+                    if (summary.indexOf('非营运') > -1) { } else { summary = summary.replace("营运", "<span style='color:#F23947;'>营运</span>"); }
+                }
+                else if (summary.indexOf('营转非') > -1) {
+                    summary = summary.replace("营转非", "<span style='color:#F23947;'>营转非</span>");
+                }
+                if (summary.indexOf('公户') > -1) {
+                    summary = summary.replace("公户", "<span style='color:#F23947;'>公户</span>");
+                }
+            }
+           //===================================================================
+            tab1.rows[0].cells[1].innerHTML = summary;
+          
+            tab1.rows[1].cells[1].innerHTML = (dd["CarIdentityNumber"] || '').replace(/^\w{2}/, function (m) { return m.toLowerCase(); });
+            tab1.rows[2].cells[1].innerHTML = dd["EngineNum"] || '';
+            tab1.rows[3].cells[1].innerHTML = dd["FormalitiesSide"] || '';
+            tab1.rows[4].cells[1].innerHTML = dd["obeyRuleDes"] || '';
+            tab1.rows[5].cells[1].innerHTML = dd["PaintRepair"] || '';
+            tab1.rows[6].cells[1].innerHTML = dd["CarConfigInfo"] || '';
+            tab1.rows[7].cells[1].innerHTML = dd["ConditionsRemark"] || '';
+
+           
+            tab2.rows[0].cells[1].innerHTML = dd.EngineOilRemark || '';
+            tab2.rows[1].cells[1].innerHTML = dd.AntifreezeRemark || '';
+            tab2.rows[2].cells[1].innerHTML = dd.BrakeOil || '';
+            tab2.rows[3].cells[1].innerHTML = dd.PowerOil || '';
+            tab2.rows[4].cells[1].innerHTML = dd.BatteryCheckRemark || '';
+            tab2.rows[5].cells[1].innerHTML = dd.BeltCheckRemark || '';
+            tab2.rows[6].cells[1].innerHTML = dd.Starter || '';
+            tab2.rows[7].cells[1].innerHTML = dd.Engine || '';
+            tab2.rows[8].cells[1].innerHTML = dd.SteeringAssistRemark || '';
+            tab2.rows[9].cells[1].innerHTML = dd.SmokeCheckRemark || '';
+            tab2.rows[10].cells[1].innerHTML = dd.WorkCheckRemark || '';
+            tab2.rows[11].cells[1].innerHTML = dd.Transmission || '';
+            tab2.rows[12].cells[1].innerHTML = dd.ElectricalSystem || '';
+            tab2.rows[13].cells[1].innerHTML = dd.EfitContent || '';
+            tab2.rows[14].cells[1].innerHTML = dd.CarKeys || '';
+            tab2.rows[15].cells[1].innerHTML = dd.SpareTireState || '';
+            tab2.rows[16].cells[1].innerHTML = dd.ToolStatus || '';
+
+            if (data.carConditionPicInfo) {
+                var arr = [];
+                var carConditionPicLen = 0;
+               
+                for (var i = 0; i < data.carConditionPicInfo.length; i++) {
+                    if (data.carConditionPicInfo[i].FileType == 0) {
+                        carConditionPicLen++;
+                        arr.push(JSON.stringify(data.carConditionPicInfo[i]));
+                    }
+                }
+                $("#section1H3").html("其它损伤(" + carConditionPicLen + ")");
+                localData.set("section1H3", carConditionPicLen == 0 ? "" : arr.join(";"));
+            }
+            else {
+                localData.set("section1H3", "");
+            }
+        });
+    }
+</script>
+
+
+
+
+
+

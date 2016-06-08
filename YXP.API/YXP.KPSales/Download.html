@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="stylesheet" href="http://img.youxinpai.com/sales_cowry/css/aui.css">
+    <link rel="stylesheet" href="http://img.youxinpai.com/sales_cowry/css/download.css">
+    <title>APP下载 - 紫金红葫芦</title>
+</head>
+
+<body>
+    <div class="content">
+        <div class="logo">
+            <img src="http://img.youxinpai.com/sales_cowry/images/dlogo.png" alt="">
+            <img src="http://img.youxinpai.com/sales_cowry/images/wz.png" alt="" class="wz">
+        </div>
+        <div class="btn">
+            <button type="button" class="btn-d">  立即下载</button>
+        </div>
+    </div>
+    <div class="aui-mask" id="cen" style="display:none;">
+        <div class="tips">
+            <img src="http://img.youxinpai.com/sales_cowry/images/tips.jpg" alt="">
+        </div>
+    </div>
+    <script>
+        (function(doc, win) {
+            var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function() {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    docEl.style.fontSize = 20 * (clientWidth / 375) + 'px';
+                };
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+
+        function isWeiXin() {
+            var ua = window.navigator.userAgent.toLowerCase();
+            if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        window.addEventListener("load", function() {
+
+            if (isWeiXin()) {
+                document.querySelector("#cen").style.display = "block";
+            }
+
+            var btn = document.querySelector(".btn-d");
+            btn.addEventListener("touchstart", function() {
+                if (!btn.className.match("btn-a")) {
+                    btn.className += " btn-a";
+                }
+            }, false);
+
+            btn.addEventListener("touchend", function() {
+                setTimeout(function() {
+                    if (btn.className.match("btn-a")) {
+                        btn.className = "btn-d";
+                    }
+                }, 300); 
+                if ((/android/gi).test(navigator.appVersion)) {
+                    location.href = "http://app.youxinpai.com/YXPZJ_HHLApp/YXPZJ_HHLApp.apk"; //安卓 
+                } else {
+                    location.href = "itms-services://?action=download-manifest&url=https://app.youxinpai.com/YXPZJ_HHLApp/YXPZJ_HHL.plist";
+                }
+            }, false);
+        }, false);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,504 @@
+﻿@using YXP.API.Entity.TranstarAuction
+@using System.Linq;
+@model  xcp_order2car
+
+
+@{
+    Layout = null;
+    int id = Convert.ToInt32(ViewData["isLook"]);
+
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>录入车辆信息</title>
+    <link rel="stylesheet" href="http://img.youxinpai.com/sales_cowry/css/aui.css" type="text/css" />
+    <link type="text/css" href="http://img.youxinpai.com/sales_cowry/css/style.css?v=20160527" rel="stylesheet">
+    <link rel="stylesheet" href="http://img.youxinpai.com/sales_cowry/css/carorder.css?v=20160527" type="text/css" />
+</head>
+<body>
+    <header class="aui-bar aui-bar-nav sales-header">
+        <a class="aui-pull-left" onclick="window.location.href = '/LocaleOrder/Order_CarList?cityId=@(ViewData["cityId"])&stType=@(ViewData["stType"])'">
+            <span class="iconfont icon-fanhui"></span>
+        </a>
+
+        <div class="aui-title">
+            @if (id == 0)
+            {
+                @("录入车辆信息")
+            }
+            else
+            {
+                @("修改车辆信息")
+            }
+
+            @*@if (Model == null || Model.xo_id == 0)
+                {
+                    @("确认录入")
+                }*@
+        </div>
+    </header>
+    @{
+        DateTime date = DateTime.Now;
+        List<string>
+            dates = new List<string>
+                ();
+        dates.Add(date.ToString("yyyy-MM-dd"));
+        for (int i = 1; i < 7; i++)
+        {
+            dates.Add(date.AddDays(i).ToString("yyyy-MM-dd"));
+        }
+
+    }
+    @{
+        List<string>
+            carN = new List<string>
+                                                {
+                                               "京","津","沪","渝","冀","晋","陕","鲁","豫","辽","吉","黑","苏","浙","皖","赣","闽","鄂","湘","川","贵","云","粤","琼","甘","青","台","蒙","新","藏","桂","宁","港","澳"
+                                                };
+
+
+        string carno1 = Model != null ? Model.xcar_no.Substring(0, 1) : "";
+        string carno2 = Model != null ? Model.xcar_no.Substring(1) : "";
+
+    }
+    <ul class="form-table">
+        <li>
+            <span class="name"><em class="red mr10">*</em>车牌号码</span>
+            <p class="yx-select-control aui-pull-left w162">
+                <span class="text">@(carno1 != null && !string.IsNullOrWhiteSpace(carno1) ? carno1 : "京")</span>
+                <select name="" id="txt_CarNO_one">
+                    @foreach (var icar in carN)
+                    {
+                        <option @(carno1.Equals(icar) ? "selected" : "")>@icar</option>
+                    }
+                </select>
+                <i class="manySelection"></i>
+            </p>
+            <input type="text" class="aui-pull-left w284" id="txt_CarNO_two" value='@carno2'>
+        </li>
+        <li>
+            <span class="name"><em class="ml26"></em>VIN码</span>
+            <input type="text" placeholder="5位、6位或17位数字字母组合" id="txt_VIN" value='@(Model != null ? Model.xcar_vin : "")'>
+        </li>
+        <li>
+            <span class="name"><em class="red mr10">*</em>车辆名称</span>
+            <input type="text" id="txt_CarName" value='@(Model != null ? Model.xcar_name : "")'>
+        </li>
+        <li>
+            <span class="name"><em class="red mr10">*</em>保留价</span>
+            <input type="number" placeholder="0" id="DealerPrice" value='@(Model != null ? Model.dealer_price.ToString() : "0")'>
+            <em class="red unit">万元</em>
+        </li>
+        @{
+            var list = ViewData["ArrangeList"] as List<YXP.API.Entity.TranstarAuction.AuctionArrangeItem>;
+            var AuctionFeeRange = ViewData["AuctionFeeRange"] as YXP.API.Entity.TranstarVendorConfig;
+            decimal? CurrFee = 0;
+            int CurrFeePackage = 0;
+            var ServiceFee = ViewData["TheThreeServiceBackDefaultFeeConfiguration"] as YXP.API.Entity.TranstarVendorConfig;
+            var ServiceRadioa = ViewData["TheThreeServiceRadioChoiceConfiguration"] as YXP.API.Entity.TranstarVendorConfig;
+            if (AuctionFeeRange != null && AuctionFeeRange.ConfigValue == "1" && ServiceRadioa != null && ServiceRadioa.ConfigValue == "1")
+            {
+                if (ServiceFee != null && ServiceFee.ConfigValue.Length > 0)
+                {
+                    string[] strarr = ServiceFee.ConfigValue.Split(',');
+                    if (strarr.Length > 1)
+                    {
+                        CurrFeePackage = 3;
+                    }
+                    else
+                    {
+                        CurrFeePackage = Convert.ToInt32(strarr[0]);
+                    }
+                    foreach (var i in strarr)
+                    {
+                        CurrFee += Convert.ToInt32(list.Find(x => x.ID.ToString() == i).ArrangeFee);
+                    }
+                }
+
+            }
+            else
+            {
+                CurrFee = Model != null ? Model.fee : 0;
+                CurrFeePackage = Convert.ToInt32(Model != null ? Model.fee_package : 0);
+                <li id="fee_li">
+                    <span class="name"><em class="ml26"></em>整备费</span>
+                    @if (list != null)
+                    {
+                        foreach (var item in list)
+                        {
+                            <div class="radio-wrap"><input class="aui-checkbox feecheck" type="checkbox" @(Model != null && Model.fee_package != 0 ? Model.fee_package == 3 || Model.fee_package == item.ID ? "checked" : "" : "") style="margin-right:0px;" value="@item.ID" fee="@item.ArrangeFee" name="ra-meal"><label class="aui-radio-name">@item.ArrangeItem</label></div>
+                        }
+
+                    }
+                    <div class="radio-wrap aui-pull-right"><label class="aui-radio-name red" id="fee_label">共计@(Model != null ? Model.fee : 0)元</label></div>
+                </li>
+
+            }
+            <input type="hidden" id="fee" value="@(CurrFee)" />
+            <input type="hidden" id="fee_package" value="@(CurrFeePackage)" />
+        }
+        <li>
+            @{
+                var fields = ViewData["AuctionTransferAddress"] as IList<YXP.API.Entity.TranstarAuction.AuctionTransferAddress>;
+            }
+            <span class="name"><em class="red mr10">*</em>过户场地</span>
+            <p class="yx-select-control aui-pull-left">
+                <span class="text">@(Model != null && Model.transfer_addr != "" ? Model.transfer_addr : fields != null && fields.Count > 0 ? fields[0].AddressName : "")</span>
+                <select name="" id="txt_ChangeAddre">
+                    @if (fields != null)
+                    {
+                        bool selected = false;
+
+                        foreach (var ifiled in fields)
+                        {
+                            if (Model != null && ifiled.SysAddressID == Model.market_id)
+                            {
+                                <option value="@ifiled.SysAddressID" lang="@ifiled.BelongCityId" selected="selected">@ifiled.AddressName</option>
+                            }
+                            else if (Model == null && !selected)
+                            {
+                                selected = true;
+                                <option value="@ifiled.SysAddressID" lang="@ifiled.BelongCityId" selected="selected">@ifiled.AddressName</option>
+
+                            }
+                            else
+                            {
+                                <option value="@ifiled.SysAddressID" lang="@ifiled.BelongCityId">@ifiled.AddressName</option>
+                            }
+
+                        }
+
+                    }
+                </select>
+                <i class="manySelection"></i>
+            </p>
+        </li>
+        <li>
+            <span class="name"><em class="red mr10">*</em>过户类型</span>
+            @{
+                int passtype = Model != null ? (int)Model.transfer_type : 3;
+            }
+            <div class="radio-wrap"><input class="aui-radio" type="radio" name="ra-type" value="3" @(passtype == 3 ? "checked" : "")><label class="aui-radio-name">无要求</label></div>
+            <div class="radio-wrap"><input class="aui-radio" type="radio" name="ra-type" value="1" @(passtype == 1 ? "checked" : "")><label class="aui-radio-name">本市</label></div>
+            <div class="radio-wrap"><input class="aui-radio" type="radio" name="ra-type" value="2" @(passtype == 2 ? "checked" : "")><label class="aui-radio-name">外迁</label></div>
+        </li>
+        <li>
+            @{
+                List<string> colors = new List<string>
+                                        {
+                                        "黑","白","银","灰","红","橙","蓝","绿","黄","紫","多彩"
+                                        };
+                string currColor = Model != null && !string.IsNullOrWhiteSpace(Model.carbodycolor) ? Model.carbodycolor : "黑";
+                bool isChangeColor = (Model != null && string.IsNullOrWhiteSpace(Model.carbodyoldcolor));
+                string oldColor = Model != null ? Model.carbodyoldcolor : null;
+            }
+            <span class="name"><em class="red mr10">*</em>车身颜色</span>
+            <p class="yx-select-control aui-pull-left w162">
+                <span class="text">@(currColor != null ? currColor : "黑")</span>
+                <select name="" id="txt_CarColor">
+                    @foreach (var icolor in colors)
+                    {
+                        <option @(currColor.Equals(icolor) ? "selected" : "")>@icolor</option>
+                    }
+                </select>
+                <i class="manySelection"></i>
+            </p>
+            @*<div class="check-wrap">
+                    <input class="aui-checkbox" type="checkbox" id="cbCarColor" @(oldColor != null ? "checked" : "")>
+                    <label for="cbCarColor" class="aui-checkbox-name">颜色有变更</label>
+                </div>*@
+        </li>
+        @*<li class="car-color-hide" style="@(oldColor != null ? "display:list-item" : "display:none")">
+                <span class="name"><em class="red mr10">*</em>车身原有颜色</span>
+                <p class="yx-select-control aui-pull-left w162">
+                    <span class="text">@(oldColor != null ? oldColor : "黑")</span>
+                    <select name="" id="txt_CarOldColor">
+                        @foreach (var icolor in colors)
+                        {
+                            <option @(oldColor != null && oldColor.Equals(icolor) ? "selected" : "")>@icolor</option>
+                        }
+                    </select>
+
+                    <i class="manySelection"></i>
+                </p>
+            </li>*@
+        <li class="h180">
+            @{
+                int certificates = Model != null ? (int)Model.certificates : 1;
+            }
+            <span class="name"><em class="red mr10">*</em>证件手续</span>
+            <div class="radio-wrap"><input class="aui-radio" type="radio" name="ra-cred" @(certificates == 1 || certificates == 0 ? "checked" : "") value="1"><label class="aui-radio-name">随车转交</label></div>
+            <div class="radio-wrap"><input class="aui-radio" type="radio" name="ra-cred" @(certificates == 2 || certificates == 0 ? "checked" : "") value="2"><label class="aui-radio-name">提车后1天内提供</label></div>
+            <div class="radio-wrap ml200"><input class="aui-radio" type="radio" name="ra-cred" @(certificates == 3 || certificates == 0 ? "checked" : "") value="3"><label class="aui-radio-name">提车后2天内提供</label></div>
+        </li>
+        <li class="h130">
+            <span class=""><em class="red mr10">*</em>加装、改装、影响正常过户：</span>
+            <div class="ml200">
+                @{
+                    int revise = Model != null ? (Model.Remake != null ? (int)Model.Remake : 1) : 1;
+                }
+                <div class="radio-wrap"><input class="aui-radio" type="radio" name="ra-influence" value="1" @(revise == 1 ? "checked" : "")><label class="aui-radio-name">卖家承担</label></div>
+                <div class="radio-wrap"><input class="aui-radio" type="radio" name="ra-influence" value="2" @(revise == 2 ? "checked" : "")><label class="aui-radio-name">买家承担</label></div>
+            </div>
+        </li>
+        <li class="remark-row">
+            <span class="name remark-name"><em class="ml26"></em>备注</span>
+            <textarea class="" id="txt_Remark" placeholder="限制输入100字以内">@(Model != null ? Model.remark : "")</textarea>
+        </li>
+    </ul>
+
+    <input id="cityId" type="hidden" value='@(ViewData["cityId"])' />
+    <input id="HD_SentType" type="hidden" value='@ViewData["stType"]' />
+    <input id="HD_ID" type="hidden" value='@(Model!=null?Model.ID:0)' />
+    <input id="HD_Para" type="hidden" value='@ViewData["prar"]'>
+    <input id="HD_Carids" type="hidden" value='@ViewData["carids"]' />
+    <input id="uucode" type="hidden" value="@(Model!=null?(Model.xcp_uucode!=null?Model.xcp_uucode:""):"")" />
+    <footer class="footer-btn-box">
+        <button class="aui-btn aui-btn-block btn" id="btn_ok" ontouchend="submit()">确认录入</button>
+    </footer>
+    <script type="text/javascript" src="http://img.youxinpai.com/sales_cowry/js/zepto.js"></script>
+    <script type="text/javascript" src="http://img.youxinpai.com/sales_cowry/js/main.js?v=20160527"></script>
+    <script type="text/javascript" src="http://img.youxinpai.com/sales_cowry/js/carorder-update.js?v=20160527"></script>
+    <script src="http://img.youxinpai.com/sales_cowry/js/dialog.js"></script>
+    <script src="http://img.youxinpai.com/sales_cowry/js/fastclick.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script type="text/javascript">
+        Zepto(function ($) {
+            $(".yx-select-control select").change(function () {
+                var selectOption = $(this).find("option").not(function () { return !this.selected });
+                $(this).prev().html(selectOption.html());
+            });
+        });
+
+
+        $(function () {
+            $(".feecheck").change(function () {
+                var checklist = $("#fee_li").find(".feecheck:checked");
+                if (checklist == null || checklist.length == 0) {
+                    $("#fee_package").val(0);
+                    $("#fee").val(0);
+                    $("#fee_label").html("共计0元");
+
+                } else {
+                    if (checklist.length > 1) {
+                        $("#fee_package").val(3);
+                    } else {
+                        $("#fee_package").val($(checklist[0]).val());
+                    }
+                    var fee = 0;
+                    for (var i = 0; i < checklist.length; i++) {
+                        fee += parseInt($(checklist[i]).attr("fee"));
+                    }
+                    $("#fee").val(fee);
+                    $("#fee_label").html("共计" + fee + "元");
+                }
+            });
+        });
+
+        function AddSentCount(carid) {
+            var carids = $("#HD_Carids").val();
+            if (carids == '') {
+                carids = carid;
+            } else {
+                carids = carid + ',' + carids;
+            }
+            $("#HD_Carids").val(carids);
+
+        }
+        function submit() {
+            var IsPost = true;
+            var rpriceReg = /^(([0-9]{1,3}\.[0-9]{1,2})|(1000)|([0-9]{1,3}))$/;
+            var ppriceReg = /^[1-9][0-9]*00$/;
+            var carNoReg = /^[A-Za-z][A-Za-z0-9]{5,6}$/;
+
+            var carNoOne = $("#txt_CarNO_one").find("option:selected").text();
+            var carNoTwo = $("#txt_CarNO_two").val();
+            var XcarNo = carNoOne + carNoTwo; //车牌号
+            var XcarVin = $("#txt_VIN").val();
+            var XcarName = $("#txt_CarName").val();
+            var DealerPrice = $("#DealerPrice").val(); //委托保留价
+            //var TotalPrice = $("#txt_TotalPrice").val(); //总保留价
+            var TransferID = $("#txt_ChangeAddre").val();
+            var TransferAddr = $("#txt_ChangeAddre").find(" option:selected").text();
+            var TransferType = $("input[name='passtype']:checked").val();
+            var txt_ChangeAddre = $("#txt_ChangeAddre option:selected").text();
+            var Carbodycolor = $("#txt_CarColor").find("option:selected").text();
+            //var Carbodyoldcolor = null;
+            //if ($(".car-color-hide").css("display") != "none") {
+            //    Carbodyoldcolor = $("#txt_CarOldColor").find("option:selected").text();
+            //}
+            //var isChage = $("#ck_ColorChange").prop("checked");
+            //if (isChage) {
+            //    Carbodyoldcolor = $("#txt_CarOldColor").val();
+            //}
+            var Peccancyresponsible = '';//$("input[name='ra-influence']:checked").val();//违章归宿1卖家 2买家
+            //var PeccancyresponsibleDay = $("#txt_peccancyKey").val();
+            //if (Peccancyresponsible == 1) {
+            //    if (PeccancyresponsibleDay == '' || parseInt(PeccancyresponsibleDay) < 0) {
+            //        AlertMsgNotCancel("请填写几日内处理完毕");
+            //        IsPost = false;
+            //        return;
+            //    }
+            //}
+            var certificates = $("input[name='ra-cred']:checked").val();//证件手续
+            var transfer_type = $("input[name='ra-type']:checked").val();//过户类型
+            var Remake = $("input[name='ra-influence']:checked").val();//加装改造承担方
+            var Remark = $("#txt_Remark").val();
+            var uucode = $("#uucode").val();
+            var sendType = $("#HD_SentType").val();
+            var ID = $("#HD_ID").val();
+
+            var fee = $("#fee").val();
+            var fee_package = $("#fee_package").val();
+
+            var Message = "";
+            var bool = false;
+            if (!carNoReg.test(carNoTwo)) {
+                Message = "车牌号码错误,请重新设置车牌号码！（车牌号必须大写）";
+                yx.tips(Message, bool, 2000);
+                IsPost = false;
+                return;
+            }
+            if (XcarVin != '' && (!/^[A-Za-z0-9]{5,6}$/.test(XcarVin) && !/^[A-Za-z0-9]{17}$/.test(XcarVin))) {
+                Message = "VIN码错误,请重新设置VIN码！";
+                yx.tips(Message, bool, 2000);
+                IsPost = false;
+                return;
+            }
+            if (XcarName.trim() == '') {
+                Message = "请输入车辆名称！";
+                yx.tips(Message, bool, 2000);
+                IsPost = false;
+                return;
+            }
+
+            if (!rpriceReg.test(DealerPrice)) {
+                Message = "保留价的设置最多为3位整数2位小数 例如：123.12万元。";
+                yx.tips(Message, bool, 2000);
+                IsPost = false;
+                return;
+            }
+            if(Remark.length>100)
+            {
+                Message = "备注请勿输入超过100字！";
+                yx.tips(Message, bool, 2000);
+                IsPost = false;
+                return;
+            }
+
+            //if (!rpriceReg.test(TotalPrice)) {
+            //    Message = "总保留价的设置最多为3位整数2位小数 例如：123.12万元。";
+            //    yx.tips(Message, bool, 2000);
+            //    IsPost = false;
+            //    return;
+            //}
+            //总保留价不能小于委托保留价
+            //if (parseFloat(TotalPrice) < parseFloat(DealerPrice)) {
+            //    Message = "总保留价不能小于委托保留价。";
+            //    yx.tips(Message, bool, 2000);
+            //    IsPost = false;
+            //    return;
+            //}
+            var stype = getUrlParam("stType");
+            var model = {
+                ID: ID,
+                //xo2cid: 0,
+                //xo_id: 0,//订单ID
+                //xcp_uuid: newGuid(),//唯一ID
+                xcp_uucode: uucode,//"12346874334",//条形码
+                //bigarea_id: 1,//经销商所属大区ID
+                market_id: TransferID,//场地id
+                //hy_carid: 1,//火眼车ID
+                //xcar_id: 1,//现场拍车辆ID',
+                xcar_name: XcarName,//车辆名称',
+                xcar_no: XcarNo,//车牌号',
+                xcar_vin: XcarVin,//车VIN码',
+                receive_type: sendType,//提车方式[1自送2代送]',
+                //return_status: 0,//退车状态[0未发起1退中2退完]',
+                dealer_price: DealerPrice,//商家保留价',
+                //total_Price: TotalPrice,   //总保留价
+                //ProxyFee: ProxyFee,//代理拍卖服务费（单位元）
+                //purchase_price: 0,//收购价(元)',
+                //price: 0,//车辆最终成交价',
+                fee: fee,//整备费',
+                fee_package: fee_package,//整备费套餐[1A2B3AB]',
+                //ischange_fee: 0,//整备费套餐是否可修改[0否1是]',
+                //isbargain: 0,//是否议价[-1否1是]',
+                transfer_type: transfer_type,//过户类型[1本户2外地3无要求]',
+                transfer_addr: TransferAddr,//过户地点
+                status: -1,//-2卖家无车-1未分派1已分派提车员2外检完成3已复核4已分配检测师5查客检测完成',
+
+                //scene_time: SceneTime,//参拍场次时间',
+                //predict_dealer_time: "2015-5-8 12:12:12",//预计到达卖家时间',
+
+                //predict_market_time: PredictMarketTime,//预计到达场地时间',
+
+                //first_tid: 1,//分配外测接待员ID',
+                //first_time: "2015-5-8 12:12:12",//外测人员检测时间',
+                //first_pic: "",//外检办理人签字',
+                //first_d_pic: "",//外测委托方签字',
+                //recheck_tid: 1,//复检人员ID',
+                //recheck_time: "2015-5-8 12:12:12",//复检时间',
+                //assign_tester_id: 1,//分配检测同步ID(分配人ID)',
+                //assign_tester_time: 1,//分配检测同步ID(分配人分配时间)',
+                //tester_id: 1,//检测组长分配检查人员ID',
+                //test_time: "2015-5-8 12:12:12",//'检测完成时间',
+                //test_stime: "",//查客开始检测时间',
+                receive_type: stype,//检测中（查客）1未检测2检测中',
+                //master_id: 1,//分派人(提车主管)id',
+                //master_time: "",//分派人(提车主管分配时间)',
+                //updatetime: "",//最后更新时间',
+                //finance_status: 1,//金融服务状态[-1未设置1已设置]',
+                //finance_amount: 1,//金融服务金额',
+                //finance_updatetime: "",//放款时间',
+                //xcar_fullname: "",//车辆完整名称',
+                //parkingnumber: "",//车位号',
+                //ismajorcity: 1,//是否主城[1主城2非主城目前杭州车辆有该选项]',
+                //in_time: "",//进场时间',
+                //in_status: 1,//车辆在场状态（1.在场，2.出场修车，3.出场办理过户，4.出场其他事宜）',
+                //driverid: 1,//代驾公司id',
+                carbodycolor: Carbodycolor,//车身颜色
+                //carbodyoldcolor: Carbodyoldcolor,//车身原有颜色
+                peccancyresponsible: Peccancyresponsible,//违章承担方（0无违章1卖家承担2买家承担）
+                //peccancyresponsibleDay: PeccancyresponsibleDay,
+                certificates: certificates,//证件手续
+                //LoseProcedures: 2,//手续丢失责任（0无1卖家承担2买家承担）
+                Remake: Remake,//加装改造承担方（0无1卖家承担2买家承担）
+                remark: Remark//备注
+                //代理费=总保留价-委托保留价
+                //  ProxyFee = (parseFloat(TotalPrice) - parseFloat(DealerPrice)) * 10000;
+            }
+            $.post("Order_Add_Car", model, function (data) {
+                if (data.Code == 1) {
+
+                    window.location.href = "Order_CarList?cityId=" + $("#cityId").val() + "&stType=" + model.receive_type;
+                } else {
+                    yx.tips(data.Msg, false, 2000);
+                    // AlertMsgNotCancel(data.Msg);
+                }
+            });
+        }
+        function getUrlParam(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+
+        }
+        function newGuid() {
+            var guid = "";
+            for (var i = 1; i <= 32; i++) {
+                var n = Math.floor(Math.random() * 16.0).toString(16);
+                guid += n;
+                if ((i == 8) || (i == 12) || (i == 16) || (i == 20))
+                    guid += "-";
+            }
+            return guid;
+        }
+    </script>
+</body>
+</html>

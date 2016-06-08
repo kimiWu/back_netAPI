@@ -1,0 +1,89 @@
+﻿@if (Model != null && Model.Count > 0)
+{
+    foreach (var item in Model)
+    {
+        <a href="/KPSales/Detail/@(item.publishId)?state=@(ViewBag.state)" target="_self" title="@(item.publishId)" class="aaa">
+            <li class="aui-list-view-cell aui-img">
+                <div class="my-list-img-box aui-pull-left">
+                    <img src="http://img1.youxinpai.com/Upload/UppUpload/@(item.leftFront45)">
+                    <div class="my-list-img-text">
+                        @(item.licenseNumber)
+                    </div>
+                </div>
+                <div class="aui-img-body">
+                    <div class="list-title">[@(item.cityName)]@(item.brandname + " " + item.seriesName + " " + item.modelName)</div>
+                    <div class="list-p-2">@(item.vendorFullName)</div>
+                    <div class="list-p-3">
+                        <div class=" aui-pull-left">编号：@(item.publishSerial)</div>
+                        @if (ViewBag.state == 1 || ViewBag.state == 2)
+                        {
+                            var b = 1;
+                            var stopTime = item.stopTime;
+                            if (ViewBag.state == 2)
+                            {
+                                stopTime = item.priceStopTime;
+                            }
+                            var minutes = ""; var seconds = "";
+                            if (!string.IsNullOrEmpty(stopTime))
+                            {
+                                if (ViewBag.state == 2)
+                                {
+                                    var timeStr = YXP.API.Utility.Common.GetTimeStr(DateTime.Parse(stopTime), DateTime.Now);
+                                    minutes = timeStr.Split(':')[0];
+                                    seconds = timeStr.Split(':')[1];
+                                }
+                                else
+                                {
+                                    var timeStr = YXP.API.Utility.Common.GetTimeStr(DateTime.Parse(stopTime).AddHours(-1), DateTime.Now);
+                                    minutes = timeStr.Split(':')[0];
+                                    seconds = timeStr.Split(':')[1];
+                                    if (minutes == "00" && seconds == "00")
+                                    {
+                                        b = 0;
+                                        var _timeStr = YXP.API.Utility.Common.GetTimeStr(DateTime.Parse(stopTime), DateTime.Now);
+                                        minutes = _timeStr.Split(':')[0];
+                                        seconds = _timeStr.Split(':')[1];
+                                    }
+                                }
+                            }
+                            <div class="timer-span  aui-pull-right">
+                                @if (b == 0)
+                                {
+                                    <span class="timer">已停止报价</span>
+                                }
+                                else
+                                {
+                                    <span class="timer iconfont icon-shijian"></span>
+                                    if (minutes == "00" && seconds == "00")
+                                    {
+                                        <span class="timer ">00</span>
+                                        <span class="timer text">分</span>
+                                        <span class="timer ">00</span>
+                                        <span class="timer text">秒</span>
+
+                                    }
+                                    else
+                                    {
+                                        <span class="timer minute">@(minutes)</span>
+                                        <span class="timer text">分</span>
+                                        <span class="timer second">@(seconds)</span>
+                                        <span class="timer text">秒</span>
+                                    }
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </li>
+        </a>
+    }
+}
+else
+{
+    <div class="img-tag">
+        <span class="iconfont icon-gouwuche"></span>
+        <span class="img-title">
+            当前暂无拍品
+        </span>
+    </div>
+}

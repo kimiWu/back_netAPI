@@ -1,0 +1,294 @@
+﻿@using YXP.PaiMobile.Models;
+@{
+    var model = ViewBag.DetailModel;
+}
+
+<section class="box biding">
+    <div class="bid-status">
+        <a href="" class="s-1 bg-org">正在加价</a>
+
+        @if (StrUntils.ConvertToDecimal(model.TenderHighPrice) < StrUntils.ConvertToDecimal(model.HighPrice) && StrUntils.ConvertToDecimal(model.HighPrice) > StrUntils.ConvertToDecimal(model.StartPrice))
+        {
+            <a href="" class="s-2 bg-yel">已过报价最高价</a>
+        }
+        else {
+            <a href="" class="s-2 bg-yel" style="display:none">已过报价最高价</a>
+        }
+        @*@if (StrUntils.ConvertToDecimal(model.TenderHighPrice) != 0 || StrUntils.ConvertToDecimal(model.MyTenderPrice) != 0)
+            {
+                if (StrUntils.ConvertToDecimal(model.HighPrice) > StrUntils.ConvertToDecimal(model.TenderHighPrice))
+                {
+                    <a href="" class="s-2 bg-yel">已过报价最高价</a>
+                }
+                else
+                {
+                    <a href="" class="s-2 bg-yel" style="display:none">已过报价最高价</a>
+                }
+            }
+            else
+            {
+                <a href="" class="s-2 bg-yel" style="display:none">已过报价最高价</a>
+            }*@
+        @if (StrUntils.ConvertToDecimal(model.ResPrice) <= StrUntils.ConvertToDecimal(model.HighPrice) && StrUntils.ConvertToDecimal(model.HighPrice) > StrUntils.ConvertToDecimal(model.StartPrice))
+        {
+            <input type="hidden" id="isOverRePrice" value="1" />
+            <a href="" class="s-3 bg-gre">已过保留价</a>
+        }
+        else
+        {
+            <input type="hidden" id="isOverRePrice" value="0" />
+            <a href="" class="s-3 bg-gre" style="display:none">已过保留价</a>
+        }
+
+
+    </div>
+    <!--此处三种状态-->
+    <!--判断是否是最高价-->
+    <!--此处三种状态-->
+    @if (StrUntils.ConvertToDecimal(model.HighPrice) <= StrUntils.ConvertToDecimal(model.StartPrice) && ViewBag.State == 3)
+    {
+        if (model.IsNoReserve != "1")
+        {
+            <div class="tips-info stashow" id="pFrom">从起步价 <span class="c-red">@(model.StartPrice)万</span> 开始加价！</div>
+        }
+        else if (StrUntils.ConvertToDecimal(model.TenderHighPrice) > 0)
+        {
+            <div class="tips-info stashow">从<span class="c-red">报价最高价 @(model.TenderHighPrice)</span> 万开始加价！</div>
+        }
+        else
+        {
+            <div class="tips-info stashow" id="pFrom">从起步价 <span class="c-red">0万</span> 开始加价！</div>
+        }
+    }
+    else if (model.IsNoReserve == "1")
+    {
+        if (StrUntils.ConvertToDecimal(model.HighPrice) <= StrUntils.ConvertToDecimal(model.TenderHighPrice))
+        {
+            <div class="tips-info stashow">从<span class="c-red">报价最高价 @(model.TenderHighPrice)</span> 万开始加价！</div>
+        }
+    }
+    else
+    {
+        <div class="tips-info stashow" id="pFrom"></div>
+    }
+    @if (StrUntils.ConvertToDecimal(model.HighPrice) <= StrUntils.ConvertToDecimal(model.TenderHighPrice))
+    {
+        //
+        if (StrUntils.ConvertToDecimal(model.MyTenderPrice) >= StrUntils.ConvertToDecimal(model.TenderHighPrice))
+        {
+            <div class="tips-info highshow" id="y_high"><span class="ico-hign c-red">您是当前最高价！</span></div>
+        }
+        else
+        {
+            <div class="tips-info highshow" style="display:none" id="y_high"><span class="ico-hign c-red">您是当前最高价！</span></div>
+        }
+    }
+    else if (StrUntils.ConvertToDecimal(model.HighPrice) <= StrUntils.ConvertToDecimal(model.StartPrice) && StrUntils.ConvertToDecimal(model.TenderHighPrice) == 0)
+    {
+        <div class="tips-info highshow" style="display:none" id="y_high"><span class="ico-hign c-red">您是当前最高价！</span></div>
+    }
+    else
+    {
+        if (StrUntils.ConvertToDecimal(model.MyPrice) >= StrUntils.ConvertToDecimal(model.HighPrice))
+        {
+            <div class="tips-info highshow" id="y_high"><span class="ico-hign c-red">您是当前最高价！</span></div>
+        }
+        else
+        {
+            <div class="tips-info highshow" style="display:none" id="y_high"><span class="ico-hign c-red">您是当前最高价！</span></div>
+        }
+    }
+    <div class="tips-info2 c-green " style=" display:none">出价成功</div>
+    <div class="bid-pri-lef">
+        <div class="pri-p1">
+            <span class="p1-n1">当前价</span>
+            @if (model.IsNoReserve == "1")
+            {
+                if (StrUntils.ConvertToDecimal(model.HighPrice) > 0)
+                {
+                    <span class="p1-n2 c-org" id="currentPrice">@(StrUntils.ConvertToDecimal(model.HighPrice))</span>
+                }
+                else
+                {
+                    <span class="p1-n2 c-org" id="currentPrice">@(StrUntils.ConvertToDecimal(model.TenderHighPrice))</span>
+                }
+            }
+            else
+            {
+                if (StrUntils.ConvertToDecimal(model.HighPrice) > 0)
+                {
+                    <span class="p1-n2 c-org" id="currentPrice">@(StrUntils.ConvertToDecimal(model.HighPrice))</span>
+                }
+                else if (model.MyTenderPrice == "0")
+                {
+                    <span class="p1-n2 c-org" id="currentPrice">@(StrUntils.ConvertToDecimal(model.StartPrice) + 0.01M)</span>
+                }
+                else
+                {
+                    <span class="p1-n2 c-org" id="currentPrice">@(StrUntils.ConvertToDecimal(model.MyTenderPrice))</span>
+                }
+            }
+            <span class="p1-n3">万</span>
+        </div>
+        <div class="pri-p2">
+            <span class="p1-n1">交易费</span>
+            <span class="p1-n2" id="jyPrice">+@((StrUntils.ConvertToDecimal(model.BuyerTradeFee) / 10000).ToString("f2"))</span>
+            <span class="p1-n3">万</span>
+        </div>
+        <div class="pri-p2">
+            <span class="p1-n1">交付费</span>
+            <span class="p1-n2" id="jfPrice">+@((StrUntils.ConvertToDecimal(model.BuyerAgentFee) / 10000).ToString("f2"))</span>
+            <span class="p1-n3">万</span>
+        </div>
+        <div class="pri-p3 pa">
+            <span class="p1-n1">合手价</span>
+            <span class="p1-n2 c-org" id="hsPrice">@(model.BuyerTotalFee)</span>
+            <span class="p1-n3">万</span>
+        </div>
+    </div>
+    <div class="bid-pri-cen">
+        <div class="left-time">
+            <span class="timer" id="timer">@(model.WithStopTime)</span> 秒
+        </div>
+        <div class="circle" id="bidConfirm">+ <span>500</span></div>
+    </div>
+    <div class="bid-pri-rit">
+        <input type="hidden" id="isCanUse200" value="@(model.CanUse200)" />
+        <a class="btn-price @(model.CanUse200 == 1 ? "normal" : "disable")"> 200</a>
+        <a class="btn-price normal active">500</a>
+        <a class="btn-price normal">1000</a>
+        <a class="btn-price normal">2000</a>
+        <a class="btn-price normal">5000</a>
+    </div>
+</section>
+
+
+
+<script type="text/javascript">
+    var timerInterval;
+    var endInterval;
+    var isPostBack = false;
+    $(function () {
+
+        //var oldTime = +$("#timer").text();
+        function goTimer() {
+            var t, x;
+            if (timerInterval == undefined) {
+                timerInterval = setInterval(function () {
+                    x = t = parseInt($("#timer").text());
+                    //if (t > 10) {
+                    //    t = oldTime;
+                    //}
+                    if (t <= -5) {
+                        clearInterval(timerInterval);
+                    } else {
+                        t -= 1;
+                        //oldTime -= 1;
+                        if (t <= 0) {
+                            GetEndStatus();
+                            $("#timer").text(0);
+                        } else {
+                            if (x == parseInt($("#timer").text())) {
+                                if (t < parseInt($("#timer").text())) {
+                                    $("#timer").text(t);
+                                }
+                            }
+                        }
+                    }
+                }, 1000);
+            }
+        }
+        goTimer();
+        //
+        if ($("#hidShowState").val() != '') {
+            $(".stashow").html($("#hidShowState").val());
+            $(".stashow").show();
+
+            if ($("#_myTenderPrice").val() != '' && parseFloat($("#_myTenderPrice").val()) > 0) {
+                $("#spb_price").html("<span>您的报价<span class=\"c-org\">" + $("#_myTenderPrice").val() + "万</span></span>");
+            } else {
+                $("#spb_price").html("<span>您暂无报价</span>");
+            }
+
+        }
+        if ($(".stashow").length > 0 && $(".stashow").html() != '') {
+            $(".highshow").hide();
+        }
+        //alert($("#hidShowState").val())
+        //点击加价
+        $("#bidConfirm").click(function () {
+            var auctionId = $("#auctionId").val();
+            var currentPrice = $("#currentPrice").html();
+            var currTvaId = $("#currTvaId").val();
+            var isOverRePrice = $("#isOverRePrice").val();
+            var ishight = $("#ishight").val();
+            var pd = $("#bidConfirm span").html();
+            var _myPrice = $("#_myPrice").val();
+
+            if (currTvaId == finalTvaId || parseFloat(_myPrice) >= parseFloat(currentPrice)) {
+
+
+                if (parseFloat(currentPrice) > parseFloat($("#highTenderPrice").val()) && isOverRePrice == 1) {
+                    $("#y_high").show();
+
+                    yx.tips("您已是当前最高价", true, dialogTime);
+                    return;
+                }
+                //else if (ishight == "1" && isOverRePrice == 1) {
+                //    $("#y_high").show();
+
+                //    yx.tips("您已是当前最高价。", true, dialogTime);
+                //    return;
+                //}
+
+            }
+            //var islock = false;
+            //if (!islock) {
+            //islock = true;
+            $.ajax({
+                url: "/Detail/BidPrice",
+                type: "post",
+                dataType: "json",
+                data: { auctionId: auctionId, pd: pd, currentPrice: currentPrice },
+                success: function (data) {
+                    //islock = false;
+                    var obj = JSON.parse(data);
+                    if (obj.result == 0) {
+                        var item = JSON.parse(obj.data);
+                        if (item.result == 0) {   //加价成功
+                            var o = item.data;
+                            $("#_myPrice").val(o.currPrice);
+                            $("#pFrom").hide();
+                            bidTip("出价成功");
+                            $("#beep").get(0).play();
+                        }
+                        else if (item.result == -6) {
+
+                            yx.tips("已被抢出", true, dialogTime);
+                        }
+                        else if (item.result == -4) {
+
+                            yx.tips("保证金余额不足", true, dialogTime);
+                        }
+                    } else {
+
+                        yx.tips("请求失败", true, dialogTime);
+                    }
+                },
+                error: function () {
+                    //islock = false;
+                    window.location.reload();
+                    //yx.tips("网络异常", true, dialogTime);
+                }
+
+            })
+        })
+        $('.btn-price.normal').click(function () {
+            $('.btn-price').removeClass('active');
+            $(this).addClass('active')
+            $("#bidConfirm span").html($(this).html());
+        });
+
+    })
+
+</script>

@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C425CD54-0AD1-4E0A-B506-8EA79F1F492A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>YXP.API.DataAccess</RootNamespace>
+    <AssemblyName>YXP.API.DataAccess</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MySql.Data, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.9.8\lib\net45\MySql.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Entity.Design" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AutosCar\CarAdminOfficeDAL.cs" />
+    <Compile Include="AutosCar\CarEmissionInfoDAL.cs" />
+    <Compile Include="AutosCar\CityEmissionStanderDAL.cs" />
+    <Compile Include="AutosCar\tab_ChangeHistoryDAL.cs" />
+    <Compile Include="AutosCar\tab_ComparetionCarIDDAL.cs" />
+    <Compile Include="AutosCar\tab_ControlDAL.cs" />
+    <Compile Include="AutosCar\tab_sCarDetailDAL.cs" />
+    <Compile Include="AutosCar\tab_sCarMakeDAL.cs" />
+    <Compile Include="AutosCar\tab_sCarModelDAL.cs" />
+    <Compile Include="AutosCar\tab_sCarTrimDAL.cs" />
+    <Compile Include="AutosCar\tab_sConfigDAL.cs" />
+    <Compile Include="AutosCar\tab_sConfigIautosDAL.cs" />
+    <Compile Include="AutosCar\tab_sConfigItemsDAL.cs" />
+    <Compile Include="AutosCar\tab_sConfigModelDAL.cs" />
+    <Compile Include="AutosCar\tab_serialDAL.cs" />
+    <Compile Include="AutosCar\tab_sNewCarPriceDAL.cs" />
+    <Compile Include="Bank\BankDal.cs" />
+    <Compile Include="Common\DBMapper.cs" />
+    <Compile Include="OPFramework\AreaUserRoleMapDAL.cs" />
+    <Compile Include="OPFramework\AuthorityResourceDAL.cs" />
+    <Compile Include="OPFramework\DepartmentDAL.cs" />
+    <Compile Include="StandardSale\ReadCarSourceLogDAL.cs" />
+    <Compile Include="StandardSale\V_ExchangeNoSubmitInfoList_Infiniti_ToCSDAL.cs" />
+    <Compile Include="TranstarAuction\AuctionArrangeItemDAL.cs" />
+    <Compile Include="TranstarAuction\AuctionTransferAddressDAL.cs" />
+    <Compile Include="TranstarAuction\ChaKeCarSyncToYxpLogDAL.cs" />
+    <Compile Include="TranstarAuction\InvestPublishHisDAL.cs" />
+    <Compile Include="TranstarAuction\marketDAL.cs" />
+    <Compile Include="TranstarAuction\ProvinceDAL.cs" />
+    <Compile Include="TranstarAuction\CityDAL.cs" />
+    <Compile Include="TranstarAuction\KPSales\KPSalesDal.cs" />
+    <Compile Include="TranstarAuction\ADS_LogDAL.cs" />
+    <Compile Include="TranstarAuction\ADS_OrderDAL.cs" />
+    <Compile Include="TranstarAuction\AuctionApolloOrderDAL.cs" />
+    <Compile Include="TranstarAuction\AuctionCarSourceDetectDAL.cs" />
+    <Compile Include="TranstarAuction\AuctionGuaranteeFundDAL.cs" />
+    <Compile Include="TranstarAuction\AuctionLoginLogDAL.cs" />
+    <Compile Include="TranstarAuction\AuctionPublishDAL.cs" />
+    <Compile Include="Log\CFRoleDAL.cs" />
+    <Compile Include="Log\LogRecordsDAL.cs" />
+    <Compile Include="Common\ConfigHelper.cs" />
+    <Compile Include="Common\ConnEnum.cs" />
+    <Compile Include="Common\BaseDAL.cs" />
+    <Compile Include="Common\IBaseDAL.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Log\OrdersDAL.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TranstarAuction\AuctionAppSettingDAL.cs" />
+    <Compile Include="TranstarAuction\MobileSessionCacheDAL.cs" />
+    <Compile Include="TranstarAuction\SalesTXFundDAL.cs" />
+    <Compile Include="TranstarAuction\TradeManageDal.cs" />
+    <Compile Include="TranstarAuction\TranstarAuctionCarSourceDAL.cs" />
+    <Compile Include="TranstarAuction\TranstarAuctionCarSourcePicDAL.cs" />
+    <Compile Include="TranstarAuction\TranstarVendorAccountDAL.cs" />
+    <Compile Include="TranstarAuction\TranstarVendorConfigDAL.cs" />
+    <Compile Include="TranstarAuction\TranstarVendorUserDAL.cs" />
+    <Compile Include="TranstarAuction\VendorService.cs" />
+    <Compile Include="TranstarAuction\xcp_order2carDAL.cs" />
+    <Compile Include="TranstarAuction\xcp_orderDAL.cs" />
+    <Compile Include="TranstarAuction\xcp_return_carDAL.cs" />
+    <Compile Include="Ucar\ActiveAreaDAL.cs" />
+    <Compile Include="Ucar\AspNet_SqlCacheTablesForChangeNotificationDAL.cs" />
+    <Compile Include="Ucar\BigAreaDAL.cs" />
+    <Compile Include="Ucar\Car_BasicDAL.cs" />
+    <Compile Include="Ucar\Car_BrandDAL.cs" />
+    <Compile Include="Ucar\Car_MasterBrandDAL.cs" />
+    <Compile Include="Ucar\Car_ProducerDAL.cs" />
+    <Compile Include="Ucar\Car_SerialDAL.cs" />
+    <Compile Include="Ucar\Car_XMLDAL.cs" />
+    <Compile Include="Ucar\CityAreaDAL.cs" />
+    <Compile Include="Ucar\CityDAL.cs" />
+    <Compile Include="Ucar\MSpeer_lsnsDAL.cs" />
+    <Compile Include="Ucar\MSpeer_originatorid_historyDAL.cs" />
+    <Compile Include="Ucar\Mult_CarDAL.cs" />
+    <Compile Include="Ucar\ProvinceDAL.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DapperExtensions\DapperExtensions.csproj">
+      <Project>{4c1a2c6c-a469-4c87-98d1-f1d517fa1acf}</Project>
+      <Name>DapperExtensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YXP.API.Entity\YXP.API.Entity.csproj">
+      <Project>{5196ca60-5390-4844-9264-7a94497d7c88}</Project>
+      <Name>YXP.API.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YXP.API.Utility\YXP.API.Utility.csproj">
+      <Project>{9b7409f0-3648-4083-b320-46b84a2a2404}</Project>
+      <Name>YXP.API.Utility</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。启用“NuGet 程序包还原”可下载这些程序包。有关详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

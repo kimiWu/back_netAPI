@@ -1,0 +1,8 @@
+E:\项目\Dev.Dept\YXP.API\YXP.API\DapperExtensions\bin\Debug\DapperExtensions.dll
+E:\项目\Dev.Dept\YXP.API\YXP.API\DapperExtensions\bin\Debug\DapperExtensions.pdb
+E:\项目\Dev.Dept\YXP.API\YXP.API\DapperExtensions\bin\Debug\Dapper.dll
+E:\项目\Dev.Dept\YXP.API\YXP.API\DapperExtensions\bin\Debug\Dapper.pdb
+E:\项目\Dev.Dept\YXP.API\YXP.API\DapperExtensions\bin\Debug\Dapper.xml
+E:\项目\Dev.Dept\YXP.API\YXP.API\DapperExtensions\obj\Debug\DapperExtensions.csprojResolveAssemblyReference.cache
+E:\项目\Dev.Dept\YXP.API\YXP.API\DapperExtensions\obj\Debug\DapperExtensions.dll
+E:\项目\Dev.Dept\YXP.API\YXP.API\DapperExtensions\obj\Debug\DapperExtensions.pdb

@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>登录</title>
+    <link rel="stylesheet" href="http://img.youxinpai.com/sales_cowry/css/aui.css">
+    <link rel="stylesheet" href="http://img.youxinpai.com/sales_cowry/css/style.css?v=2016053101">
+    <link rel="stylesheet" href="http://img.youxinpai.com/sales_cowry/css/login1.css?v=2016053101" type="text/css" />
+    <!--  <link rel="stylesheet" href="css/login1.css" type="text/css"/>-->
+</head>
+<body>
+    <div class="login-box">
+        <div class="login-logo">
+            <img src="http://img.youxinpai.com/sales_cowry/images/logo1.png" alt="">
+        </div>
+        <div class="login-form">
+            <form action="">
+                <ul class="input-wrap">
+                    <li>
+                        <span class="tag pre"><img src="http://img.youxinpai.com/sales_cowry/images/user_icon.png"></span>
+                        <input id="loginName" type="text" class="" placeholder="请输入用户名" />
+                        <span class="aui-iconfont aui-icon-roundclose tag after"></span>
+                    </li>
+                    <li>
+                        <span class=" tag pre"><img src="http://img.youxinpai.com/sales_cowry/images/pwd_icon.png"></span>
+                        <input  id="loginPwd" type="password" class="" placeholder="请输入密码">
+                        <span class="icon-eye tag after"></span>
+                    </li>
+                </ul>
+                <div class="error-row">
+                    @**账户名或者密码错误，请重新输入*@
+                </div>
+                <div class="remember-pwd">
+                    <input class="aui-checkbox" id="cb_pwd" type="checkbox">
+                    <label class="aui-checkbox-name remember-con" for="cb_pwd">记住密码</label>
+                </div>
+                <div class="btn-row">
+                    <button type="button" class="btn-login">登录</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="http://img.youxinpai.com/sales_cowry/js/zepto.js?v=2016053101"></script>
+    <script src="http://img.youxinpai.com/sales_cowry/js/main.js?v=2016053101"></script>
+    <script src="http://img.youxinpai.com/sales_cowry/js/login1.js?v=2016053101"></script>
+    <!--<script src="js/login1.js?v=20160511 "></script>-->
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+</body>
+<script>
+    $(".btn-login").on("touchend", function () {
+        login();
+    });
+    function login() {
+        var loginName = $("#loginName").val();
+        var loginPwd = $("#loginPwd").val();
+        var IsRem = $("#cb_pwd").prop("checked");
+        $.ajax({
+            url: "/Login/UserLogin",
+            type: "POST",
+            dataType: "text",
+            async: false,
+            data: { loginName: loginName, loginPwd: loginPwd },
+            success: function (data) {
+
+                var obj = eval("(" + data + ")");
+                if (obj.Status != 1) {
+                    $(".error-row").html("*" + obj.Message);
+                } else {
+
+                    
+                    var Info = new Object();
+                    Info.username = loginName;
+                    if (IsRem) {
+                        Info.userpwd = loginPwd;
+                    } else {
+                        Info.userpwd = "";
+                    }
+                    Info.IsRem = IsRem;
+                    localStorage["logininfo"] = JSON.stringify(Info);
+
+                    window.location.href = "/Home/Index";
+
+                }
+
+
+            },
+            error: function () {
+                $(".error-row").html("*网络不给力，请重试");
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        if (localStorage["logininfo"] != null) {
+            var Info = JSON.parse(localStorage["logininfo"]);
+            $("#loginName").val(Info.username);
+            $("#loginName").next().show();
+            if (Info.IsRem) {
+                $("#cb_pwd").prop("checked", true);
+                $("#loginPwd").val(Info.userpwd);
+                $("#loginPwd").next().show();
+            } else {
+                $("#cb_pwd").prop("checked", false);
+            }
+        }
+    })
+
+
+</script>
+</html>

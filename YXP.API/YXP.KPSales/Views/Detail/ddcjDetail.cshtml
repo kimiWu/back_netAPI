@@ -1,0 +1,555 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>车辆详情 - 销售宝</title>
+    @Html.Partial("/Views/PartView/DetailStylePartView.cshtml")
+</head>
+
+<body>
+    <header class="aui-bar aui-bar-nav sales-header">
+        <a class="aui-pull-left">
+            <span class="iconfont icon-fanhui"></span>
+        </a>
+        <div class="aui-title">车辆详情</div>
+    </header>
+    <div class="wrapper">
+        @Html.Partial("/Views/PartView/DetailTopPartView.cshtml")
+        <section class="bid-content">
+            <div class="header">
+                <span class="aui-pull-left aui-text-center btn-bid daichengjiao">等待成交</span><i class="aui-pull-left ico-sjx"></i>
+                <div class="bid-time">
+                    剩余 :
+                    @*<span id="t-h"></span>小时*@
+                    <span id="t-m"></span>分
+                    <span id="t-s"></span>秒
+                </div>
+            </div>
+            <div class="bid-detail">
+                <ul class="price-list">
+                    <li>
+                        <span class="p-label">对手最新/最高价</span>
+                        <span id="CYPNewPrice" class="p-money">--/--</span>
+                        <span class="p-unit">万元</span>
+                    </li>
+                    @*<li>
+                        <span class="p-label">CYP最高报价</span>
+                        <span id="CYPMaxPrice" class="p-money">--</span>
+                        <span class="p-unit">万元</span>
+                    </li>*@
+                    <li>
+                        <span class="p-label">定价中心报价</span>
+                        <span id="modifyPrice" class="p-money">@(Model.modifyPrice)</span>
+                        <span class="p-unit">万元</span>
+                        <input type="hidden" id="PublishID" value="@(Model.publishId)" />
+                        <input type="hidden" id="TvaID" value="@(Model.BidderTvaId)" />
+                        <input type="hidden" id="EngineNum" value="@(Model.EngineNum)" />
+
+                        @{
+                            var CurrActiveTXFund = 0M;
+                            var RealTXFund = 0M;
+                            if (YXP.KPSales.Controllers.WebBaseController.salesTXFund == null)
+                            {
+                                CurrActiveTXFund = 0;
+                                RealTXFund = 0;
+                            }
+                            else
+                            {
+                                RealTXFund = Convert.ToDecimal(YXP.KPSales.Controllers.WebBaseController.salesTXFund.CurrActiveTXFund);
+                                if ((Model.currSalesPrice != null && Model.currSalesPrice > 0) && Model.UserId == YXP.KPSales.Controllers.WebBaseController.loginUser.UserId)
+                                {
+                                    //上一次报价可获得弹性资金小于0，则表示冻结了一部分，需要解冻。。。
+                                    var varTXFund = Model.modifyPrice - Model.currSalesPrice - Model.SWFee;
+                                    if (varTXFund < 0)
+                                    {
+                                        CurrActiveTXFund = Convert.ToDecimal(YXP.KPSales.Controllers.WebBaseController.salesTXFund.CurrActiveTXFund - varTXFund);
+                                    }
+                                    else
+                                    {
+                                        CurrActiveTXFund = Convert.ToDecimal(YXP.KPSales.Controllers.WebBaseController.salesTXFund.CurrActiveTXFund);
+                                    }
+                                }
+                                else
+                                {
+                                    CurrActiveTXFund = Convert.ToDecimal(YXP.KPSales.Controllers.WebBaseController.salesTXFund.CurrActiveTXFund);
+                                }
+                            }
+                            <input type="hidden" id="CurrActiveTXFund" value="@(CurrActiveTXFund)" />
+                            <input type="hidden" id="RealTXFund" value="@(RealTXFund)" />
+                        }
+
+                    </li>
+                    <li>
+                        <span class="p-label">卖家车款</span>
+                        <span class="p-money bg-grey"><input id="SalesPrice" type="text" oninput="ChangeAll(this)" value="@((Model.currSalesPrice!=null&&Model.currSalesPrice>0)?Model.currSalesPrice.ToString("f2"):Model.modifyPrice.ToString("f2"))" class="inp-txt"></span>
+                        <span class="p-unit">万元</span>
+                    </li>
+                    <li>
+                        <span class="p-label">SW费</span>
+                        <span class="p-money bg-grey"><input id="SWFee" type="text" oninput="ChangeAll(this)" value="@(Model.SWFee.ToString("f2"))" class="inp-txt"></span>
+                        <span class="p-unit">万元</span>
+                    </li>
+                    <li>
+                        <span class="p-label">可获得TX资金</span>
+                        <span id="TXFund" class="p-money">+0.00</span>
+                        <span class="p-unit">万元</span>
+                    </li>
+                    <li>
+                        <span class="p-label">当前资金余额</span>
+                        <span id="TXActiveFund" class="p-money">+0.00</span>
+                        <span class="p-unit">万元</span>
+                    </li>
+                </ul>
+                <div class="button">
+                    <a href="javascript:;" class="aui-pull-right btn-basic b-org" id="btnCommit">提交报价</a>
+                </div>
+                <ul class="price-list price-apply-list">
+                    <li>
+                        <span class="p-label">对手价格</span>
+                        <span class="p-money bg-grey"><input type="text" id="CompetitorPrice" oninput="ChangeAll(this)" value="0" class="inp-txt"></span>
+                        <span class="p-unit">万元</span>
+                    </li>
+                    <li>
+                        <span class="p-label">申请额度</span>
+                        <input type="hidden" id="CurrInvestFund" value="0" />
+                        <span class="p-money bg-grey"><input type="text" id="InvestMaxFee" oninput="ChangeAll(this)" value="0" class="inp-txt"></span>
+                        <span class="p-unit">万元</span>
+                    </li>
+                </ul>
+                <p class="money-notice">您最高可申请 <span id="AbsoluteTX">0.00</span> 万元投资！</p>
+                <div class="button">
+                    <a href="javascript:;" class="aui-pull-right btn-basic b-org" id="btnApply" data-type="0" data-money="0.8">申请投资</a>
+                </div>
+            </div>
+
+
+
+
+        </section>
+    </div>
+
+    @*<div class="aui-dialog  logout-alert aui-hidden" id="dialog">
+            <div class="aui-dialog-body aui-text-center">
+                确定要提交报价么？
+            </div>
+            <div class="aui-dialog-footer">
+                <div class="aui-dialog-btn btncancel">取消</div>
+                <div class="aui-dialog-btn aui-text-danger btncommit" tapmode onclick="Commit()">提交</div>
+            </div>
+        </div>*@
+    <div class="aui-toast" style="display:none" id="default">
+        <i class="aui-iconfont aui-icon-check"></i>
+        <div class="aui-toast-content" id="CommitResult"></div>
+    </div>
+    <script src="http://img.youxinpai.com/sales_cowry/js/api.js"></script>
+    <script type="text/javascript">
+
+        var confirm;
+
+        $('#btnCommit').on("click", function () {
+            //if ($(this).attr("disabled")!="true") {
+            //    showDialog();
+            //}
+            $(this).focus();
+            if ($(this).attr("disabled") != "true") {
+                confirm = yx.confirm("确定要提交报价么？", function () { Commit(); });
+            }
+        });
+
+        $("#btnApply").on("click", function () {
+            var type = $(this).attr("data-type");
+            if ($(this).attr("disabled") != "true") {
+                if (type == "0") {
+                    confirm = yx.confirm("确定申请投资吗？<br/><br/><span style=' color:#ff5a37'>申请投资后，您能获得不高于" + $("#InvestMaxFee").val() + "万元的投资。 如需调整车款及SW费，请先取消申请！</span>", function () { ApplyInvest(type); });
+                }
+                else {
+                    confirm = yx.confirm("您要取消申请吗？<br/><br/><span style=' color:#ff5a37'>取消后当前获得的投资将退回投资员！如已提交报价，系统将冻结您的TX资金用于已提交的报价！重新申请并获得投资后，再提交报价，才会退回TX资金！</span>", function () { ApplyInvest(type); });
+                }
+            }
+        });
+
+
+        //$('.p-money').tap(function () {
+        //    $(this).find('input').focus();
+        //});
+
+        //$(".inp-txt").on("key", function () {
+
+        //$(".inp-txt").blur(function () {
+        //    var num = $(this).val();
+        //    num = num.replace(/[^\d.]/g, "");
+        //    //必须保证第一个为数字而不是.
+        //    num = num.replace(/^\./g, "");
+        //    //保证只有出现一个.而没有多个.
+        //    num = num.replace(/\.{2,}/g, ".");
+        //    //保证.只出现一次，而不能出现两次以上
+        //    num = num.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+        //    //只能输入两个小数
+        //    num = num.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3');
+        //    num = num == "" ? 0 : num;
+        //    $(this).val(num);
+
+        //    Change();
+
+        //});
+
+
+        function ChangeAll(obj) {
+
+            var num = $(obj).val();
+            num = num.replace(/[^\d.]/g, "");
+            //必须保证第一个为数字而不是.
+            num = num.replace(/^\./g, "");
+            //保证只有出现一个.而没有多个.
+            num = num.replace(/\.{2,}/g, ".");
+            //保证.只出现一次，而不能出现两次以上
+            num = num.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+            //保证第一位为0的情况后面只能为小数点
+            //num = num.replace(/^0\d/g, "");
+            var patrn = /^0\d/g;
+            if (patrn.exec(num)) num = num.substr(1);
+            //只能输入两个小数
+            num = num.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3');
+            //num = num == "" ? 0 : num;
+            $(obj).val(num);
+            if ($(obj).attr("id") == "CompetitorPrice") {
+                if ($(obj).val() == "")
+                {
+                    $('#btnApply').addClass("disable");
+                    $('#btnApply').attr("disabled", true);
+                } else
+                {
+                    var SalesPrice = parseFloat($("#SalesPrice").val() == "" ? 0 : $("#SalesPrice").val()).toFixed(2);
+                    var SWFee = parseFloat($("#SWFee").val() == "" ? 0 : $("#SWFee").val()).toFixed(2);
+                    var modifyPrice = parseFloat($("#modifyPrice").html()).toFixed(2);
+                    var CurrActiveTXFund = parseFloat($("#CurrActiveTXFund").val()).toFixed(2);
+                    var TXFund = (Math.round(modifyPrice * 100) - Math.round(SalesPrice * 100) - Math.round(SWFee * 100)) / 100;
+
+                    if (parseFloat($("#InvestMaxFee").val()) > 0 && parseFloat($("#InvestMaxFee").val()) <= -TXFund) {
+                        $("#btnApply").removeClass("disable");
+                        $('#btnApply').attr("disabled", false);
+                    }
+                }
+                return;
+            }
+            Change(obj);
+
+        }
+
+
+
+
+        function Change(obj) {
+            var SalesPrice = parseFloat($("#SalesPrice").val() == "" ? 0 : $("#SalesPrice").val()).toFixed(2);
+            var SWFee = parseFloat($("#SWFee").val() == "" ? 0 : $("#SWFee").val()).toFixed(2);
+            var modifyPrice = parseFloat($("#modifyPrice").html()).toFixed(2);
+            var CurrActiveTXFund = parseFloat($("#CurrActiveTXFund").val()).toFixed(2);
+            var TXFund = (Math.round(modifyPrice * 100) - Math.round(SalesPrice * 100) - Math.round(SWFee * 100)) / 100;
+            var CurrInvestFund = parseFloat($("#CurrInvestFund").val()).toFixed(2);
+
+            $("#TXFund").html((TXFund >= 0 ? "+" : "") + TXFund.toFixed(2));
+
+            var TXActiveFund = parseFloat($("#TXActiveFund").html());
+            if (TXFund < 0) {
+                TXActiveFund = (Math.round(CurrActiveTXFund * 100) + Math.round(TXFund * 100)) / 100;
+
+            } else {
+                TXActiveFund = parseFloat($("#RealTXFund").val());
+            }
+            $("#TXActiveFund").html((TXActiveFund >= 0 ? "+" : "") + TXActiveFund.toFixed(2));
+
+            if (TXFund < 0) {
+                if ((obj != null && $(obj).attr("id") != "InvestMaxFee")||obj==null) {
+                    $("#InvestMaxFee").val((-TXFund).toFixed(2));
+                    $("#AbsoluteTX").html($("#InvestMaxFee").val());
+                }
+                if (parseFloat($("#InvestMaxFee").val()) > 0 && parseFloat($("#InvestMaxFee").val()) <= -TXFund) {
+                    $("#btnApply").removeClass("disable");
+                    $('#btnApply').attr("disabled", false);
+                } else {
+                    $('#btnApply').addClass("disable");
+                    $('#btnApply').attr("disabled", true);
+                }
+            } else {
+                $("#AbsoluteTX").html("0.00");
+                $("#InvestMaxFee").val("0.00");
+                $('#btnApply').addClass("disable");
+                $('#btnApply').attr("disabled", true);
+            }
+            if ((TXFund < 0 && TXActiveFund < 0 && (parseFloat(TXActiveFund) + parseFloat(CurrInvestFund)) < 0) || SalesPrice <= 0 || $("#SWFee").val() == "") {
+
+                $('#btnCommit').addClass("disable");
+                $('#btnCommit').attr("disabled", true);
+            } else {
+                $('#btnCommit').removeClass("disable");
+                $('#btnCommit').attr("disabled", false);
+            }
+        }
+
+
+        //获取车易拍数据
+        function GetCYPData() {
+            var EngineNum = $("#EngineNum").val();
+            $.ajax({
+                url: "/KPSales/GetCYPData",
+                type: "POST",
+                dataType: "text",
+                async: true,
+                data: {
+                    EngineNum: EngineNum
+                },
+                success: function (data) {
+
+                    if (data != null) {
+                        var obj = eval("(" + data + ")");
+                        if (obj.length > 0) {
+                            var newprice = (parseFloat(obj[0].max_price) / 10000).toFixed(2);
+                            var maxprice = newprice;
+                            if (obj.length > 1) {
+                                obj.sort(function (a, b) { return parseFloat(b.max_price) - parseFloat(a.max_price) });
+                                maxprice = (parseFloat(obj[0].max_price) / 10000).toFixed(2);
+                            }
+                            $("#CYPNewPrice").addClass("pr0").html(newprice + "/" + maxprice);
+                            //$("#CYPMaxPrice").html(maxprice);
+                        } else {
+                            $("#CYPNewPrice").removeClass("pr0").html("--/--");
+                            //$("#CYPMaxPrice").html("--");
+                        }
+                    }
+                }
+
+            });
+        }
+
+
+
+        //获取申请投资数据
+        function GetInvestData() {
+            $.ajax({
+                url: "/KPSales/GetInvestData",
+                type: "POST",
+                dataType: "text",
+                async: false,
+                data: {
+                    PublishID: $("#PublishID").val()
+                },
+                success: function (data) {
+                    var btn = $("#btnApply");
+                    if (data != null && data != "") {
+                        var obj = eval("(" + data + ")");
+                        $(btn).html("取消申请 (获得投资" + obj.CurrInvestFund + "万元)");
+                        $(btn).addClass("btn-applyed");
+                        $(btn).attr("data-type", "-2");
+                        $("#CurrInvestFund").val(obj.CurrInvestFund);
+                        $("#CompetitorPrice").val(parseFloat(obj.CompetitorPrice).toFixed(2));
+                        $("#InvestMaxFee").val(parseFloat(obj.InvestMaxFee).toFixed(2));
+                        $("#SalesPrice").val(parseFloat(obj.CurrSalesPrice).toFixed(2));
+                        $("#SWFee").val(parseFloat(obj.SWFee).toFixed(2));
+                        $(".inp-txt").attr("disabled",true);
+                    } else {
+                        $(btn).html("申请投资");
+                        $(btn).removeClass("btn-applyed");
+                        $(btn).attr("data-type", "0");
+                        $("#CompetitorPrice").val("0.00");
+                        $("#InvestMaxFee ").val("0.00");
+                        $("#SalesPrice").removeAttr("disabled");
+                        $("#SWFee").removeAttr("disabled");
+                    }
+                }
+
+            });
+        }
+
+
+
+        $(document).ready(function () {
+            var t = parseFloat($("#salesendTime").val());
+            var h = Math.floor(t / 1000 / 60 / 60 % 24);
+            GetInvestData();
+            Change(null);
+            if (h >= 1) {
+
+            } else {
+                var SalesPrice = parseFloat($("#SalesPrice").val()).toFixed(2);
+                var modifyPrice = parseFloat($("#modifyPrice").html()).toFixed(2);
+                var RealTXFund = parseFloat($("#RealTXFund").val()).toFixed(2);
+                if (SalesPrice < modifyPrice) {
+                    $("#SalesPrice").val(modifyPrice);
+                    $("#SWFee").val("0.00");
+                    $("#TXFund").html("+0.00");
+                    $("#TXActiveFund").html((RealTXFund >= 0 ? "+" : "") + RealTXFund);
+                }
+                $('.btn-basic').addClass("disable");
+                $('.btn-basic').attr("disabled", true);
+                $(".inp-txt").attr("disabled", true);
+            }
+
+            
+        });
+
+        function Commit() {
+            var sss = yx.loading();
+            $.ajax({
+                url: "/KPSales/Commit",
+                type: "POST",
+                dataType: "text",
+                async: false,
+                data: {
+                    PublishID: $("#PublishID").val(), TvaID: $("#TvaID").val(), CurrSalesPrice: $("#SalesPrice").val(),
+                    SWFee: $("#SWFee").val()
+                },
+                success: function (data) {
+                    if (confirm) confirm.close();
+                    sss.close();
+                    var obj = eval("(" + data + ")");
+                    var result = obj[0].suc;
+                    var Message = "";
+                    switch (result) {
+                        case 1: Message = "报价成功！"; break;
+                        case -1: Message = "异常提交，请重试！"; break;
+                        case -2: Message = "错误，定价中心未出价！"; break;
+                        case -3: Message = "错误，当前用户不具有资金池！"; break;
+                        case -4: Message = "可用TX资金不足，报价失败！"; break;
+                        case -5: Message = "该拍品报价时间已结束！ "; break;
+                        case -6: Message = "该拍品拍卖已结束！"; break;
+                        case -7: Message = "该拍品销售投标未开始！"; break;
+                        case -8: Message = "该拍品已被其他销售绑定！"; break;
+                        case -16: Message = "现在报价与申请投资时不一致！"; break;
+                        case -19: Message = "该拍品必须取消投资再报价！"; break;
+
+                    }
+
+                    var bool;
+                    if (result > 0) {
+                        bool = true;
+                    } else {
+                        bool = false;
+                    }
+
+                    yx.tips(Message, bool, 2000);
+
+                },
+                error: function () {
+                    if (confirm) confirm.close();
+                    sss.close();
+                    var Message = "网络不给力，请重试！";
+                    yx.tips(Message, false, 2000);
+                }
+
+            });
+        }
+
+        function ApplyInvest(type) {
+            var sss = yx.loading();
+            $.ajax({
+                url: "/KPSales/ApplyInvest",
+                type: "POST",
+                dataType: "text",
+                async: false,
+                data: {
+                    PublishID: $("#PublishID").val(), TvaID: $("#TvaID").val(), CurrSalesPrice: $("#SalesPrice").val(),
+                    SWFee: $("#SWFee").val(), CompetitorPrice: $("#CompetitorPrice").val(), InvestMaxFee: $("#InvestMaxFee").val(), Sgn: type
+                },
+                success: function (data) {
+                    //if (confirm) confirm.close();
+                    sss.close();
+                    var obj = eval("(" + data + ")");
+                    var result = obj[0].suc;
+                    var Message = "";
+                    switch (result) {
+                        case 1: type == 0 ? Message = "申请投资成功！" : Message = "取消申请成功！"; break;
+                        case -1: Message = "异常提交，请重试！"; break;
+                        case -2: Message = "错误，定价中心未出价！"; break;
+                        case -3: Message = "错误，当前用户不具有资金池！"; break;
+                        case -4: Message = "可用TX资金不足，申请投资失败！"; break;
+                        case -5: Message = "该拍品报价时间已结束！ "; break;
+                        case -6: Message = "该拍品拍卖已结束！"; break;
+                        case -7: Message = "该拍品销售投标未开始！"; break;
+                        case -8: Message = "该拍品已被其他销售绑定！"; break;
+                        case -9: Message = "传入投资状态错误！"; break;
+                        case -10: Message = "申请投资额度超出允许范围！"; break;
+                        case -17: Message = "该拍品已经申请投资!"; break;
+                        case -18: Message = "无法取消投资金额不一致的投资"; break;
+                    }
+
+                    var bool;
+                    if (result > 0) {
+                        bool = true;
+                        var btn = $("#btnApply");
+                        if (type == "0") {
+                            var obj = eval("(" + data + ")");
+                            $(btn).html("取消申请 (已有投资0万元)");
+                            $(btn).addClass("btn-applyed");
+                            $(btn).attr("data-type", "-2");
+                            $(".inp-txt").attr("disabled", true);
+
+                        } else {
+                            $(btn).html("申请投资");
+                            $(btn).removeClass("btn-applyed");
+                            $(btn).attr("data-type", "0");
+                            $(".inp-txt").removeAttr("disabled");
+
+                        }
+
+                    } else {
+                        bool = false;
+                    }
+
+                    yx.tips(Message, bool, 2000);
+
+                },
+                error: function () {
+                    if (confirm) confirm.close();
+                    sss.close();
+                    var Message = "网络不给力，请重试！";
+                    yx.tips(Message, false, 2000);
+                }
+
+            });
+        }
+
+        function getRTime() {
+            //var EndTime = new Date($("#salesendTime").val()); //截止时间
+            //var NowTime = new Date();
+
+            //var t = EndTime.getTime() - NowTime.getTime();
+
+            var t = parseFloat($("#salesendTime").val());
+            //alert(t);
+            var d = Math.floor(t / 1000 / 60 / 60 / 24);
+            var h = Math.floor(t / 1000 / 60 / 60 % 24);
+            if (h >= 1) {
+                h = h - 1;
+            } else {
+            }
+            var m = Math.floor(t / 1000 / 60 % 60 + h * 60);
+            //var m = Math.floor(t / 1000 / 60 % 60);
+            var s = Math.floor(t / 1000 % 60);
+
+            if (m <= 0 && s <= 0) {
+                m = 0; s = 0;
+                clearInterval(timer);
+            }
+            //$('#t-h').html(h);
+            if (m < 10) m = "0" + m.toString();
+            if (s < 10) s = "0" + s.toString();
+            $('#t-m').html(m); $('#t-s').html(s);
+            t = t - 1000;
+            $("#salesendTime").val(t);
+        }
+
+
+        getRTime();
+
+        var timer = setInterval(getRTime, 1000);
+        GetCYPData();
+    </script>
+
+</body>
+</html>

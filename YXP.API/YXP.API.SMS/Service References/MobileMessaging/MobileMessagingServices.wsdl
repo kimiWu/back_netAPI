@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://dealer.ucar.cn/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://dealer.ucar.cn/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">优卡－车商通－移动信息服务接口</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://dealer.ucar.cn/">
+      <s:element name="SmsSend">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="appId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="to" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sign" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SmsSendResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SmsSendResult" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CYMSmsSend">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="appId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="to" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sign" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CYMSmsSendResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CYMSmsSendResult" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MmsSend">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="appId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="subject" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="encodedSlides" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="to" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sign" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MmsSendResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MmsSendResult" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSmsMessage">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="appId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="maxId" type="s:long" />
+            <s:element minOccurs="0" maxOccurs="1" name="sign" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSmsMessageResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSmsMessageResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="SmsSendSoapIn">
+    <wsdl:part name="parameters" element="tns:SmsSend" />
+  </wsdl:message>
+  <wsdl:message name="SmsSendSoapOut">
+    <wsdl:part name="parameters" element="tns:SmsSendResponse" />
+  </wsdl:message>
+  <wsdl:message name="CYMSmsSendSoapIn">
+    <wsdl:part name="parameters" element="tns:CYMSmsSend" />
+  </wsdl:message>
+  <wsdl:message name="CYMSmsSendSoapOut">
+    <wsdl:part name="parameters" element="tns:CYMSmsSendResponse" />
+  </wsdl:message>
+  <wsdl:message name="MmsSendSoapIn">
+    <wsdl:part name="parameters" element="tns:MmsSend" />
+  </wsdl:message>
+  <wsdl:message name="MmsSendSoapOut">
+    <wsdl:part name="parameters" element="tns:MmsSendResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSmsMessageSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSmsMessage" />
+  </wsdl:message>
+  <wsdl:message name="GetSmsMessageSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSmsMessageResponse" />
+  </wsdl:message>
+  <wsdl:portType name="MobileMessagingServicesSoap">
+    <wsdl:operation name="SmsSend">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">发送短信到指定的手机号码。返回值含义：(0)无法处理请求，(-1)应用标识无效，(-2)签名无效，(-3)信息内空为空，(-4)目的号码为空</wsdl:documentation>
+      <wsdl:input message="tns:SmsSendSoapIn" />
+      <wsdl:output message="tns:SmsSendSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CYMSmsSend">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">发送短信到指定的手机号码。返回值含义：(0)无法处理请求，(-1)应用标识无效，(-2)签名无效，(-3)信息内空为空，(-4)目的号码为空</wsdl:documentation>
+      <wsdl:input message="tns:CYMSmsSendSoapIn" />
+      <wsdl:output message="tns:CYMSmsSendSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MmsSend">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">发送彩信到指定的手机号码。返回值含义：(0)无法处理请求，(-1)应用标识无效，(-2)签名无效，(-3)信息内空为空，(-4)目的号码为空，(-5)无法解析彩信内容，(-6)彩信内容为空，(-7)包含空的彩信页</wsdl:documentation>
+      <wsdl:input message="tns:MmsSendSoapIn" />
+      <wsdl:output message="tns:MmsSendSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSmsMessage">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获取上行短信。字段说明 Id : 唯一标识， PhoneNumber : 电话号码， SmsMessageBody : 信息内容， Time : 上行时间。</wsdl:documentation>
+      <wsdl:input message="tns:GetSmsMessageSoapIn" />
+      <wsdl:output message="tns:GetSmsMessageSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="MobileMessagingServicesSoap" type="tns:MobileMessagingServicesSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SmsSend">
+      <soap:operation soapAction="http://dealer.ucar.cn/SmsSend" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CYMSmsSend">
+      <soap:operation soapAction="http://dealer.ucar.cn/CYMSmsSend" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MmsSend">
+      <soap:operation soapAction="http://dealer.ucar.cn/MmsSend" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSmsMessage">
+      <soap:operation soapAction="http://dealer.ucar.cn/GetSmsMessage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="MobileMessagingServicesSoap12" type="tns:MobileMessagingServicesSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SmsSend">
+      <soap12:operation soapAction="http://dealer.ucar.cn/SmsSend" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CYMSmsSend">
+      <soap12:operation soapAction="http://dealer.ucar.cn/CYMSmsSend" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MmsSend">
+      <soap12:operation soapAction="http://dealer.ucar.cn/MmsSend" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSmsMessage">
+      <soap12:operation soapAction="http://dealer.ucar.cn/GetSmsMessage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MobileMessagingServices">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">优卡－车商通－移动信息服务接口</wsdl:documentation>
+    <wsdl:port name="MobileMessagingServicesSoap" binding="tns:MobileMessagingServicesSoap">
+      <soap:address location="http://service.youxinpai.com/MobileMessagingServices.asmx" />
+    </wsdl:port>
+    <wsdl:port name="MobileMessagingServicesSoap12" binding="tns:MobileMessagingServicesSoap12">
+      <soap12:address location="http://service.youxinpai.com/MobileMessagingServices.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

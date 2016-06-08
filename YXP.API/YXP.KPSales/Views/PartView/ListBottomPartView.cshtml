@@ -1,0 +1,53 @@
+﻿
+<input type="hidden" id="_state" value="@ViewBag.state" />
+
+<script>
+    $(function () {
+
+        var ts = goTimer();
+     
+        var max = $(".aui-list-view").find(".aaa").first().attr("title");
+        var min = $(".aui-list-view").find(".aaa").last().attr("title");
+       
+        var state = $("#_state").val();
+        var r = new yxr({
+            wrapper: "#content",
+            server: "/KPSales/ListData",
+            down: {
+                elem: "#pullDown",
+                data: { type: "down", pageSize: 10, state: state, max: max },
+                textBox: ".pullDownLabel",
+                success: function (data) {
+                    //alert(max); alert(min);
+                    $(".aui-list-view").html(data);
+                    goTimer(ts);
+                    $("#pullUp").hide();
+                    r.settings.down.data.max = $(".aui-list-view").find(".aaa").first().attr("title");
+                    r.settings.down.data.min = $(".aui-list-view").find(".aaa").last().attr("title");
+                }
+            },
+            up: {
+                elem: "#pullUp",
+                data: { type: "up", pageSize: 10, state: state, min: min },
+                textBox: ".pullUpLabel",
+                text1: "加载更多",
+                action: function () {
+
+                },
+                success: function (data) {
+                    //alert(max); alert(min);
+                    if (data.indexOf("当前暂无拍品") > -1) {
+                        r.settings.up.text1 = "暂无更多数据";
+                        if ($(".aui-list-view li").length > 0 && $(".aui-list-view li").eq(0).html().indexOf("当前暂无拍品") < 0) {
+                            $("#pullUp").show();
+                        }
+                    } else {
+                        $(".aui-list-view").append(data);
+                        r.settings.up.data.max = $(".aui-list-view").find(".aaa").first().attr("title");
+                        r.settings.up.data.min = $(".aui-list-view").find(".aaa").last().attr("title");
+                    }
+                }
+            }
+        });
+    });
+</script>

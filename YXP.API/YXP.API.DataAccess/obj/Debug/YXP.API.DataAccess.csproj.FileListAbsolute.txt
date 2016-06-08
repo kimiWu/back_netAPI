@@ -1,0 +1,12 @@
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.DataAccess\bin\Debug\YXP.API.DataAccess.dll.config
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.DataAccess\bin\Debug\YXP.API.DataAccess.dll
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.DataAccess\bin\Debug\YXP.API.DataAccess.pdb
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.DataAccess\bin\Debug\Dapper.dll
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.DataAccess\bin\Debug\DapperExtensions.dll
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.DataAccess\bin\Debug\YXP.API.Entity.dll
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.DataAccess\bin\Debug\DapperExtensions.pdb
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.DataAccess\bin\Debug\YXP.API.Entity.pdb
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.DataAccess\obj\Debug\YXP.API.DataAccess.csprojResolveAssemblyReference.cache
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.DataAccess\obj\Debug\YXP.API.DataAccess.dll
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.DataAccess\obj\Debug\YXP.API.DataAccess.pdb
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.DataAccess\bin\Debug\MySql.Data.dll

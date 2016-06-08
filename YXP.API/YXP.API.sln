@@ -1,0 +1,139 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YXP.API", "YXP.API\YXP.API.csproj", "{D6D9CF2C-7D95-47C8-A149-92A1FD3A3C7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YXP.API.Business", "YXP.API.Business\YXP.API.Business.csproj", "{2D854278-B47C-4725-86BA-A0A5F6786A32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YXP.API.DataAccess", "YXP.API.DataAccess\YXP.API.DataAccess.csproj", "{C425CD54-0AD1-4E0A-B506-8EA79F1F492A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YXP.API.Utility", "YXP.API.Utility\YXP.API.Utility.csproj", "{9B7409F0-3648-4083-B320-46B84A2A2404}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YXP.API.Cache", "YXP.API.Cache\YXP.API.Cache.csproj", "{FA3072F6-AF52-4E5C-8D95-E4C2D699615E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YXP.API.Entity", "YXP.API.Entity\YXP.API.Entity.csproj", "{5196CA60-5390-4844-9264-7A94497D7C88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DapperExtensions", "DapperExtensions\DapperExtensions.csproj", "{4C1A2C6C-A469-4C87-98D1-F1D517FA1ACF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplicationTest", "ConsoleApplicationTest\ConsoleApplicationTest.csproj", "{E29EEC37-5738-4FF6-A1F0-F3F3DECAFB06}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YXP.API.Web", "YXP.API.Web\YXP.API.Web.csproj", "{956B0626-111C-421C-971D-55E8E0718A3A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{E06B2061-B6CD-424D-89D7-83724CD0D529}"
+	ProjectSection(SolutionItems) = preProject
+		doc\API接口文档 - bank - V1.0.docx = doc\API接口文档 - bank - V1.0.docx
+		..\..\..\..\Users\zhaopeng\Desktop\API接口文档 - 成交详情- V1.0 .docx = ..\..\..\..\Users\zhaopeng\Desktop\API接口文档 - 成交详情- V1.0 .docx
+		doc\API接口文档 - 紫金红葫芦- V1.0 .docx = doc\API接口文档 - 紫金红葫芦- V1.0 .docx
+		doc\API接口文档示例V1.0.docx = doc\API接口文档示例V1.0.docx
+		doc\置换二手车接口说明V1.0 .docx = doc\置换二手车接口说明V1.0 .docx
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YXP.API.SMS", "YXP.API.SMS\YXP.API.SMS.csproj", "{0F64E5B3-D8D4-46DF-8745-0EDB0320FA7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YXP.KPSales", "YXP.KPSales\YXP.KPSales.csproj", "{F5A6F069-1B36-4D64-B0D2-B10477F1A1CB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YXP.PaiMobile", "YXP.PaiMobile\YXP.PaiMobile.csproj", "{327CC598-4B0B-4407-9783-C2AC793AD822}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 13
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://192.168.200.11:8080/tfs/uxin
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = DapperExtensions\\DapperExtensions.csproj
+		SccProjectName1 = DapperExtensions
+		SccLocalPath1 = DapperExtensions
+		SccProjectUniqueName2 = YXP.API.Business\\YXP.API.Business.csproj
+		SccProjectName2 = YXP.API.Business
+		SccLocalPath2 = YXP.API.Business
+		SccProjectUniqueName3 = YXP.API.Cache\\YXP.API.Cache.csproj
+		SccProjectName3 = YXP.API.Cache
+		SccLocalPath3 = YXP.API.Cache
+		SccProjectUniqueName4 = YXP.API.DataAccess\\YXP.API.DataAccess.csproj
+		SccProjectName4 = YXP.API.DataAccess
+		SccLocalPath4 = YXP.API.DataAccess
+		SccProjectUniqueName5 = YXP.API.Entity\\YXP.API.Entity.csproj
+		SccProjectName5 = YXP.API.Entity
+		SccLocalPath5 = YXP.API.Entity
+		SccProjectUniqueName6 = YXP.API.Utility\\YXP.API.Utility.csproj
+		SccProjectName6 = YXP.API.Utility
+		SccLocalPath6 = YXP.API.Utility
+		SccProjectUniqueName7 = YXP.API\\YXP.API.csproj
+		SccProjectName7 = YXP.API
+		SccLocalPath7 = YXP.API
+		SccProjectUniqueName8 = ConsoleApplicationTest\\ConsoleApplicationTest.csproj
+		SccProjectName8 = ConsoleApplicationTest
+		SccLocalPath8 = ConsoleApplicationTest
+		SccProjectUniqueName9 = YXP.API.Web\\YXP.API.Web.csproj
+		SccProjectName9 = YXP.API.Web
+		SccLocalPath9 = YXP.API.Web
+		SccProjectUniqueName10 = YXP.API.SMS\\YXP.API.SMS.csproj
+		SccProjectName10 = YXP.API.SMS
+		SccLocalPath10 = YXP.API.SMS
+		SccProjectUniqueName11 = YXP.KPSales\\YXP.KPSales.csproj
+		SccProjectName11 = YXP.KPSales
+		SccLocalPath11 = YXP.KPSales
+		SccProjectUniqueName12 = YXP.PaiMobile\\YXP.PaiMobile.csproj
+		SccProjectName12 = YXP.PaiMobile
+		SccLocalPath12 = YXP.PaiMobile
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D6D9CF2C-7D95-47C8-A149-92A1FD3A3C7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6D9CF2C-7D95-47C8-A149-92A1FD3A3C7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6D9CF2C-7D95-47C8-A149-92A1FD3A3C7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6D9CF2C-7D95-47C8-A149-92A1FD3A3C7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D854278-B47C-4725-86BA-A0A5F6786A32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D854278-B47C-4725-86BA-A0A5F6786A32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D854278-B47C-4725-86BA-A0A5F6786A32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D854278-B47C-4725-86BA-A0A5F6786A32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C425CD54-0AD1-4E0A-B506-8EA79F1F492A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C425CD54-0AD1-4E0A-B506-8EA79F1F492A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C425CD54-0AD1-4E0A-B506-8EA79F1F492A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C425CD54-0AD1-4E0A-B506-8EA79F1F492A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B7409F0-3648-4083-B320-46B84A2A2404}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B7409F0-3648-4083-B320-46B84A2A2404}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B7409F0-3648-4083-B320-46B84A2A2404}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B7409F0-3648-4083-B320-46B84A2A2404}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA3072F6-AF52-4E5C-8D95-E4C2D699615E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA3072F6-AF52-4E5C-8D95-E4C2D699615E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA3072F6-AF52-4E5C-8D95-E4C2D699615E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA3072F6-AF52-4E5C-8D95-E4C2D699615E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5196CA60-5390-4844-9264-7A94497D7C88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5196CA60-5390-4844-9264-7A94497D7C88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5196CA60-5390-4844-9264-7A94497D7C88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5196CA60-5390-4844-9264-7A94497D7C88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C1A2C6C-A469-4C87-98D1-F1D517FA1ACF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C1A2C6C-A469-4C87-98D1-F1D517FA1ACF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C1A2C6C-A469-4C87-98D1-F1D517FA1ACF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C1A2C6C-A469-4C87-98D1-F1D517FA1ACF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E29EEC37-5738-4FF6-A1F0-F3F3DECAFB06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E29EEC37-5738-4FF6-A1F0-F3F3DECAFB06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E29EEC37-5738-4FF6-A1F0-F3F3DECAFB06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E29EEC37-5738-4FF6-A1F0-F3F3DECAFB06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{956B0626-111C-421C-971D-55E8E0718A3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{956B0626-111C-421C-971D-55E8E0718A3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{956B0626-111C-421C-971D-55E8E0718A3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{956B0626-111C-421C-971D-55E8E0718A3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F64E5B3-D8D4-46DF-8745-0EDB0320FA7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F64E5B3-D8D4-46DF-8745-0EDB0320FA7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F64E5B3-D8D4-46DF-8745-0EDB0320FA7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F64E5B3-D8D4-46DF-8745-0EDB0320FA7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5A6F069-1B36-4D64-B0D2-B10477F1A1CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5A6F069-1B36-4D64-B0D2-B10477F1A1CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5A6F069-1B36-4D64-B0D2-B10477F1A1CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5A6F069-1B36-4D64-B0D2-B10477F1A1CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{327CC598-4B0B-4407-9783-C2AC793AD822}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{327CC598-4B0B-4407-9783-C2AC793AD822}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{327CC598-4B0B-4407-9783-C2AC793AD822}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{327CC598-4B0B-4407-9783-C2AC793AD822}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

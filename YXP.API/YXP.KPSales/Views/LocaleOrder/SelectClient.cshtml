@@ -1,0 +1,181 @@
+﻿@using YXP.API.Entity.TranstarAuction
+@model System.Collections.Generic.IList<TranstarVendorAccount>
+@{
+    Layout = null;
+
+
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>选择委托方</title>
+    <link rel="stylesheet" href="http://img.youxinpai.com/sales_cowry/css/aui.css" type="text/css" />
+    <link type="text/css" href="http://img.youxinpai.com/sales_cowry/css/style.css?v=20160527" rel="stylesheet">
+    <link type="text/css" href="http://img.youxinpai.com/sales_cowry/css/select-client.css?v=20160527" rel="stylesheet">
+    <script>
+        var currentItemTvaId = 0;
+    </script>
+</head>
+<body>
+    <header class="aui-bar aui-bar-nav sales-header">
+        <a class="aui-pull-left" onclick="window.location.href = '/LocaleOrder/CreateClient'">
+            <span class="iconfont icon-fanhui"></span>
+        </a>
+        <div class="aui-title">选择委托方</div>
+    </header>
+
+    <div class="search">
+        <i class="search-icon"></i>
+        <input id="vendorName" class="txt-search" type="text" placeholder="委托方经销商名称关键字">
+        <button class="btn-search" onclick="searchVendorName()">搜索</button>
+
+    </div>
+    @if (Model == null)
+    {
+        <div id="orderempty" class="order-item-wrap order-item-empty">
+            <div class="item-empty-wrap">
+                <img src="http://img.youxinpai.com/sales_cowry/images/select_no_result.png">
+                <p class="mt20">您可以通过</p>
+                <p> 输入“<em class="red">经销商名称关键字</em>”来搜索委托方！</p>
+            </div>
+        </div>
+    }
+    else
+    {
+
+
+
+        if (Model != null && Model.Count > 0)
+        {
+            <div class="order-item-wrap">
+                @foreach (var item in Model)
+                {
+                    <section class="order-item">
+                        <div class="order-info">
+                            <input type="hidden" value="@item.TvaID$@item.VendorFullName$@item.Address$@item.LinkMan$@item.MobilePhoneNumber" />
+                            <p><span class="title">@item.VendorFullName</span></p>
+                            <p><span class="content">@item.Address</span></p>
+                            <span class="icon-right aui-iconfont aui-icon-right"></span>
+                        </div>
+                    </section>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="order-item-wrap order-item-empty">
+                <div class="item-empty-wrap">
+                    <img src="http://img.youxinpai.com/sales_cowry/images/select_empty.png">
+                    <p class="mt20">抱歉，未搜索到您要的信息！</p>
+                </div>
+            </div>
+        }
+    }
+
+
+    <!--弹层-->
+    <div class="aui-mask" id="select_client_mark"></div>
+    <div class="select-client-pop">
+        <span class="close-btn aui-iconfont aui-icon-roundclose"></span>
+        <div class="select-title-wrap">
+            <p class="title">委托方</p>
+        </div>
+        <div class="select-content-wrap">
+            <ul class="select-con-item" id="select-con-itemid">
+                <li><span class="name">委托方</span><span class="content"></span></li>
+                <li><span class="name">地址</span><span class="content"> </span></li>
+                <li><span class="name">联系人</span><span class="content"></span></li>
+                <li><span class="name">电话</span><span class="content"></span></li>
+            </ul>
+        </div>
+        <ul class="select-btn-wrap">
+            <li>
+                <div class="roundbg"></div>
+                <button class="" id="btnSelect">选择</button>
+            </li>
+        </ul>
+    </div>
+    <script type="text/javascript" src="http://img.youxinpai.com/sales_cowry/js/zepto.js?v=20160530"></script>
+    <script type="text/javascript" src="http://img.youxinpai.com/sales_cowry/js/main.js?v=20160530"></script>
+    <script type="text/javascript" src="http://img.youxinpai.com/sales_cowry/js/select_client.js?v=20160530"></script>
+    <script src="http://img.youxinpai.com/sales_cowry/js/dialog.js?v=20160530"></script>
+    <script src="http://img.youxinpai.com/sales_cowry/js/fastclick.js"></script>
+    <script type="text/javascript">
+        var currentItem;
+        var currTvaId;
+        var currTvaName;
+        var currLinkMan;
+        var currLinkMobile;
+        var currAddress;
+        $(".order-item").on("tap", function () {
+            //设置值
+            currentItem = $(this).find('input').val();
+
+            var arryVale = currentItem.split('$');
+            currTvaId = arryVale[0];
+            currTvaName = arryVale[1];
+            currAddress = arryVale[2];
+            currLinkMan = arryVale[3];
+            currLinkMobile = arryVale[4];
+            var arryContent = $("#select-con-itemid").find('.content');
+            for (var i = 0; i < arryContent.length; i++) {
+                $(arryContent[i]).html(arryVale[i + 1]);
+            }
+            //弹出层
+            selectClientPop.show();
+        });
+        $("#btnSelect").on("touchend", function () {
+            selectClientPop.hide();
+            //location.href = "/LocaleOrder/CreateClient?tvaid=" + escape(currentItem) + "";
+            $.post("CacheTvaId", { tvaId: currTvaId, tvaName: currTvaName, LinkMan: currLinkMan, LinkMobile: currLinkMobile, Address: currAddress }, function () {
+                location.href = "/LocaleOrder/CreateClient";
+            })
+        });
+    </script>
+    <script type="text/javascript">
+        //页面加载
+        $(function () {
+            var vendorName = getUrlParam('vendorName');
+            if (vendorName && vendorName != 'undefined') {
+                $('#vendorName').attr('placeholder', '').val(unescape(vendorName));
+            } else {
+                $('#vendorName').attr('placeholder', '委托方经销商名称关键字')
+            }
+
+
+        })
+        function searchVendorName() {
+            $("#orderempty").hide();
+            var vendorName = $('#vendorName').val();
+            if (vendorName && vendorName != "undefinde") {
+                var url = "/LocaleOrder/SearchDeal?vendorName=" + escape(vendorName) + "";
+                location.href = timestamp(url);
+            } else {
+                yx.tips("请输入搜索关键词", false, 2000);
+            }
+
+        }
+        function timestamp(url) {
+            //var getTimestamp=Math.random();
+            var getTimestamp = new Date().getTime();
+            if (url.indexOf("?") > -1) {
+                url = url + "&t=" + getTimestamp
+            } else {
+                url = url + "?t=" + getTimestamp
+            }
+            return url;
+        }
+        //获取url中的参数
+        function getUrlParam(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,179 @@
+﻿@{
+    YXP.PaiMobile.Models.AuctionDetailFor3ReportResponse model = ViewBag.ReportModel;
+    var detailModel = ViewBag.DetailModel;
+}
+<header id="detailHeader" class="header">
+    <i class="back" data-url=""><img src="/images/ico_back.png"></i>
+    <label id="lblDetailHeader"></label>
+</header>
+<div id="slide">
+    <div class="img" id="main">
+        <div class="left_button">
+            <button name="left" class="left-btn button" onclick=""><span id="detailLeftSpan"></span></button>
+        </div>
+        <div class="top_button">
+            <button name="top" class="top-btn button" onclick=""><span id="detailTopSpan"></span></button>
+        </div>
+        <div class="right_buuton">
+            <button name="right" class="right-btn button" onclick=""><span id="detailRightSpan"></span></button>
+        </div>
+        <img id="imgSlide" class="img" src="">
+    </div>
+    <div id="slide-top" class="f">
+        <ul id="ulSlideTop">
+            @{
+                if (model!=null && model.carConfigPicsInfo != null && model.carConfigPicsInfo.Count > 0)
+                {
+                    int i = 0;
+                    foreach (var pic in model.carConfigPicsInfo)
+                    {
+                        if (!string.IsNullOrEmpty(pic.FileName))
+                        {
+                            i++;
+                            <li class="loadingImg">
+                                <img class="img " data-echo=@(pic.FileName) />
+                                <div class="info">
+                                    <p class="left">@pic.PicDes</p>
+                                    <p class="right">@(i)+"/"+@(model.carConfigPicsInfo.Count)</p>
+                                </div>
+                            </li>
+                        }
+                    }
+                }
+            }
+        </ul>
+        <button class="backto" name="top"></button>
+    </div>
+    <div id="slide-left" class="f">
+        <ul id="ulSlideLeft">
+            @{
+                if (model!=null&&model.carProcedurePicsInfo != null && model.carProcedurePicsInfo.Count > 0)
+                {
+                    int i = 0;
+                    foreach (var pic in model.carProcedurePicsInfo)
+                    {
+                        if (!string.IsNullOrEmpty(pic.FileName))
+                        {
+                            i++;
+                            <li class="loadingImg">
+                                <img class="img" data-echo=@(pic.FileName) />
+                                <div class="info">
+                                    <p class="left">@pic.PicDes</p>
+                                    <p class="right">@(i)/@(model.carProcedurePicsInfo.Count)</p>
+                                </div>
+                            </li>
+                        }
+                    }
+                }
+            }
+        </ul>
+        <button class="backto" name="left"></button>
+    </div>
+    <div id="slide-right" class="f">
+        <ul id="ulSlideRight">
+            @{
+                if (model!=null&&model.carConditionPicInfo != null && model.carConditionPicInfo.Count > 0)
+                {
+                    var picinfo = model.carConditionPicInfo.Where(item => item.FileType == 1 || item.FileType == 2);
+                    int i = 0;
+                    foreach (var pic in picinfo)
+                    {
+                        if (!string.IsNullOrEmpty(pic.FileName))
+                        {
+                            dynamic pointArr = null;
+                            dynamic pdescs = null;
+                            dynamic ptags = null;
+                            dynamic pcs = null;
+                            if (pic.Point != null)
+                            {
+                                pointArr = pic.Point.Split('|');
+                            }
+                            if (pic.PicDes != null)
+                            {
+                                pdescs = pic.PicDes.Split(',');
+                            }
+                            if (pic.tag != null)
+                            {
+                                ptags = pic.tag.Split(',');
+                            }
+                            if (pic.color != null)
+                            {
+                                pcs = pic.color.Split(',');
+                            }
+                            i++;
+                            <li class="loadingImg">
+                                <img class="img " data-echo=@(pic.FileName) />
+                                <div class="info">
+                                    <p class="left">@(pdescs==null ? "":pic.PicDes.Split('-')[0])</p>
+                                    <p class="right">@(i) + "/" + @picinfo.Count()</p>
+                                </div>
+                                @if (pointArr != null && pdescs != null && ptags != null && pcs != null && (pointArr.Length == pdescs.Length) && (ptags.Length == pcs.Length))
+                                {
+                                    for (int x = 0; x < pointArr.Length; x++)
+                                    {
+                                        dynamic pa = pointArr[x].Split(',');
+                                        dynamic pdescArr = pdescs == null ? null : pdescs[x].Split('-');
+                                        <mark left=@pa[0] top=@pa[1] class=@(pcs[x] == "1" ? "red" : "yellow") direction=@(ptags==null?"":( ptags[x] == "L" ? "left" : "right"))>
+                                            <span>
+                                                <span>@(pdescArr == null ? "" : (pdescArr.Length > 1 ? pdescArr[1] : (pdescArr.Length > 0 ? pdescArr[0] : "")))</span>
+                                            </span>
+                                        </mark>
+                                }
+                                }
+                            </li>
+                        }
+                    }
+                }
+            }
+        </ul>
+        <button class="backto" name="right"></button>
+    </div>
+</div>
+
+<div id="slide2" class="report2" style="display:none;">
+
+    <div class="in">
+        <ul id="ulSlide2" class="list-car"></ul>
+    </div>
+</div>
+
+<section class="box carinfo">
+  
+        <h1>@(detailModel.AuctionName)</h1>
+        <p>@(detailModel.CarPlaceCity.ToUpper()) @(detailModel.RegistDate.Length > 4 ? detailModel.RegistDate.Substring(2, 2) : "")年上牌 @(detailModel.Mile)万公里 @(detailModel.Color) </p>
+        <p>
+            起步价：<span class="c-org">@(detailModel.StartPrice)万</span>
+            <a id="spb_price">
+                @if (YXP.PaiMobile.Models.StrUntils.ConvertToDecimal(detailModel.MyTenderPrice) > 0)
+                {
+                    <span>您的报价<span class="c-org">@(detailModel.MyTenderPrice)万</span></span>
+                }
+                else
+                {
+                    <span>您暂无报价</span>
+                }
+            </a>
+        </p>
+        <div>
+            <a id="aConditionGrade" href="" class="bg-green btn-tag">@(detailModel.ConditionGrade == "需看车" ? detailModel.ConditionGradeSmall : detailModel.ConditionGrade)</a>
+            @if (detailModel.StandardCode != "")
+            {
+                <a href="" class="bg-blue btn-tag">@(detailModel.StandardCode)</a>
+            }
+            @if(ViewBag.ReportType == 3)
+            {
+                if (model.Detail != null && model.Detail.isWaterCar == "1")
+                {
+                    <a href="" class="bg-red btn-tag">水泡</a>
+                }
+            }
+            @if (detailModel != null && detailModel.IsNoReserve != null && detailModel.IsNoReserve == "1")
+            {
+                <a href="" class="bg-green btn-tag">无底价</a>
+            }
+
+
+        </div>
+        <input type="hidden" id="startPrice" value="@(detailModel.StartPrice)" />
+   
+</section>

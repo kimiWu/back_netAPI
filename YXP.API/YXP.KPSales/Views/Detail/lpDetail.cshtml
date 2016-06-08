@@ -1,0 +1,66 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>车辆详情 - 销售宝</title>
+    @Html.Partial("/Views/PartView/DetailStylePartView.cshtml")
+</head>
+
+<body>
+    <header class="aui-bar aui-bar-nav sales-header">
+        <a class="aui-pull-left">
+            <span class="iconfont icon-fanhui"></span>
+        </a>
+        <div class="aui-title">车辆详情</div>
+    </header>
+    <div class="wrapper">
+        @Html.Partial("/Views/PartView/DetailTopPartView.cshtml")
+        <section class="bid-content">
+            <div class="header">
+                <span class="aui-pull-left aui-text-center btn-bid liupai">未成交</span><i class="aui-pull-left ico-sjx"></i>
+                <div class="bid-time">时间：@(Model != null ? Model.stopTime : "")</div>
+            </div>
+            @if (Model.modifyPrice != null && Model.modifyPrice > 0)
+            {
+                <div class="bid-detail">
+                    <ul class="price-list">
+                        @if (Model != null)
+                        {
+                            <li>
+                                <span class="p-label">定价中心报价</span>
+                                <span class="p-money">@(Model.modifyPrice)</span>
+                                <span class="p-unit">万元</span>
+                            </li>
+                            <li>
+                                <span class="p-label">卖家车款</span>
+                                <span class="p-money">@(Model.modifyPrice >= Model.currSalesPrice ? Model.modifyPrice.ToString("f2") : Model.currSalesPrice.ToString("f2"))</span>
+                                <span class="p-unit">万元</span>
+                            </li>
+                            <li>
+                                <span class="p-label">SW费</span>
+                                <span class="p-money">@(Model.modifyPrice >= Model.currSalesPrice ? "0.00" : Model.SWFee.ToString("f2"))</span>
+                                <span class="p-unit">万元</span>
+                            </li>
+
+                        }
+                    </ul>
+                </div>
+            }
+            else
+            {
+                <div class="bid-detail">
+                    <p class="tips aui-text-center">此拍品无报价已流拍</p>
+                </div>
+            }
+        </section>
+    </div>
+
+
+</body>
+
+</html>

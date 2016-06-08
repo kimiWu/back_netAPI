@@ -1,0 +1,82 @@
+﻿@{
+    ViewBag.Title = "登录页";
+}
+
+<html>
+<head>
+    <title>登录页</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <link rel="stylesheet" href="http://img.youxinpai.com/yx_auction/css/base.css" />
+    <link rel="stylesheet" href="http://img.youxinpai.com/yx_auction/login/login.css" />
+</head>
+<body class="login-wrap">
+    <section>
+        <h1 class="logo">
+            <img src="http://img.youxinpai.com/image/chengxp/newlogin/logo.png ">
+        </h1>
+        <form class="login-frm" id="loginForm">
+            <ul class="form-wrap rel">
+                <li class="error" id="error">请输入用户名</li>
+                <li><input type="text" class="username matrix-ico" placeholder="请输入用户名" id="username" name="username"></li>
+                <li><input type="password" class="pwd matrix-ico" placeholder="请输入密码" id="password" name='password'></li>
+                <li><input type="submit" class="submit" value="登录"></li>
+            </ul>
+        </form>
+    </section>
+    <script src="../js/jquery.js"></script>
+    <script>
+        $(document).on("submit", "#loginForm", function () {
+            var username = $("#username").val(), pwd = $("#password").val();
+            if (username == '') {
+                $("#error").html("请输入用户名！").show();
+                setTimeout("$('#error').hide()", 3000);
+                $("#username").focus();
+                return false;
+            } else if (pwd == '') {
+                $("#error").html("请输入密码！").show();
+                setTimeout("$('#error').hide()", 3000);
+                $("#pwd").focus();
+                return false;
+            } else {
+                $.ajax({
+                    url: "Login",
+                    type: "POST",
+                    dataType: "text",
+                    async: false,
+                    data: { username: $("#username").val(), password: $("#password").val() },
+                    success: function (data) {
+
+                        var obj = eval("(" + data + ")");
+                        if (obj.Status != 1) {
+                            $("#error").html(obj.Message).show();
+                            setTimeout("$('#error').hide()", 3000);
+                        } else {
+                            CreateSocket();
+                            window.location.href = "../List/Index";
+                        }
+
+
+                    },
+                    error: function () {
+                        $(".error-row").html("*网络不给力，请重试");
+                    }
+
+
+                });
+            }
+
+        })
+        $.ready()
+        {
+            GetMessage();
+
+
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>列表</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <link rel="stylesheet" href="http://img.youxinpai.com/yx_auction/css/base.css" />
+    <link rel="stylesheet" href="http://img.youxinpai.com/yx_auction/list/list.css" />
+    <script src="~/js/jquery.js"></script>
+    <script src="~/js/json2.js"></script>
+    <script src="~/js/common.js"></script>
+</head>
+<body>
+    <header>
+        <h3>选择城市</h3>
+        <a id="aCity" class="ico-arrow" href="javascript:;"></a>
+    </header>
+    <section>
+        <div id="divCitys" class="sel-city">
+           
+        </div>
+    </section>
+</body>
+</html>
+
+<script type="text/javascript">
+    $(function () {
+        //
+        var cityName = QueryString("cityName");
+        var cityId = QueryString("cityId");
+        $("#aCity").click(function () {
+            window.location.href = "/list/Index?cityId=" + cityId + "&cityName=" + cityName;
+        });  
+        var citylist = localData.get("citylist");
+        if (citylist) {
+            bindList(JSON.parse(citylist), cityId);
+        }
+        else {
+            $.get("/list/GetCitys", {}, function (result) {
+                var data = JSON.parse(result.data).centerCityList || [];
+                bindList(data,cityId);
+                localData.set("citylist", JSON.stringify(data));
+            });
+        }
+        $("#divCitys").click(function (e) {
+            var src = e.target;
+            if (src.tagName == 'A') {
+                $(src).attr("class", "active");
+                var id = $(src).attr("data");
+                var name = src.innerHTML;
+                localStorage["listId"] = "";
+                localStorage["lastId"] = "";
+                window.location.href = "/list/index?cityId=" + id + "&cityName=" + encodeURI(name);
+            }
+        });
+    });
+    function bindList(data, cityId) {
+        var arr = [];
+        arr.push("<a data='0'>全国</a>");
+        for (var i = 0, len = data.length; i < len; i++) {
+            var cid = data[i].cityID;
+            if (cityId == cid) {
+                arr.push("<a class='active' data='" + cid + "'>" + data[i].cityName + "</a>");
+            }
+            else {
+                arr.push("<a data='" + cid + "'>" + data[i].cityName + "</a>");
+            }
+        }
+        document.getElementById("divCitys").innerHTML = arr.join('');
+    }
+
+</script>

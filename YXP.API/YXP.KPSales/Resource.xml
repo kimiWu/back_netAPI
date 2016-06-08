@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Resources ID="001027" Name="紫金红葫芦" Enable="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ResourceList>
+    <Resource ID="001027001" Name="我的车辆" Url="/KPSales/Index" ControllerName="KPSales" Style="sell-icon" Sort="1">
+    </Resource>
+    <Resource ID="001027002" Name="现场下单"  Url="/LocaleOrder/Index" ControllerName="LocaleOrder" Style="order-icon" Sort="2">
+    </Resource>
+  </ResourceList>
+</Resources>

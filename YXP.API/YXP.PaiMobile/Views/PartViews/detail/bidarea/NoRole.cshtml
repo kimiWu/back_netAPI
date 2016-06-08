@@ -1,0 +1,35 @@
+﻿@{ var state = ViewBag.State;
+   var canAuction = ViewBag.CanAuction;
+}
+<section class="box biding">
+    <div class="bid-status">
+        @if (state == 0 && canAuction == 1)  //等待投标
+        {
+            <a class="s-4 bg-liupai">正在报价</a>
+        }
+        else if (state == 1 && canAuction == 1)  //等待竞价
+        {
+            <a class="s-4 bg-liupai">等待竞价</a>
+        }
+        else if (state == 3 && canAuction == 1)  //正在竞价
+        {
+            <a class="s-4 bg-liupai">正在加价</a>
+        }
+        else
+        {
+            <a class="s-4 bg-liupai">无权限</a>
+        }
+
+    </div>
+    <div class="bid-pri-cen2">
+        <h5 class="tips-txt">
+            抱歉，您没有权限参与出价!<br />
+            客服咨询电话：<a href="tel:1010-1088" class="c-black"> 1010-1088 </a>
+        </h5>
+    </div>
+</section>
+<script>
+    $(function () {
+        $("#spb_price").hide();
+    })
+</script>

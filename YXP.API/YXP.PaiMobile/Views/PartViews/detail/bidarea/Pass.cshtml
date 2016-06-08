@@ -1,0 +1,41 @@
+﻿
+<section class="box biding" id="pass_01">
+    <div class="bid-status">
+        <a class="s-4 bg-liupai">未成交</a>
+    </div>
+    <div class="bid-pri-cen2">
+        <h5 class="tips-txt">很遗憾，您未对此车出价！</h5>
+        <div class="input-sub btn-next">
+            @if (ViewBag.nextPublishId != 0)
+            {
+                <a class="btn-confirm" href="/detail/index?auctionId=@(ViewBag.nextPublishId)&carSourceID=0">5秒后自动进入下一辆</a>
+            }
+            else
+            {
+                <a class="btn-confirm" href="/Home/List">本场已结束</a>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="box biding" id="pass_02">
+    <div class="bid-status">
+        <a class="s-4 bg-liupai">未成交</a>
+    </div>
+    <div class="bid-pri-cen3">
+        <h5 class="tips-txt">很遗憾，此车最高价未达到保留价，未成交！</h5>
+        <p class="tips-txt">
+            您最高出价：<span class="sp1" style="display:none">外迁</span> <span class="c-org sp5">0</span>万元 <span class="sp3">（报价）</span>
+        </p>
+        <div class="input-sub btn-next">
+            @if (ViewBag.nextPublishId != 0)
+            {
+                <a class="btn-confirm" href="/detail/index?auctionId=@(ViewBag.nextPublishId)&carSourceID=0">5秒后自动进入下一辆</a>
+            }
+            else
+            {
+                <a class="btn-confirm" href="/Home/List">本场已结束</a>
+            }
+        </div>
+    </div>
+</section>

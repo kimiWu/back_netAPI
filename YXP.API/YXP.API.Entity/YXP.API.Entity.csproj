@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5196CA60-5390-4844-9264-7A94497D7C88}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>YXP.API.Entity</RootNamespace>
+    <AssemblyName>YXP.API.Entity</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AutosCar\CarAdminOffice.cs" />
+    <Compile Include="AutosCar\CarEmissionInfo.cs" />
+    <Compile Include="AutosCar\CityEmissionStander.cs" />
+    <Compile Include="AutosCar\tab_ChangeHistory.cs" />
+    <Compile Include="AutosCar\tab_ComparetionCarID.cs" />
+    <Compile Include="AutosCar\tab_Control.cs" />
+    <Compile Include="AutosCar\tab_sCarDetail.cs" />
+    <Compile Include="AutosCar\tab_sCarMake.cs" />
+    <Compile Include="AutosCar\tab_sCarModel.cs" />
+    <Compile Include="AutosCar\tab_sCarTrim.cs" />
+    <Compile Include="AutosCar\tab_sConfig.cs" />
+    <Compile Include="AutosCar\tab_sConfigIautos.cs" />
+    <Compile Include="AutosCar\tab_sConfigItems.cs" />
+    <Compile Include="AutosCar\tab_sConfigModel.cs" />
+    <Compile Include="AutosCar\tab_serial.cs" />
+    <Compile Include="AutosCar\tab_sNewCarPrice.cs" />
+    <Compile Include="Bank\Bank.cs" />
+    <Compile Include="Common\ApiResult.cs" />
+    <Compile Include="Common\PageEntity.cs" />
+    <Compile Include="Common\TBase.cs" />
+    <Compile Include="Enum\OrderStatus.cs" />
+    <Compile Include="Enum\Platform.cs" />
+    <Compile Include="OPFramework\AreaUserRoleMap.cs" />
+    <Compile Include="OPFramework\AuthorityResource.cs" />
+    <Compile Include="OPFramework\Department.cs" />
+    <Compile Include="StandardSale\CarSourceEntity.cs" />
+    <Compile Include="StandardSale\ReadCarSourceLog.cs" />
+    <Compile Include="StandardSale\V_ExchangeNoSubmitInfoList_Infiniti_ToCS.cs" />
+    <Compile Include="TranstarAuction\AuctionArrangeItem.cs" />
+    <Compile Include="TranstarAuction\AuctionTransferAddress.cs" />
+    <Compile Include="TranstarAuction\ChaKeCarSyncToYxp.cs" />
+    <Compile Include="TranstarAuction\ChaKeCarSyncToYxpLog.cs" />
+    <Compile Include="TranstarAuction\City.cs" />
+    <Compile Include="TranstarAuction\InvestPublishHis.cs" />
+    <Compile Include="TranstarAuction\KPSales\KPSalesEntity.cs" />
+    <Compile Include="Log\Urls.cs" />
+    <Compile Include="Models\TranstarAuction\LogInfo.cs" />
+    <Compile Include="Models\TranstarAuction\LoginRequest.cs" />
+    <Compile Include="Models\TranstarAuction\TranstarVendorConfigKeyHelper.cs" />
+    <Compile Include="Models\TranstarAuction\Order.cs" />
+    <Compile Include="Models\TranstarAuction\OrderDto.cs" />
+    <Compile Include="Models\TranstarAuction\OrderInfoModel.cs" />
+    <Compile Include="Models\TranstarAuction\OrderPageModel.cs" />
+    <Compile Include="Models\TranstarAuction\TranstarVendorConfig.cs" />
+    <Compile Include="TranstarAuction\ADS_Log.cs" />
+    <Compile Include="TranstarAuction\ADS_Order.cs" />
+    <Compile Include="TranstarAuction\AuctionApolloOrder.cs" />
+    <Compile Include="TranstarAuction\AuctionAppSetting.cs" />
+    <Compile Include="TranstarAuction\AuctionCarSourceDetect.cs" />
+    <Compile Include="TranstarAuction\AuctionGuaranteeFund.cs" />
+    <Compile Include="TranstarAuction\AuctionLoginLog.cs" />
+    <Compile Include="TranstarAuction\AuctionPublishInfo.cs" />
+    <Compile Include="Log\CFRole.cs" />
+    <Compile Include="Log\LogRecords.cs" />
+    <Compile Include="Log\Orders.cs" />
+    <Compile Include="Models\LogModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Log\Test.cs" />
+    <Compile Include="Models\TranstarAuction\LoginModel.cs" />
+    <Compile Include="TranstarAuction\LocaleOrder\LocaleCarInfo.cs" />
+    <Compile Include="TranstarAuction\market.cs" />
+    <Compile Include="TranstarAuction\MobileSessionCache.cs" />
+    <Compile Include="TranstarAuction\Province.cs" />
+    <Compile Include="TranstarAuction\SalesTXFund.cs" />
+    <Compile Include="TranstarAuction\TradeManageEntity.cs" />
+    <Compile Include="TranstarAuction\TranstarAuctionCarSource.cs" />
+    <Compile Include="TranstarAuction\TranstarAuctionCarSourcePic.cs" />
+    <Compile Include="TranstarAuction\TranstarVendorAccount.cs" />
+    <Compile Include="TranstarAuction\TranstarVendorUser.cs" />
+    <Compile Include="Models\TranstarAuction\VendorService.cs" />
+    <Compile Include="TranstarAuction\xcp_order.cs" />
+    <Compile Include="TranstarAuction\xcp_order2car.cs" />
+    <Compile Include="TranstarAuction\xcp_return_car.cs" />
+    <Compile Include="Ucar\ActiveArea.cs" />
+    <Compile Include="Ucar\AspNet_SqlCacheTablesForChangeNotification.cs" />
+    <Compile Include="Ucar\BigArea.cs" />
+    <Compile Include="Ucar\Car_Basic.cs" />
+    <Compile Include="Ucar\Car_Brand.cs" />
+    <Compile Include="Ucar\Car_MasterBrand.cs" />
+    <Compile Include="Ucar\Car_Producer.cs" />
+    <Compile Include="Ucar\Car_Serial.cs" />
+    <Compile Include="Ucar\Car_XML.cs" />
+    <Compile Include="Ucar\City.cs" />
+    <Compile Include="Ucar\CityArea.cs" />
+    <Compile Include="Ucar\MSpeer_lsns.cs" />
+    <Compile Include="Ucar\MSpeer_originatorid_history.cs" />
+    <Compile Include="Ucar\Province.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

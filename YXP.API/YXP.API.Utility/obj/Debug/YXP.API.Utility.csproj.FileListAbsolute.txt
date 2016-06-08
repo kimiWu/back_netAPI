@@ -1,0 +1,13 @@
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Utility\bin\Debug\YXP.API.Utility.dll.config
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Utility\bin\Debug\YXP.API.Utility.dll
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Utility\bin\Debug\YXP.API.Utility.pdb
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Utility\bin\Debug\Newtonsoft.Json.dll
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Utility\bin\Debug\System.Net.Http.Formatting.dll
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Utility\bin\Debug\Newtonsoft.Json.xml
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Utility\bin\Debug\System.Net.Http.Formatting.xml
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Utility\bin\Debug\zh-Hans\System.Net.Http.Formatting.resources.dll
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Utility\obj\Debug\YXP.API.Utility.csprojResolveAssemblyReference.cache
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Utility\obj\Debug\YXP.API.Utility.dll
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Utility\obj\Debug\YXP.API.Utility.pdb
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Utility\bin\Debug\YXP.API.Entity.dll
+E:\项目\Dev.Dept\YXP.API\YXP.API\YXP.API.Utility\bin\Debug\YXP.API.Entity.pdb

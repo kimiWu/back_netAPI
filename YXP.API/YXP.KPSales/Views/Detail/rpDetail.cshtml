@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>检测信息</title>
+    <link rel="stylesheet" href="http://img.youxinpai.com/sales_cowry/css/aui.css" type="text/css" />
+    <link type="text/css" href="http://img.youxinpai.com/sales_cowry/css/style.css?v=20160602" rel="stylesheet">
+    <link rel="stylesheet" href="http://img.youxinpai.com/sales_cowry/css/detailinfo.css?v=20160602" type="text/css" />
+
+</head>
+<body>
+    <header class="aui-bar aui-bar-nav sales-header">
+        <a class="aui-pull-left" onclick="window.location.href = '/KPSales/Detail?id=@(Model.publishId)&state=@(ViewBag.state)'">
+            <span class="iconfont icon-fanhui"></span>
+        </a>
+        <div class="aui-title">检测信息</div>
+    </header>
+    <div style="height:100%;">
+        <iframe src="@(YXP.KPSales.Controllers.KPSalesController.ReportViewUrl)Report/DetailInfo?publishId=@(Model.publishId)&carSourceId=@(Model.carSourceId)&isReport=1&isNotShow=1" frameborder="0" scrolling="yes" width="100%" height="100%"></iframe>
+    </div>
+</body>
+</html>

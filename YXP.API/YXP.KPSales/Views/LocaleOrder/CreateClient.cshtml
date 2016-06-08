@@ -1,0 +1,442 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>@(ViewData["titleName"])</title>
+    <link rel="stylesheet" href="http://img.youxinpai.com/sales_cowry/css/aui.css" type="text/css" />
+    <link type="text/css" href="http://img.youxinpai.com/sales_cowry/css/style.css?v=2016053102" rel="stylesheet">
+    <link rel="stylesheet" href="http://img.youxinpai.com/sales_cowry/css/createorder.css?v=2016053102" type="text/css" />
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        function selectClient() {
+            var model = getModel();
+            $.ajax({
+                url: "/LocaleOrder/CacheOrder",
+                type: "POST",
+                dataType: "text",
+                async: false,
+                data: model,
+                success: function (data) {
+
+                    var obj = eval("(" + data + ")");
+                    if (obj.Status != 1) {
+                        $(".error-row").html("*" + obj.Msg);
+                    } else {
+
+                        window.location.href = "/LocaleOrder/SelectClient?token=@ViewBag.Token";
+
+                    }
+
+
+                },
+                error: function () {
+                    yx.tips("网络不给力，请重试！", false, 2000);
+                }
+            });
+
+        }
+
+    </script>
+    @*@Html.Partial("/Views/PartView/DetailStylePartView.cshtml")*@
+</head>
+<body>
+
+    <header class="aui-bar aui-bar-nav sales-header">
+        <a class="aui-pull-left" id="btnfanhui">
+            <span class="iconfont icon-fanhui"></span>
+        </a>
+
+        <div class="aui-title">@(ViewData["titleName"])</div>
+    </header>
+    <div id="content-wrap">
+        <ul class="form-table">
+            <li>
+                <input id="masterid" value="@(Model.Order.master_id != null ? Model.Order.master_id : "")" type="hidden" />
+                <span class="name"><em class="red mr10">*</em>委托方</span>
+                <input type="text" class="@(Model.Order.ID != 0 ? "depute-value" : "depute")" value="@(Model.Order.VendorShortName)" id="vendorinput" readonly placeholder="请选择委托方">
+                @*<span id="vendorspan" class="@(Model.Order.ID != 0 ? "name-value" : "name")" style="@(Model.Order.master_id == null ? "display:none" : "")">@(Model.Order.VendorShortName)</span>*@
+                <button class="aui-btn  btn-depute aui-pull-right" onclick="selectClient()" style="@(Model.Order.ID != 0 ? "display:none" : "")">选择委托方</button>
+            </li>
+            <li>
+                <span class="name"><em class="red mr10">*</em>提车地址</span>
+                <input type="text" placeholder="" id="address" value="@(Model.Order.dealer_addr)" @(Model.Order.ID != 0 ? "disabled" : "")>
+            </li>
+            <li>
+                <span class="name"><em class="red mr10">*</em>提车联系人</span>
+                <input type="text" placeholder="" id="contact" value="@(Model.Order.fetch_user)" @(Model.Order.ID != 0 ? "disabled" : "")>
+            </li>
+            <li>
+                <span class="name"><em class="red mr10">*</em>联系人电话</span>
+                <input type="tel" placeholder="" id="contactPhone" value="@(Model.Order.fetch_user_mobile)" @(Model.Order.ID != 0 ? "disabled" : "")>
+            </li>
+            <li>
+                <span class="name"><em class="red mr10">*</em>价格联系人</span>
+                <input type="text" value="@(Model.Order.price_user)" @(Model.Order.ID != 0 ? "disabled" : "") id="pricePerson">
+            </li>
+            <li>
+                <span class="name"><em class="red mr10">*</em>联系人电话</span>
+                <input type="text" value="@(Model.Order.price_user_mobile)" @(Model.Order.ID != 0 ? "disabled" : "") id="contactPhone2">
+            </li>
+            <li>
+                @{
+                    DateTime date = DateTime.Now;
+                    bool cardNo = false;
+                    List<string> dates = new List<string>();
+                    int j = 0;
+                    if (DateTime.Now > DateTime.Parse(DateTime.Now.ToShortDateString() + " 16:00:00"))
+                    { j = 1; }
+                    for (int i = 1; i <= 7; i++)
+                    {
+                        dates.Add(date.AddDays(i + j).ToString("yyyy-MM-dd"));
+                    }
+
+                }
+                @{
+                    DateTime ptime = Model.Order.publish_time != null ? Model.Order.publish_time : DateTime.Now;
+                    string pDate = ptime.ToString("yyyy-MM-dd");
+                }
+                <span class="name"><em class="red mr10">*</em>意向交易时间</span>
+                <p class="yx-select-control aui-pull-left">
+                    <span class="text">@(Model.Order.publish_time != null ? Model.Order.publish_time.ToString("yyyy-MM-dd dddd") : DateTime.Parse(dates[0]).ToString("yyyy-MM-dd dddd"))</span>
+                    <select name="" id="selectdate" @(Model.Order.ID != 0 ? "disabled" : "")>
+                        @foreach (var idate in dates)
+                        {
+                            if (Model.Order.ID != 0)
+                            {
+                                if (Model.Order.publish_time.Equals(idate))
+                                {
+                                    <option selected="selected" value="@idate">@(DateTime.Parse(@idate).ToString("yyyy-MM-dd dddd"))</option>
+                                }
+                                else
+                                {
+                                    <option value="@idate">@(DateTime.Parse(@idate).ToString("yyyy-MM-dd dddd"))</option>
+                                }
+
+                            }
+                            else
+                            {
+                                <option @(pDate.Equals(idate) ? "selected" : "") value="@idate">@(DateTime.Parse(@idate).ToString("yyyy-MM-dd dddd"))</option>
+                            }
+
+                        }
+                    </select>
+                    <i class="manySelection"></i>
+                </p>
+            </li>
+        </ul>
+        <div class="tag-wrap">
+            <p>今日16点前可下单到明日场，16后只能下后天场次。</p>
+
+            <p>若您参与明日场拍卖，优信提车不晚于今日17点前往提车。</p>
+        </div>
+        <ul class="form-table">
+            <li>
+                @{
+                    var fields = ViewData["fileds"] as IList<YXP.KPSales.Controllers.Field>;
+                }
+                <span class="name"><em class="mr20"></em>交易场地</span>
+                <!--<label class="name-value">北京现场拍</label>-->
+                <p class="yx-select-control aui-pull-left">
+                    <span class="text">@(Model.Order.market_name != "" ? Model.Order.market_name : fields != null && fields.Count > 0 ? fields[0].marketname : "")</span>
+                    <select id="txt_MarketId" @(Model.Order.ID != 0 ? "disabled" : "")>
+                        @if (fields != null)
+                        {
+                            bool selected = false;
+
+                            foreach (var ifiled in fields)
+                            {
+                                if (ifiled.marketid == Model.Order.market_id)
+                                {
+                                    <option value="@ifiled.marketid" lang="@ifiled.cityid" selected="selected">@ifiled.marketname</option>
+                                }
+                                else if (!selected)
+                                {
+                                    selected = true;
+                                    <option value="@ifiled.marketid" lang="@ifiled.cityid" selected="selected">@ifiled.marketname</option>
+
+                                }
+                                else
+                                {
+                                    <option value="@ifiled.marketid" lang="@ifiled.cityid">@ifiled.marketname</option>
+                                }
+
+                            }
+
+                        }
+                    </select>
+
+                    <i class="manySelection"></i>
+                </p>
+            </li>
+            <li class="" id="carscount_li">
+                <!-- <span class="car-num ml30">优信提车<em class="red ml30 mr30">3</em>台</span>-->
+                @{
+                    var count_self = ViewData["count_self"];
+                    var count_send = ViewData["count_send"];
+                }
+                <span class="aui-pull-left mt20"><em class="red mr10">*</em></span>
+                <button stype="2" class="aui-btn aui-btn-info aui-btn-block mr10 addCars">录入优信提车 (@(count_send)台)</button>
+                <button stype="1" class="aui-btn aui-btn-info aui-btn-block addCars">录入自行送车 (@(count_self)台)</button>
+                <input type="hidden" id="CarsCount" value="@(Int32.Parse(count_send.ToString()) + Int32.Parse(count_self.ToString()))" />
+            </li>
+        </ul>
+        <ul class="form-table border-bottom-ccc border-top-ccc">
+            <li class="remark-row">
+                <span class="name remark-name ml30">备注</span>
+                <textarea class="" placeholder="限制输入100字以内" id="remarks" @(Model.Order.ID != 0 ? "disabled" : "")>@(Model.Order.remark )</textarea>
+            </li>
+        </ul>
+        <input type="hidden" id="OrderID" value="@(Model.Order.ID)" />
+        @if (Model.Order.ID == 0)
+            {
+            <footer class="footer-btn-box">
+                <button class="aui-btn aui-btn-block btn" onclick="submit()">立即下单</button>
+            </footer>
+        }
+    </div>
+    <script type="text/javascript" src="http://img.youxinpai.com/sales_cowry/js/zepto.js"></script>
+    <script type="text/javascript" src="http://img.youxinpai.com/sales_cowry/js/main.js?v=2016053102"> </script>
+    <script src="http://img.youxinpai.com/sales_cowry/js/dialog.js?v=2016053102"></script>
+    <script src="http://img.youxinpai.com/sales_cowry/js/fastclick.js"></script>
+
+    <script type="text/javascript">
+
+
+        $(function () {
+            //var vendorFullname = getUrlParam('tvaid');
+            //if (vendorFullname && vendorFullname != 'undefined') {
+            //    var fullName = vendorFullname.split('$')[1];
+            //    $('#masterid').val(vendorFullname.split('$')[0]);
+            //    $('#vendorinput').css("display", "none")
+            //    $('#vendorspan').text(fullName).show();
+            //}
+
+            $("#txt_MarketId").change(function () {
+                $.post("ClearCars", null, function (data) {
+                    if (data.Status == 1) {
+                        $("#carscount_li").find("button[stype=2]").html("录入优信提车 (0台)");
+                        $("#carscount_li").find("button[stype=1]").html("录入自行送车 (0台)");
+                    } else {
+                    }
+                });
+            });
+        })
+        Zepto(function ($) {
+            $(".yx-select-control select").change(function () {
+                var selectOption = $(this).find("option").not(function () {
+                    return !this.selected
+                });
+                $(this).prev().html(selectOption.html());
+            });
+        });
+
+        function getModel() {
+            var masterid = $("#masterid").val();
+            var address = $("#address").val();
+            var contact = $("#contact").val();
+            var contactPhone = $("#contactPhone").val();
+            var pricePerson = $("#pricePerson").val();
+            var contactPhone2 = $("#contactPhone2").val();
+            var selectdate = $('#selectdate').val();
+            var remarks = $('#remarks').val();
+            var vendorName = $('#vendorinput').val();
+            var marketid = $('#txt_MarketId').val();
+            var market_name = $("#txt_MarketId").find("option:selected").text();
+
+            var model = {
+                //ID:0,
+                //xoid :0,
+                market_id: marketid,
+                market_name: market_name,
+                // dealer_id :,
+                //  dealer_user = "" :,
+                //dealer_mobile = "" :,
+                dealer_addr: address,
+                //dealer_type :,
+                //price_uid :,
+                price_user: pricePerson,
+                price_user_mobile: contactPhone2,
+                //car_self :,
+                //car_self_time :,
+                //car_self_real :,
+                //car_self_assign :,
+                //car_agent :,
+                //car_agent_time :,
+                //car_agent_real :,
+                publish_time: selectdate,
+                //status :,
+                type: 9,
+                //assign_id :,
+                master_id: masterid,
+                //createtime :,
+                //updatetime :,
+                //purchase_price :pr,
+                fetch_user: contact,
+                fetch_user_mobile: contactPhone,
+                remark: remarks,
+                VendorShortName: vendorName,
+                // isPayProxy :,
+            };
+            return model;
+        }
+
+        function validate(model) {
+            var phoneReg = /^[0-9]{11}$/;
+            if (model.master_id == "" || model.master_id == 0) {
+                yx.tips("请选择委托方！", false, 2000);
+                return false;
+            }
+            if (model.dealer_addr.trim() == '') {
+                yx.tips("请输入提车地址！", false, 2000);
+                return false;
+            }
+            if (model.dealer_addr.length > 40) {//您输入的地址不能超过40个字 ！
+                yx.tips("您输入的提车地址不能超过40个字！", false, 2000);
+                return false;
+            }
+            if (model.fetch_user.trim() == '') {
+                yx.tips("请输入提车联系人！", false, 2000);
+                return false;
+            }
+            if (model.fetch_user.length > 10) {
+                yx.tips("您输入的联系人姓名不能超过10个字！", false, 2000);
+                return false;
+            }
+            if (model.fetch_user_mobile.trim() == '') {
+                yx.tips("请输入提车联系人电话！", false, 2000);
+                return false;
+            }
+            if (!phoneReg.test(model.fetch_user_mobile)) {
+                yx.tips("您输入的电话格式有误！", false, 2000);
+                return false;
+            }
+            if (model.price_user.trim() == '') {
+                yx.tips("请输入价格联系人！", false, 2000);
+                return false;
+            }
+            if (model.price_user_mobile.trim() == '') {
+                yx.tips("请输入价格联系人电话！", false, 2000);
+                return false;
+            }
+            if (!phoneReg.test(model.price_user_mobile)) {
+                yx.tips("您输入的电话格式有误！", false, 2000);
+                return false;
+            }
+            if (model.publish_time.trim() == '') {
+                yx.tips("请选择意向交易时间！", false, 2000);
+                return false;
+            }
+
+            if ($("#CarsCount").val() == "0") {
+                yx.tips("请录入车辆信息！", false, 2000);
+                return false;
+            }
+
+            if (model.remark.length > 100) {
+                yx.tips("您输入的备注信息不能超过100个字！", false, 2000);
+                return false;
+            }
+
+            return true;
+
+        }
+
+        function submit() {
+
+            var model = getModel();
+            if (validate(model)) {
+                var sss = yx.loading();
+                $.ajax({
+                    url: "/LocaleOrder/AddOrder",
+                    type: "POST",
+                    dataType: "text",
+                    async: false,
+                    data: model,
+                    success: function (data) {
+                        sss.close();
+                        var obj = eval("(" + data + ")");
+                        if (obj.code == "1") {
+                            window.location.href = "/LocaleOrder/Index";
+                        } else {
+                            yx.tips(obj.message, false, 2000);
+                        }
+                    },
+                    error: function () {
+                        sss.close();
+                        yx.tips("网络不给力，请重试！", false, 2000);
+                    }
+                });
+            }
+        }
+        //获取url中的参数
+        function getUrlParam(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+
+        }
+
+        $("#btnfanhui").on("click", function () {
+            if ($("#CarsCount").val() != "0" && $("#OrderID").val() == "0") {
+                yx.confirm("您已录入车辆信息，如果返回，需重新录入车辆信息！确定返回吗？", function () { window.location.href = '/LocaleOrder/Index'; });
+
+            } else {
+                window.location.href = '/LocaleOrder/Index';
+            }
+        });
+
+
+        // 1、自送 2、代送
+
+        $('.addCars').on("click", function () {
+
+            var cityid = $("#txt_MarketId option:selected").attr("lang");
+            var stype = $(this).attr("stype");
+            if (cityid == undefined) {
+                return;
+            }
+            var model = getModel();
+            if (model.master_id != "") {
+
+                $.ajax({
+                    url: "/LocaleOrder/CacheOrder",
+                    type: "POST",
+                    dataType: "text",
+                    async: false,
+                    data: model,
+                    success: function (data) {
+
+                        var obj = eval("(" + data + ")");
+                        if (obj.Status != 1) {
+                            $(".error-row").html("*" + obj.Msg);
+                        } else {
+
+                            window.location.href = "/LocaleOrder/Order_CarList?cityId=" + cityid + "&stType=" + stype;
+
+                        }
+
+
+                    },
+                    error: function () {
+                        yx.tips("网络不给力，请重试！", false, 2000);
+                    }
+                });
+
+            } else {
+                yx.tips("请选择委托方", false, 2000);
+            }
+
+
+        });
+
+
+    </script>
+</body>
+</html>

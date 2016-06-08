@@ -1,0 +1,132 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    
+    <title></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <link rel="stylesheet" href="http://img.youxinpai.com/yx_auction/css/base.css" />
+    <link rel="stylesheet" href="http://img.youxinpai.com/yx_auction/detail/swiper.min.css" />
+    <link rel="stylesheet" href="http://img.youxinpai.com/yx_auction/detail/viewimg.css" />
+    <script src="http://img.youxinpai.com/yx_auction/detail/detail.js"></script>
+
+</head>
+<body>
+        <!-- Swiper -->
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                @*<div class="swiper-slide">
+                    <img class="img" src="http://img.youxinpai.com/upload/UppUpload/car/201605/1415/5736ce1284d38851015.jpg">
+                    <div class="bot-info">
+                        <span class="injury">重要损伤</span>
+                        <p>北京 进口途锐 2013款R-Line V6手自一体豪华型，一体豪华型(2/4)</p>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <img class="img" src="http://img.youxinpai.com/upload/UppUpload/car/201605/1316/57358e62c53dc396448.jpg">
+                    <div class="bot-info">
+                        <span class="injury">重要损伤</span>
+                        <p>北京 进口途锐 2013款R-Line V6手自一体豪华型，一体豪华型(2/4)</p>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <img class="img" src="http://img.youxinpai.com/upload/UppUpload/car/201605/1415/5736ce1284d38851015.jpg">
+                    <div class="bot-info">
+                        <span class="injury ">重要损伤</span>
+                        <p>北京 进口途锐 2013款R-Line V6手自一体豪华型，一体豪华型(2/4)</p>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <img class="img" src="http://img.youxinpai.com/upload/UppUpload/car/201605/1415/5736ce12aecb6989083.jpg">
+                    <div class="bot-info">
+                        <span class="injury">重要损伤</span>
+                        <p>北京 进口途锐 2013款R-Line V6手自一体豪华型，一体豪华型(2/4)</p>
+                    </div>
+                </div>*@
+            </div>
+        </div>
+    <script src="http://img.youxinpai.com/yx_auction/detail/swiper.min.js"></script>
+
+    <script src="~/js/jquery.js"></script>
+    <script src="~/js/touch.js"></script>
+    <script src="~/js/common.js"></script>
+    <script>
+      
+        $(function () {
+            var itemStr = localData.get("section1H3");
+            if (itemStr != null && itemStr != "") {
+                var items = itemStr.split(';');
+                var arr = [];
+            
+                for (var i = 0; i < items.length; i++) {
+                    var item = JSON.parse(items[i]);
+                    var ptArr = [item.Point];
+                    if (item.Point.indexOf('|') != -1) {
+                        ptArr = item.Point.split('|');
+                    }
+                    arr.push("<div class=\"swiper-slide\">");
+                 
+                    arr.push(" <span class=\"picd\">");
+                    arr.push(" <img class=\"pic\" src=\"" + item.FileName + "\" >");
+                    for (var j = 0; j < ptArr.length; j++) {
+                        var pas = ptArr[j].split(',');
+                        var l = parseFloat(pas[0]) * 100 + '%';
+                        var t = parseFloat(pas[1]) * 100 + '%';
+                        arr.push(" <div class=\"mark " + (item.color == "1" ? "red" : "yellow") + " " + (item.tag == "L" ? "left" : "right") + "\" style=\"left: " + l + "; top: " + t + ";\"> </div>");
+                    }
+                    arr.push("</span>");
+                    
+
+                    arr.push("<div class=\"bot-info\">");
+                    if (item.FileType == 0) {
+                        arr.push("<span class=\"injury \">一般损伤</span>");
+                    }
+                    else if (item.FileType == 1) {
+                        arr.push("<span class=\"injury bg-zy\">重要损伤</span>");
+                    }
+                    else {
+                        arr.push("<span class=\"injury bg-qw\">轻微损伤</span>");
+                    }
+                    var pds = item.PicDes;
+                    arr.push("<p>" + pds + "</p>");
+                    arr.push("</div>");
+                  
+                    //for (var j = 0; j < ptArr.length; j++) {
+                    //    var pas = ptArr[j].split(',');
+                    //    arr.push("<mark left=\"" + pas[0] + "\" top=\"" + pas[1] + "\" class=\"" + (item.color == "1" ? "red" : "yellow") + "\" direction=\"" + (item.tag == "L" ? "left" : "right") + "\">");
+                       
+                    //    arr.push("</mark>");
+                    //}
+                    arr.push("</div>");
+                }
+                $(".swiper-wrapper").html(arr.join(''));
+                new Swiper('.swiper-container');
+
+
+                //$.each($('mark'), function (i, mark) {
+                //    var _left = parseFloat($(mark).attr('left')) * 100 + '%';
+                //    var _top = parseFloat($(mark).attr('top')) * 100 + '%';
+                //    var _direction = $(mark).attr('direction');
+                //    $(mark).addClass(_direction).css({ left: _left, top: _top });
+                //});
+
+                //$('mark').touch({
+                //    tap: function () {
+                //        $(this).parents('div').find('mark').css('z-index', 999);
+                //        $(this).css('z-index', 1000);
+                //    }
+                //});
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>首页</title>
+    <link rel="stylesheet" href="http://img.youxinpai.com/sales_cowry/css/aui.css">
+    <link rel="stylesheet" href="http://img.youxinpai.com/sales_cowry/css/style.css?v=20160530">
+    <link rel="stylesheet" href="http://img.youxinpai.com/sales_cowry/css/index.css?v=20160530" type="text/css" />
+</head>
+<body>
+    <header class="aui-bar aui-bar-nav sales-header">
+        <!-- <a class="aui-pull-left">
+             <span class="iconfont icon-fanhui"></span>
+         </a>-->
+        <div class="aui-title">紫金红葫芦</div>
+    </header>
+    <div class="account-wrap">
+        <span class="hi-icon"></span>
+        <span class="info-wrap">
+            <p>您好，@(YXP.KPSales.Controllers.WebBaseController.loginUser.RealName)</p>
+            <p><i class="money-icon"></i>TX资金池：@(YXP.KPSales.Controllers.WebBaseController.salesTXFund == null ? 0 : Convert.ToInt32((YXP.KPSales.Controllers.WebBaseController.salesTXFund.CurrActiveTXFund * 10000)))元</p>
+        </span>
+        <span class="right aui-iconfont aui-icon-right"  onclick="window.location.href = '/Home/Account'" ></span>
+    </div>
+    <section class="account-menu">
+        <ul>
+            @if (Model != null && Model.ResourceList.Count > 0)
+            {
+                foreach (var item in Model.ResourceList)
+                {
+                    if (!Model.Enable || item.Enable)
+                    {
+                        <li onclick="window.location.href = '@(item.Url)'">
+                            <a>
+                                <span class="icon @(item.Style)"></span>
+                                <p>@(item.Name)</p>
+                            </a>
+                        </li>
+                    }
+                }
+            }
+
+        </ul>
+    </section>
+    <script type="text/javascript" src="http://img.youxinpai.com/sales_cowry/js/zepto.js"></script>
+    <script type="text/javascript" src="http://img.youxinpai.com/sales_cowry/js/main.js?v=20160530"></script>
+    <script src="http://img.youxinpai.com/sales_cowry/js/fastclick.js"></script>
+</body>
+</html>

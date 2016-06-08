@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "详情页面-加价";
+    Layout = "~/Views/PartViews/Layout.cshtml";
+    var state = ViewBag.State;
+    var canAuction = ViewBag.CanAuction;
+
+}
+@section head{
+    <!--详情页-->
+    <link rel="stylesheet" href="http://img.youxinpai.com/yx_auction/detail/agent.css">
+    <link rel="stylesheet" href="http://img.youxinpai.com/yx_auction/detail/detail.css" />
+    <script src="http://img.youxinpai.com/yx_auction/js/jquery.js"></script>
+    <script src="http://img.youxinpai.com/yx_auction/detail/touch.js"></script>
+    <script src="http://img.youxinpai.com/yx_auction/detail/detail.js"></script>
+    <script src="http://img.youxinpai.com/yx_auction/detail/iscroll.js"></script>
+    <script src="~/js/dialog.js"></script>
+    <script src="~/js/echo.min.js"></script>
+    <style>
+        .loadingImg {
+            display: block;
+            background: url(/images/loading.gif) no-repeat center center;
+            animation-duration: .3s !important;
+        }
+    </style>
+
+    <script>
+        $(function () {
+            echo.init();
+        });
+    </script>
+
+}
+
+
+<!--详情页top开始-->
+@Html.Partial("/Views/PartViews/detail/DetailTopViews.cshtml")
+<!--详情页top结束-->
+<div id="bidArea">
+    <!--详情页竞价区开始-->
+    @if (state == 0 && canAuction == 1)  //等待投标
+    {
+        @Html.Partial("/Views/PartViews/detail/bidarea/Tender.cshtml")
+    }
+    else if (state == 1 && canAuction == 1)  //等待竞价
+    {
+        @Html.Partial("/Views/PartViews/detail/bidarea/WaitBid.cshtml")
+    }
+    else if (state == 3 && canAuction == 1)  //正在竞价
+    {
+        @Html.Partial("/Views/PartViews/detail/bidarea/Bidding.cshtml")
+    }
+    else
+    {
+        @Html.Partial("/Views/PartViews/detail/bidarea/NoRole.cshtml")
+    }
+</div>
+<input type="hidden" value="@(ViewBag.PublishID)" id="auctionId" />
+<input type="hidden" value="@(ViewBag.currTvaId)" id="currTvaId" />
+<input type="hidden" value="@(ViewBag.sessionId)" id="sessionId" />
+<input type="hidden" value="@(ViewBag.nextPublishId)" id="nextPublishId" />
+<input type="hidden" id="ishight" value="@(ViewBag.Ishigh)" />
+<input type="hidden" id="highTenderPrice" value="@(ViewBag.TenderHighPrice)" />
+<input type="hidden" id="_myPrice" value="@(ViewBag.MyPrice)" />
+<input type="hidden" id="isHighTenPrice" value="@(ViewBag.IsTenderHighPrice)" />
+<input type="hidden" id="_myTenderPrice" value="@(ViewBag.MyTenderPrice)" />
+<input type="hidden" id="isNoReserve" value="@(ViewBag.IsNoReserve)" />
+<input type="hidden" id="startPrice" value="@(ViewBag.StartPrice)" />
+<input type="hidden" id="hidShowState" value="" />
+<input type="hidden" id="socketUrl" value="@(ViewBag.SocketUrl)" />
+<audio id="beep" style="display:none;">
+    <source src="~/images/beep.mp3" type="audio/mpeg" />
+</audio>
+
+<!--详情页竞价区结束-->
+<!--建立长连接-->
+<!--详情页bottom开始-->
+@Html.Partial("/Views/PartViews/detail/DetailBottomViews.cshtml")
+<!--详情页bottom结束-->
+
+<script src="~/js/detail/detailPage.js"></script>

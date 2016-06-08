@@ -1,0 +1,82 @@
+﻿<span>@(ViewBag.nextPublishId)</span>
+<section class="box biding" id="sale_01">
+    <div class="bid-status">
+        <a class="s-1 bg-gre">成交</a>
+    </div>
+    <div class="bid-pri-cen2">
+        <h5 class="tips-txt">很遗憾，您未对此车出价！</h5>
+        <div class="input-sub btn-next">
+            @if (ViewBag.nextPublishId != 0)
+            {
+                <a class="btn-confirm" href="/detail/index?auctionId=@(ViewBag.nextPublishId)&carSourceID=0">5秒后自动进入下一辆</a>
+            }
+            else
+            {
+                <a class="btn-confirm" href="/Home/List">本场已结束</a>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="box biding" id="sale_02">
+    <div class="bid-status">
+        <a class="s-1 bg-gre">成交</a>
+    </div>
+    <div class="bid-pri-cen3">
+        <h5 class="tips-txt">很遗憾，您不是出价最高价，未购得此车！</h5>
+        <p class="tips-txt">
+            您最高出价：<span class="sp1" style="display:none">外迁</span> <span class="c-org sp5">0</span>万元 <span class="sp3">（报价）</span>
+        </p>
+        <div class="input-sub btn-next">
+            @if (ViewBag.nextPublishId != 0)
+            {
+                <a class="btn-confirm" href="/detail/index?auctionId=@(ViewBag.nextPublishId)&carSourceID=0">5秒后自动进入下一辆</a>
+            }
+            else
+            {
+                <a class="btn-confirm" href="/Home/List">本场已结束</a>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="box biding" id="sale_03">
+    <div class="bid-status">
+        <a class="s-1 bg-gre">成交</a>
+    </div>
+    <div class="bid-pri-lef">
+        <div class="pri-p1">
+            <span class="p1-n1">当前价</span>
+            <span class="p1-n2 c-org" id="_currPrice">0</span>
+            <span class="p1-n3">万</span>
+        </div>
+        <div class="pri-p2">
+            <span class="p1-n1">交易费</span>
+            <span class="p1-n2" id="_jyPrice">+0.01</span>
+            <span class="p1-n3">万</span>
+        </div>
+        <div class="pri-p2">
+            <span class="p1-n1">交付费</span>
+            <span class="p1-n2" id="_jfPrice">+0.01</span>
+            <span class="p1-n3">万</span>
+        </div>
+        <div class="pri-p3 pa">
+            <span class="p1-n1">合手价</span>
+            <span class="p1-n2 c-org" id="_hsPrice">0.02</span>
+            <span class="p1-n3">万</span>
+        </div>
+    </div>
+    <div class="bid-pri-rit3 mg-t-2">
+        <h5 class="tips-txt mg-b-half">恭喜您,您是最高价,<br />已购得此车！</h5>
+        <div class="input-sub btn-next">
+            @if (ViewBag.nextPublishId != 0)
+            {
+                <a class="btn-confirm" href="/detail/index?auctionId=@(ViewBag.nextPublishId)&carSourceID=0">5秒后自动进入下一辆</a>
+            }
+            else
+            {
+                <a class="btn-confirm" href="/Home/List">本场已结束</a>
+            }
+        </div>
+    </div>
+</section>

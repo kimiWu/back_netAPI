@@ -1,0 +1,95 @@
+﻿@{
+    ViewBag.Title = "登录页";
+    Layout = null;
+}
+
+<html>
+<head>
+    <title>登录页</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <link rel="stylesheet" href="http://img.youxinpai.com/yx_auction/css/base.css" />
+    <link rel="stylesheet" href="http://img.youxinpai.com/yx_auction/login/login.css" />
+    <script src=""></script>
+</head>
+<body class="login-wrap">
+    <section>
+        <h1 class="logo">
+            <img src="http://img.youxinpai.com/yx_auction/images/logo_login.png">
+        </h1>
+        <form class="login-frm" id="loginForm" action="">
+            <ul class="form-wrap rel">
+                <li class="error" id="error">请输入用户名</li>
+                <li><input type="text" class="username matrix-ico" placeholder="请输入用户名" id="username" name="username"></li>
+                <li><input type="password" class="pwd matrix-ico" placeholder="请输入密码" id="password" name='password'></li>
+                <li><button type="button" class="submit">登录</button></li>
+            </ul>
+        </form>
+    </section>
+
+    <script src="~/js/zepto.min.js"></script>
+    <script src="~/js/common.js"></script>
+    <script type="text/javascript">
+        $(".submit").on("click", function () {
+            var username = $("#username").val(), pwd = $("#password").val();
+            if (username == '') {
+                $("#error").html("请输入用户名！").show();
+                setTimeout("$('#error').hide()", 3000);
+                $("#username").focus();
+                return false;
+            } else if (pwd == '') {
+                $("#error").html("请输入密码！").show();
+                setTimeout("$('#error').hide()", 3000);
+                $("#password").focus();
+                return false;
+            } else {
+                $.ajax({
+                    url: "/Home/Login",
+                    type: "POST",
+                    dataType: "text",
+                    async: false,
+                    data: { username: $("#username").val(), password: $("#password").val() },
+                    success: function (data) {
+                        var obj = eval("(" + data + ")");
+                        if (obj.Status != 1) {
+                            $("#error").html(obj.Message).show();
+                            setTimeout("$('#error').hide()", 3000);
+                            return false;
+                        } else {
+                            localStorage["listId"] = "";
+                            localStorage["lastId"] = "";
+                            window.location.href = "/List/index";
+                        }
+                    },
+                    error: function () {
+                        $("error").html("网络不给力，请重试").show();
+                        setTimeout("$('#error').hide()", 3000);
+                        return false;
+                    }
+                });
+            }
+        });
+        document.onkeydown = function (e) {
+            var ev = e || window.event;
+            var src = ev.target || ev.srcElement;
+            var id = src.id;
+            if ((ev.keyCode || ev.which || ev.charCode) == 13) {
+                if (id == "username") {
+                    if (src.value.trim().length > 0) {
+                        document.getElementById("password").focus();
+                    }
+                }
+                else if (id == "password") {
+                    if (src.value.trim().length > 0) {
+                        $(".submit").trigger("click");
+                    }
+                }
+                event.returnValue = false;
+            }
+        }
+    </script>
+</body>
+</html>
